@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
+import "./NavBar.css";
 
 class NavBar extends Component {
 
@@ -9,7 +10,7 @@ class NavBar extends Component {
 
     render() {
         return (
-            <nav>
+            <nav className = "NavBar-container">
                 <div>NavBar!</div>
             </nav>
         )

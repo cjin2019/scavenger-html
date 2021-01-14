@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import "./SingleHuntShortcut.css";
 /**
  * Component to render a single hunt
  * 
@@ -16,7 +17,7 @@ class SingleHuntShortcut extends Component {
 
     render(){
         return (
-        <div>
+        <div className="SingleHuntShortcut-container">
             <div className = "u-bold">{this.props.title}</div>
             <div>{this.props.description}</div>
         </div> );

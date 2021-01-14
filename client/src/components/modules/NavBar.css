@@ -1,0 +1,4 @@
+.NavBar-container {
+    background-color: var(--darkgrey);
+    border-bottom: 7px solid var(--blue--purple);
+}
