@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
+import ListHunts from "../modules/ListHunts.js"
 
 class UserHome extends Component {
     constructor(props){
@@ -13,9 +14,25 @@ class UserHome extends Component {
     }
 
     render(){
-        return <div>
+        const defaultData = [
+            {
+                _id: "1",
+                title: "Scavenger Hunt 1",
+                description: "This is the first scavenger hunt"
+            },
+            {
+                _id: "2",
+                title: "Scavenger Hunt 2",
+                description: "This is the second scavenger hunt"
+            }
+        ];
+
+        return (<div>
             <h1>This is the user home page</h1>
-        </div>
+            <ListHunts 
+                huntShortcuts = {defaultData}
+            />
+        </div>);
     }
 }
 
