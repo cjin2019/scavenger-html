@@ -17,7 +17,7 @@ class NavBar extends Component {
                     <Link to="/userhome" className = "Navbar-link">
                         {"<home/>"}
                     </Link>
-                    <Link to = "/userhome" className = "Navbar-link">
+                    <Link to = "/create" className = "Navbar-link">
                         {"<create/>"}
                     </Link>
                     <Link to = "/userhome" className = "Navbar-link">
