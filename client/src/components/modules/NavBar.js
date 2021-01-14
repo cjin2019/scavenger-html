@@ -1,3 +1,4 @@
+import { Link } from "@reach/router";
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./NavBar.css";
@@ -11,7 +12,19 @@ class NavBar extends Component {
     render() {
         return (
             <nav className = "NavBar-container">
-                <div>NavBar!</div>
+                <div className = "u-inlineBlock">NavBar!</div>
+                <div className="u-inlineBlock">
+                    <Link to="/userhome" className = "Navbar-link">
+                        {"<home/>"}
+                    </Link>
+                    <Link to = "/userhome" className = "Navbar-link">
+                        {"<create/>"}
+                    </Link>
+                    <Link to = "/userhome" className = "Navbar-link">
+                        {"<browse/>"}
+                    </Link>
+
+                </div>
             </nav>
         )
     }

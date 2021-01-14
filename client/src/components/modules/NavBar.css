@@ -2,3 +2,12 @@
     background-color: var(--darkgrey);
     border-bottom: 7px solid var(--blue--purple);
 }
+.Navbar-link,
+.Navbar-link:visited {
+    color: var(--white);
+    opacity: 0.6;
+}
+
+.Navbar-link:hover{
+    opacity: 0.8;
+}
