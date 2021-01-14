@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import NewHuntItem from "../modules/NewHuntItem.js";
+import SubmittedHuntItem from "../modules/SubmittedHuntItem";
 
 class CreateScavenger extends Component {
     constructor(props){
@@ -20,17 +21,23 @@ class CreateScavenger extends Component {
     // dummy function for now but later will want to change the format of 
     // the question
     addNewHuntItem = (huntItemObj) => {
+        console.log(huntItemObj);
         this.setState({
             huntItems: this.state.huntItems.concat([huntItemObj]),
         });
 
-        console.log("updated huntItems");
+        console.log(this.state.huntItems);
     }
 
     render(){
 
         return (<div>
             <h1>This is the create page</h1>
+            { this.state.huntItems.map((huntItemObj) => (
+                <SubmittedHuntItem 
+                    content = {huntItemObj}
+                />
+            ))}
             <NewHuntItem 
                 onSubmit = {this.addNewHuntItem}
             />
