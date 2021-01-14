@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
+import NewHuntItem from "../modules/NewHuntItem.js";
 
 class CreateScavenger extends Component {
     constructor(props){
@@ -22,12 +23,17 @@ class CreateScavenger extends Component {
         this.setState({
             huntItems: this.state.huntItems.concat([huntItemObj]),
         });
+
+        console.log("updated huntItems");
     }
 
     render(){
 
         return (<div>
             <h1>This is the create page</h1>
+            <NewHuntItem 
+                onSubmit = {this.addNewHuntItem}
+            />
         </div>);
     }
 }
