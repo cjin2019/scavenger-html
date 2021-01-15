@@ -1,0 +1,12 @@
+huntItem 
+{
+    _id: id of the hunt item,
+    question: question,
+    answer: answer
+}
+
+scavengerHunt
+{
+    _id: id of the scavenger hunt,
+    huntItems: a list of huntItem
+}

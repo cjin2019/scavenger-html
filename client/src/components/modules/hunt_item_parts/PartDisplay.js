@@ -17,7 +17,6 @@ class PartDisplay extends Component {
     render(){
         return (
             <div>
-                <div>This is PartDisplay</div>
                 {this.props.content}
             </div>
         );

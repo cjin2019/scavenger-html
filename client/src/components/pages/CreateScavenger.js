@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import "../../utilities.css";
+import { get, post } from "../../utilities";
 import NewHuntItem from "../modules/NewHuntItem.js";
 import SubmittedHuntItem from "../modules/SubmittedHuntItem";
+
+import "../../utilities.css";
 
 class CreateScavenger extends Component {
     constructor(props){
@@ -14,6 +16,12 @@ class CreateScavenger extends Component {
 
     componentDidMount(){
         // api calls for later
+        get("/api/huntitem").then((huntItems) => {
+            console.log(huntItems);
+            this.setState({
+                huntItems: huntItems
+            });
+        });
     }
 
     // this gets called when the user pushes "Add", so their
@@ -21,26 +29,35 @@ class CreateScavenger extends Component {
     // dummy function for now but later will want to change the format of 
     // the question
     addNewHuntItem = (huntItemObj) => {
-        console.log(huntItemObj);
-        this.setState({
-            huntItems: this.state.huntItems.concat([huntItemObj]),
+        const body = { _id: "hardcode1",
+                       question: huntItemObj.question,
+                       answer: huntItemObj.answer
+                     };
+        post("/api/huntitem", body). then((huntItem) => {
+            this.setState({
+                huntItems: this.state.huntItems.concat([huntItemObj]),
+            });
         });
-
-        console.log(this.state.huntItems);
     }
 
     render(){
 
+        let huntList = null;
+        const hasHuntItems = this.state.huntItems.length
         return (<div>
-            <h1>This is the create page</h1>
+
             { this.state.huntItems.map((huntItemObj) => (
                 <SubmittedHuntItem 
+                    key = {`HuntItem_${huntItemObj._id}`}
+                    _id = {huntItemObj._id}
                     content = {huntItemObj}
                 />
             ))}
             <NewHuntItem 
                 onSubmit = {this.addNewHuntItem}
             />
+
+            <button />
         </div>);
     }
 }

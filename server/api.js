@@ -7,6 +7,17 @@
 |
 */
 
+//hardcoded data
+const data = {
+  huntItems: [
+    {
+      _id: "1",
+      question: "Question",
+      answer: "Answer"
+    }
+  ],
+};
+
 const express = require("express");
 
 // import models so we can interact with the database
@@ -41,6 +52,22 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+router.get("/huntitem", (req, res) => {
+  console.log(req.query);
+  res.send(data.huntItems);
+});
+
+router.post("/huntitem", (req, res) => {
+  const newHuntItem = {
+    question: req.body.question,
+    answer: req.body.answer
+  };
+
+  data.huntItems.push(newHuntItem);
+  res.send(newHuntItem);
+
+});
+
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

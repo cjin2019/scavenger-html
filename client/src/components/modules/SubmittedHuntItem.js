@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PartDisplay from "./hunt_item_parts/PartDisplay.js";
-
+import "./SubmittedHuntItem.css";
 /**
  * @param {string} scavengerId is optional to keep track of which scavenger it goes with
  * @param {string} _id is the id of the huntItem
@@ -15,8 +15,7 @@ class SubmittedHuntItem extends Component {
 
     render(){
         return (<div>
-                    <div>
-                        <h3>This is a PartInput</h3>
+                    <div className = "SubmittedHuntItem-container">
                         <h4>Question</h4>
                         <PartDisplay content = {this.props.content.question}/>
                         <h4>Answer</h4>

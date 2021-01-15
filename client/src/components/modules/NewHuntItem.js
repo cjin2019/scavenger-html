@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NewItemPart from "./NewItemPart.js";
 
+import "./NewHuntItem.css";
 /**
  * NewHuntItem is a component that maintains the parts of the hunt item
  * 
@@ -46,8 +47,7 @@ class NewHuntItem extends Component {
 
     render(){
         return (
-            <div>
-                <div>This is a new hunt item</div>
+            <div className = "NewHuntItem-container">
                 <div>
                     <div>Question</div>
                     <NewItemPart 
