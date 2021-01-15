@@ -10,6 +10,8 @@ class CreateScavenger extends Component {
         super(props);
 
         this.state = {
+            title: "",
+            description: "",
             huntItems: [],
         };
     }
@@ -33,19 +35,65 @@ class CreateScavenger extends Component {
                        question: huntItemObj.question,
                        answer: huntItemObj.answer
                      };
-        post("/api/huntitem", body). then((huntItem) => {
+        post("/api/huntitem", body).then((huntItem) => {
             this.setState({
                 huntItems: this.state.huntItems.concat([huntItemObj]),
             });
         });
     }
 
+    handleSubmit = (event) => {
+        const body = {
+                        _id: "hardcode1",
+                        title: this.state.title,
+                        description: this.state.description,
+                        huntItems: this.state.huntItems
+                     };
+        post("/api/hunt", body);
+    }
+
+    handleTitleChange = (event) => {
+        this.setState({
+            title: event.target.value,
+        });
+    }
+
+    handleDescriptionChange = (event) => {
+        this.setState({
+            description: event.target.value,
+        });
+    }
+
     render(){
-
-        let huntList = null;
-        const hasHuntItems = this.state.huntItems.length
-        return (<div>
-
+        return (
+        <div>
+            <button
+                type = "submit"
+                value = "Submit"
+                onClick = {this.handleSubmit}    
+            >
+                Submit
+            </button>
+            <div>
+                <div>
+                    <h3>Title</h3>
+                    <input
+                        type = "text"
+                        placeholder = "title"
+                        value = {this.state.title}
+                        onChange = {this.handleTitleChange}
+                    />
+                </div>
+                <div>
+                    <h3>Description</h3>
+                    <input
+                        type = "text"
+                        placeholder = "Description"
+                        value = {this.state.description}
+                        onChange = {this.handleDescriptionChange}
+                    />
+                </div>
+            </div>
             { this.state.huntItems.map((huntItemObj) => (
                 <SubmittedHuntItem 
                     key = {`HuntItem_${huntItemObj._id}`}
@@ -56,8 +104,6 @@ class CreateScavenger extends Component {
             <NewHuntItem 
                 onSubmit = {this.addNewHuntItem}
             />
-
-            <button />
         </div>);
     }
 }

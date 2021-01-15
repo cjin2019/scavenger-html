@@ -8,5 +8,7 @@ huntItem
 scavengerHunt
 {
     _id: id of the scavenger hunt,
+    title: title of hunt,
+    description: description of hunt,
     huntItems: a list of huntItem
 }

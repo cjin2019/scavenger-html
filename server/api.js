@@ -16,6 +16,7 @@ const data = {
       answer: "Answer"
     }
   ],
+  scavengerHunts: [],
 };
 
 const express = require("express");
@@ -53,12 +54,12 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 router.get("/huntitem", (req, res) => {
-  console.log(req.query);
   res.send(data.huntItems);
 });
 
 router.post("/huntitem", (req, res) => {
   const newHuntItem = {
+    _id: req.body._id,
     question: req.body.question,
     answer: req.body.answer
   };
@@ -66,6 +67,22 @@ router.post("/huntitem", (req, res) => {
   data.huntItems.push(newHuntItem);
   res.send(newHuntItem);
 
+});
+
+router.get("/hunt", (req, res) => {
+  res.send(data.scavengerHunts);
+});
+
+router.post("/hunt", (req, res) => {
+  const newHunt = {
+    _id: req.body._id,
+    title: req.body.title,
+    description: req.body.description,
+    huntItems: req.body.huntItems
+  };
+
+  data.scavengerHunts.push(newHunt);
+  res.send(newHunt);
 });
 
 

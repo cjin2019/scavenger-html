@@ -8,7 +8,7 @@ import "./NewHuntItem.css";
  * Proptypes
  * @param {string} scavengerId optional prop used for determining which scavenger item goes to
  * @param {(scavengerId, value) => void} onSubmit: (function) triggered when this huntItem is submitted
- *                                                  value { question: 'question' 
+                                                value { question: 'question' 
  *                                                          answer: 'answer
  *                                                        }
  */
