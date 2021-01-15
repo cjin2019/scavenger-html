@@ -37,7 +37,7 @@ const socketManager = require("./server-socket");
 // Server configuration below
 // TODO change connection URL after setting up your team database
 const databaseName = "catbook";
-const mongoConnectionURL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.yylzi.mongodb.net/${databaseName}?retryWrites=true&w=majority`;
+const mongoConnectionURL = process.env.ATLAS_SRV;
 // TODO change database name to the name you chose
 
 
@@ -61,7 +61,7 @@ app.use(express.json());
 // set up a session, which will persist login data across requests
 app.use(
   session({
-    secret: "session-secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
