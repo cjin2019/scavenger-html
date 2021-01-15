@@ -3,7 +3,8 @@ import { navigate } from "@reach/router"
 
 import "./SingleHuntShortcut.css";
 /**
- * Component to render a single hunt
+ * SingleHuntShortcut is a component to render a single hunt
+ * shortcut for the user to choose from
  * 
  * Proptypes
  * @param {string} _id of the hunt

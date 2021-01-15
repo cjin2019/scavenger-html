@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SingleHuntShortcut from "./SingleHuntShortcut.js";
 
 /**
- * Component that holds all the hunts for a specified
+ * ListHunts Component that holds all the hunts for a specified
  * filter (ie. recent, favorite, etc)
  * 
  * Proptypes

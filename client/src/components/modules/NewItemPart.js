@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 /**
- * ItemPart is a component for displaying a part of the scavenger hunt item
+ * NewItemPart is a component for displaying a part of the scavenger hunt item
  * 
  * Proptypes
  * @param {string} huntItemId of the huntItem

@@ -3,6 +3,10 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./NavBar.css";
 
+/**
+ * NavBar is a component that is added to user home
+ * and browse page 
+ */
 class NavBar extends Component {
 
     constructor(props){

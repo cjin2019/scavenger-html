@@ -5,6 +5,10 @@ import SubmittedHuntItem from "../modules/SubmittedHuntItem";
 
 import "../../utilities.css";
 
+/**
+ * CreateScavenger is a page to create a new scavenger hunt
+ * 
+ */
 class CreateScavenger extends Component {
     constructor(props){
         super(props);
@@ -41,6 +45,10 @@ class CreateScavenger extends Component {
         });
     }
 
+    /**
+     * 
+     * @param {*} event the event 
+     */
     handleSubmit = (event) => {
         const body = {
                         _id: `hardcode1_${Math.random()*10000}`,

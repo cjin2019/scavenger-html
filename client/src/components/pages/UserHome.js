@@ -4,6 +4,10 @@ import ListHunts from "../modules/ListHunts.js"
 import { get } from "../../utilities";
 import "../../utilities.css";
 
+/**
+ * UserHome is a page that displays (for now all hunts)
+ * hunts according to user preference (ie. recent hunts played, etc)
+ */
 class UserHome extends Component {
     constructor(props){
         super(props);

@@ -4,6 +4,7 @@ import NewItemPart from "./NewItemPart.js";
 import "./NewHuntItem.css";
 /**
  * NewHuntItem is a component that maintains the parts of the hunt item
+ * and has NOT been added yet to created hunt yet
  * 
  * Proptypes
  * @param {string} scavengerId optional prop used for determining which scavenger item goes to
