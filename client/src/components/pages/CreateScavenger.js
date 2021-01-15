@@ -19,7 +19,6 @@ class CreateScavenger extends Component {
     componentDidMount(){
         // api calls for later
         get("/api/huntitem").then((huntItems) => {
-            console.log(huntItems);
             this.setState({
                 huntItems: huntItems
             });
