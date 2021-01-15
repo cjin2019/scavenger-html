@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { navigate } from "@reach/router"
 
 import "./SingleHuntShortcut.css";
 /**
@@ -13,14 +14,21 @@ import "./SingleHuntShortcut.css";
 class SingleHuntShortcut extends Component {
     constructor(props) {
         super(props);
+
     }
 
+    setRedirect = () => {
+        navigate("/create");
+        console.log("hello redirecting!");
+    }
     render(){
-        return (
+        let page = (
         <div className="SingleHuntShortcut-container">
             <div className = "u-bold">{this.props.title}</div>
             <div>{this.props.description}</div>
+            <button onClick = {this.setRedirect}>{"<play/>"}</button>
         </div> );
+        return page;
     }
 }
 
