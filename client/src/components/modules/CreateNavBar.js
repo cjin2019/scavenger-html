@@ -17,13 +17,19 @@ class CreateNavBar extends Component {
         super(props);
     }
 
+    handleGoHome = (event) => {
+        if(confirm("Do you want to go home? Changes you made will NOT be saved.")){
+            navigate("/userhome");
+        }
+    }
+
     render() {
         return (
             <nav className = "NavBar-container">
                 <div className = "u-inlineBlock">NavBar!</div>
                 <div className="u-inlineBlock">
                 <button
-                    onClick = {() => navigate("/userhome")}
+                    onClick = {this.handleGoHome}
                 >
                     {"<go home/>"}
                 </button>

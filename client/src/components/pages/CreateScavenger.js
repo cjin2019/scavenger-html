@@ -23,13 +23,13 @@ class CreateScavenger extends Component {
     }
 
     componentDidMount(){
-        // api calls for later
-        // get("/api/huntitem").then((huntItems) => {
-        //     this.setState({
-        //         huntItems: huntItems
-        //     });
-        // });
-        
+        //https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event
+        window.addEventListener('beforeunload', (event) => {
+            // Cancel the event as stated by the standard.
+            event.preventDefault();
+            // Older browsers supported custom message
+            event.returnValue = '';
+          });
 
     }
 
@@ -42,11 +42,7 @@ class CreateScavenger extends Component {
                        question: huntItemObj.question,
                        answer: huntItemObj.answer
                      };
-        // post("/api/huntitem", body).then((huntItem) => {
-        //     this.setState({
-        //         huntItems: this.state.huntItems.concat([huntItemObj]),
-        //     });
-        // });
+
         this.setState({
             huntItems: [...this.state.huntItems, huntItemObj],
         });
