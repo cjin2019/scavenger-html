@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-
+import NewGame from "../modules/NewGame.js";
+import PlayHunt from "../modules/PlayHunt.js";
 import "../../utilities.css";
 
 class Game extends Component {
@@ -9,7 +10,12 @@ class Game extends Component {
 
     render(){
         return (
-            <div>This is the game page</div>
+            <div>
+                <div>This is the game page</div>
+                <NewGame />
+                <PlayHunt />
+            </div>
+
         );
     }
 }
