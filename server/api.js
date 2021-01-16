@@ -7,18 +7,13 @@
 |
 */
 
-//hardcoded data
-const data = {
-  huntItems: [],
-  hunts: [],
-};
-
 const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
 const Hunt = require("./models/hunt");
 const HuntItem = require("./models/huntitem");
+const CreatePage = require("./models/createpage");
 
 // import authentication library
 const auth = require("./auth");
@@ -49,6 +44,51 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.get("/savedhuntitem", (req, res) => {
+  let query = {"createId": req.query.createId};
+  HuntItem.find(query).then((huntitems) => {
+    res.send(huntitems);
+  });
+});
+
+router.post("/savedhuntitem", (req, res) => {
+  const newHuntItem = new HuntItem({
+    huntId: "",
+    createId: req.body.createId,
+    question: req.body.question,
+    answer: req. body.answer
+  });
+
+  newHuntItem.save().then((huntitem) => {res.send(huntitem);});
+});
+
+router.get("/createpage", (req, res) => {
+  let query = {"userId": req.query.userId}; 
+  CreatePage.find(query).then((createpage) => {
+    res.send(createpage);});
+});
+
+router.post("/createpage", (req, res) => {
+  let query = {"userId": req.body.userId};
+  if(req.body.action === "delete"){
+    CreatePage.deleteOne(query).then(() => {
+      console.log("deleted 1 doc");
+      res.send({msg: "deleted"});
+    });
+  } else {
+    newCreatePage = new CreatePage({
+      userId: req.body.userId,
+    });
+
+    newCreatePage.save().then((createpage) => {
+      res.send(createpage);
+    });
+
+  }
+  
+});
+
 router.post("/createhunt", (req, res) => {
   let huntId = null;
 
@@ -60,20 +100,20 @@ router.post("/createhunt", (req, res) => {
 
   newHunt.save().then((hunt) => {
     huntId = hunt._id;
-
-    const huntItems = req.body.huntItems;
-    for(let index = 0; index < huntItems.length; index++){
-      const newHuntItem = new HuntItem({
-        huntId: huntId,
-        question: huntItems[index].question,
-        answer: huntItems[index].answer
+    console.log(huntId);
+    //update hunt item huntId
+    HuntItem.updateMany({createId: req.body.createId}, 
+                        {$set: {
+                          huntId: huntId,
+                        },}
+      ).then(() => {
+        console.log("updated items");
+        res.send({succeed: true});
       });
 
-      newHuntItem.save();
-    }
-
   });
-  
+
+
 });
 
 router.get("/hunt", (req, res) => {

@@ -6,41 +6,83 @@ import CreateNavBar from "../modules/CreateNavBar";
 import { get, post } from "../../utilities";
 
 import "../../utilities.css";
+import { create } from "../../../../server/models/user.js";
+import { navigate } from "@reach/router";
 
 /**
  * CreateScavenger is a page to create a new scavenger hunt
  * 
  */
 class CreateScavenger extends Component {
+
     constructor(props){
         super(props);
 
         this.state = {
             title: "",
+            createId: null,
             description: "",
             huntItems: [],
         };
+
     }
+
+    loadSavedItems = (pageId) => {
+        if(confirm("Do you want to load previous create progress?")){
+            return pageId;
+        } else{
+            post("api/createpage", {userId: "creatorId_1", action: "delete"});
+            return null;
+        }
+    };
 
     componentDidMount(){
-        //https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event
-        window.addEventListener('beforeunload', (event) => {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Older browsers supported custom message
-            event.returnValue = '';
-          });
+        
+        let body = {
+            userId: "creatorId_1",
+            action: "add",
+        };
 
+        get("api/createpage", body).then((createpages) => {
+            let pageId = null;
+            if(createpages.length !== 0){
+                pageId = this.loadSavedItems(createpages[0]._id);
+                get("api/savedhuntitem", {createId: pageId}).then((savedHuntItems) => {
+                    console.log("Got saved hunt items");
+                    console.log(savedHuntItems);
+                    this.setState({
+                        huntItems: [...this.state.huntItems, ...savedHuntItems],
+                    });
+                });
+            } 
+            if(pageId === null){
+                post("api/createpage", body).then((createpage) => {
+                    pageId = createpage._id;
+                });
+            }
+
+            this.setState({
+                createId: pageId
+            });
+        });
     }
+
 
     // this gets called when the user pushes "Add", so their
     // question for the scavenger gets added to the screen
     // dummy function for now but later will want to change the format of 
     // the question
     addNewHuntItem = (huntItemObj) => {
-
-        this.setState({
-            huntItems: [...this.state.huntItems, huntItemObj],
+        let body = {
+            createId: this.state.createId,
+            question: huntItemObj.question,
+            answer: huntItemObj.answer,
+        }
+        post("api/savedhuntitem", body).then((huntItem) => {
+            console.log("successfully saved huntitem");
+            this.setState({
+                huntItems: [...this.state.huntItems, huntItem],
+            });
         });
     }
 
@@ -53,9 +95,14 @@ class CreateScavenger extends Component {
                         creatorId: "creatorId_1",
                         title: this.state.title,
                         description: this.state.description,
-                        huntItems: this.state.huntItems
+                        createId: this.state.createId,
                      };
-        post("/api/createhunt", body);
+        post("/api/createhunt", body).then(() => {
+            post("api/createpage", {userId: "creatorId_1", action: "delete"}).then(() => {
+                console.log("deleted 1 page");
+                navigate("/userhome");
+            });
+        });
     }
 
     handleTitleChange = (event) => {
