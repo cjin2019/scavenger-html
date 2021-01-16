@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import PlayNavBar from "./PlayNavBar.js";
 import "../../utilities.css";
 
 class PlayHunt extends Component {
@@ -9,7 +9,9 @@ class PlayHunt extends Component {
 
     render(){
         return (
-            <div>This is the play hunt component</div>
+            <div>
+                <PlayNavBar />
+            </div>
         );
     }
 }
