@@ -55,6 +55,8 @@ class Game extends Component {
         let display = (this.state.start) ?  (<PlayHunt 
                                                 huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
                                                 onSubmit = {this.moveToDifferentQuestion}
+                                                itemIndex = {this.state.currentHuntItemIndex}
+                                                numItems = {data.huntItems.length}
                                             />) : 
                                             (<NewGame hunt = {data.hunt} 
                                                     onStart = {this.startGame}

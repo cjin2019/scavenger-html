@@ -10,6 +10,8 @@ import "../../utilities.css";
  * @param {HuntItem} huntItem is a hunt item following the huntitem schema
  * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
  * move on to the next question
+ * @param {number} itemIndex is the index of the hunt item (0-indexed) in the hunt
+ * @param {number} numItems is the number of hunt items in the hunt
  */
 class PlayHunt extends Component {
     constructor(props){
@@ -19,7 +21,10 @@ class PlayHunt extends Component {
     render(){
         return (
             <div>
-                <PlayNavBar onSubmit = {this.props.onSubmit}/>
+                <PlayNavBar onSubmit = {this.props.onSubmit}
+                            itemIndex = {this.props.itemIndex}
+                            numItems = {this.props.numItems}
+                />
                 <PlayHuntItem huntItem = {this.props.huntItem}/>
             </div>
         );
