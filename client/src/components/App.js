@@ -11,6 +11,8 @@ import { get, post } from "../utilities";
 import UserHome from "./pages/UserHome.js";
 import CreateScavenger from "./pages/CreateScavenger.js";
 import Game from "./pages/Game.js";
+import NewGame from "./pages/NewGame.js";
+import StartGame from "./pages/StartGame.js";
 
 /**
  * Define the "App" component as a class.
@@ -65,6 +67,12 @@ class App extends Component {
           />
           <Game 
             path = "/game"
+          />
+          <NewGame 
+            path = "/newgame"
+          />
+          <StartGame 
+            path = "/startgame"
           />
           <NotFound default />
         </Router>

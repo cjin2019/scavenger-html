@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import NewGame from "../modules/NewGame.js";
 import PlayHunt from "../modules/PlayHunt.js";
 import "../../utilities.css";
 
@@ -12,21 +11,13 @@ class Game extends Component {
         super(props);
 
         this.state = {
-            start: false,
-            currentHuntItemIndex: -1
+            currentHuntItemIndex: 0
         }
     }
 
     componentDidMount(){
 
     }
-    
-    startGame = () => {
-        this.setState({
-            start: true,
-            currentHuntItemIndex: 0
-        });
-    };
 
     // assuming decrementing on all items but first
     // and incrementing on all items but last
@@ -61,16 +52,13 @@ class Game extends Component {
             ]
         };
 
-        let display = (this.state.start) ?  (<PlayHunt 
-                                                huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
-                                                onSubmit = {this.moveToDifferentQuestion}
-                                                itemIndex = {this.state.currentHuntItemIndex}
-                                                numItems = {data.huntItems.length}
-                                                checkAnswer = {this.checkAnswer}
-                                            />) : 
-                                            (<NewGame hunt = {data.hunt} 
-                                                    onStart = {this.startGame}
-                                            />);
+        let display =   (<PlayHunt 
+                            huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
+                            onSubmit = {this.moveToDifferentQuestion}
+                            itemIndex = {this.state.currentHuntItemIndex}
+                            numItems = {data.huntItems.length}
+                            checkAnswer = {this.checkAnswer}
+                        />) ;
         return (
             <div>
                 {display}
