@@ -7,7 +7,8 @@ import PartInput from "./hunt_item_parts/PartInput.js";
  * 
  * Proptypes
  * @param {HuntItem} huntItem is a hunt item following the hunt item schema 
- * 
+ * @param {(answer {string}) => boolean} checkAnswer is a function to check to see is the user input 
+ * is correct
  */
 class PlayHuntItem extends Component {
     constructor(props){
@@ -22,7 +23,7 @@ class PlayHuntItem extends Component {
                         <h4>Question</h4>
                         <PartDisplay content = {this.props.huntItem.question}/>
                         <h4>Answer Submission</h4>
-                        <PartInput />
+                        <PartInput onSubmit = {this.props.checkAnswer}/>
                     </div>
                 </div>);
     }

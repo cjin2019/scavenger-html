@@ -33,6 +33,12 @@ class Game extends Component {
         });
     };
 
+    // returns a boolean if answer is correct
+    checkAnswer = (answer) => {
+        console.log(answer);
+        return true;
+    }
+
     render(){
         const data = {
             hunt: {
@@ -57,6 +63,7 @@ class Game extends Component {
                                                 onSubmit = {this.moveToDifferentQuestion}
                                                 itemIndex = {this.state.currentHuntItemIndex}
                                                 numItems = {data.huntItems.length}
+                                                checkAnswer = {this.checkAnswer}
                                             />) : 
                                             (<NewGame hunt = {data.hunt} 
                                                     onStart = {this.startGame}

@@ -25,8 +25,6 @@ class PlayNavBar extends Component {
     };
 
     render() {
-        console.log("item Index " + this.props.itemIndex);
-        console.log("num items " + this.props.numItems);
         let displayBack = (this.props.itemIndex !==0) ? (<button onClick = {() => {this.props.onSubmit(-1);}}>
                                                             {"<back/>"}
                                                         </button>) :
