@@ -22,11 +22,13 @@ class CreateScavenger extends Component {
 
     componentDidMount(){
         // api calls for later
-        get("/api/huntitem").then((huntItems) => {
-            this.setState({
-                huntItems: huntItems
-            });
-        });
+        // get("/api/huntitem").then((huntItems) => {
+        //     this.setState({
+        //         huntItems: huntItems
+        //     });
+        // });
+        
+
     }
 
     // this gets called when the user pushes "Add", so their
@@ -38,10 +40,13 @@ class CreateScavenger extends Component {
                        question: huntItemObj.question,
                        answer: huntItemObj.answer
                      };
-        post("/api/huntitem", body).then((huntItem) => {
-            this.setState({
-                huntItems: this.state.huntItems.concat([huntItemObj]),
-            });
+        // post("/api/huntitem", body).then((huntItem) => {
+        //     this.setState({
+        //         huntItems: this.state.huntItems.concat([huntItemObj]),
+        //     });
+        // });
+        this.setState({
+            huntItems: [...this.state.huntItems, huntItemObj],
         });
     }
 
@@ -51,12 +56,12 @@ class CreateScavenger extends Component {
      */
     handleSubmit = (event) => {
         const body = {
-                        _id: `hardcode1_${Math.random()*10000}`,
+                        creatorId: `creatorId_${Math.random()*10000}`,
                         title: this.state.title,
                         description: this.state.description,
                         huntItems: this.state.huntItems
                      };
-        post("/api/hunt", body);
+        post("/api/createhunt", body);
     }
 
     handleTitleChange = (event) => {

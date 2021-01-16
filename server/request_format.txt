@@ -1,14 +1,13 @@
-huntItem 
-{
-    _id: id of the hunt item,
-    question: question,
-    answer: answer
-}
+"api/createhunt"
+    body: {
+        creatorId: String/later user login,
+        title: String,
+        description: String,
+        huntItems: [huntItem]
+    }
 
-scavengerHunt
-{
-    _id: id of the scavenger hunt,
-    title: title of hunt,
-    description: description of hunt,
-    huntItems: a list of huntItem
-}
+    huntItem {
+        huntId: id of the hunt the item corresponds,
+        question: (String/later add files and stuff) question of the item,
+        answer: (String/later add more fancy stuff) answer of the item
+    }

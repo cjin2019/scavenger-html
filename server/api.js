@@ -9,14 +9,8 @@
 
 //hardcoded data
 const data = {
-  huntItems: [
-    {
-      _id: "1",
-      question: "Question",
-      answer: "Answer"
-    }
-  ],
-  scavengerHunts: [],
+  huntItems: [],
+  hunts: [],
 };
 
 const express = require("express");
@@ -53,37 +47,54 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
-router.get("/huntitem", (req, res) => {
-  res.send(data.huntItems);
-});
-
-router.post("/huntitem", (req, res) => {
-  const newHuntItem = {
-    _id: req.body._id,
-    question: req.body.question,
-    answer: req.body.answer
+router.post("/createhunt", (req, res) => {
+  const huntId = `huntId_${Math.random()*10000}`;
+  const newHunt = {
+    _id: huntId,
+    creatorId: req.body.creatorId,
+    title: req.body.title,
+    description: req.body.description
   };
 
-  data.huntItems.push(newHuntItem);
-  res.send(newHuntItem);
+  data.hunts.push(newHunt);
+  data.huntItems = [...data.huntItems,...req.body.huntItems.map((huntItem) => ({
+    huntId: huntId,
+    question: huntItem.question,
+    answer: huntItem.answer,
+  }))];
 
 });
+// router.get("/huntitem", (req, res) => {
+//   res.send(data.huntItems);
+// });
+
+// router.post("/huntitem", (req, res) => {
+//   const newHuntItem = {
+//     _id: req.body._id,
+//     question: req.body.question,
+//     answer: req.body.answer
+//   };
+
+//   data.huntItems.push(newHuntItem);
+//   res.send(newHuntItem);
+
+// });
 
 router.get("/hunt", (req, res) => {
-  res.send(data.scavengerHunts);
+  res.send(data.hunts);
 });
 
-router.post("/hunt", (req, res) => {
-  const newHunt = {
-    _id: req.body._id,
-    title: req.body.title,
-    description: req.body.description,
-    huntItems: req.body.huntItems
-  };
+// router.post("/hunt", (req, res) => {
+//   const newHunt = {
+//     _id: req.body._id,
+//     title: req.body.title,
+//     description: req.body.description,
+//     huntItems: req.body.huntItems
+//   };
 
-  data.scavengerHunts.push(newHunt);
-  res.send(newHunt);
-});
+//   data.scavengerHunts.push(newHunt);
+//   res.send(newHunt);
+// });
 
 
 // anything else falls to this "not found" case
