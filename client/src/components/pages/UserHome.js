@@ -14,23 +14,16 @@ class UserHome extends Component {
         super(props);
 
         this.state = {
-            huntShortcuts: [],
+            hunts: [],
         };
     }
 
     componentDidMount(){
         // api calls for later
         get("/api/hunt", {creatorId: "creatorId_1"}).then((hunts) => {
-            const huntShortcuts = hunts.map((hunt) => (
-                {
-                    _id: hunt._id,
-                    title: hunt.title,
-                    description: hunt.description
-                }
-            ));
 
             this.setState({
-                huntShortcuts: huntShortcuts,
+                hunts: hunts,
             })
         });
     }
@@ -41,7 +34,7 @@ class UserHome extends Component {
             <NavBar />
             <h1>This is the user home page</h1>
             <ListHunts 
-                huntShortcuts = {this.state.huntShortcuts}
+                hunts = {this.state.hunts}
             />
         </div>);
     }

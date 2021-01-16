@@ -6,7 +6,7 @@ import SingleHuntShortcut from "./SingleHuntShortcut.js";
  * filter (ie. recent, favorite, etc)
  * 
  * Proptypes
- * @param {SingleHuntShortcut[]} huntShortcuts
+ * @param {Hunt[]} hunts
  * 
  */
 class ListHunts extends Component {
@@ -19,15 +19,14 @@ class ListHunts extends Component {
     }
 
     render(){
-        console.log(this.props.huntShortcuts);
         return (
         <div>
-            {this.props.huntShortcuts.map((huntShortcut) => (
+            {this.props.hunts.map((hunt) => (
                 <SingleHuntShortcut 
-                    key = {`SingleHuntShortcut_${huntShortcut._id}`}
-                    _id = {huntShortcut._id}
-                    title = {huntShortcut.title}
-                    description = {huntShortcut.description}
+                    key = {`SingleHuntt_${hunt._id}`}
+                    _id = {hunt._id}
+                    title = {hunt.title}
+                    description = {hunt.description}
                 />
             ))}
         </div> );
