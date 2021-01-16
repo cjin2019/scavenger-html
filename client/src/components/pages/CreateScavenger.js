@@ -20,18 +20,12 @@ class CreateScavenger extends Component {
             description: "",
             huntItems: [],
         };
+
     }
 
     componentDidMount(){
-        //https://developer.mozilla.org/en-US/docs/Web/API/Window/beforeunload_event
-        window.addEventListener('beforeunload', (event) => {
-            // Cancel the event as stated by the standard.
-            event.preventDefault();
-            // Older browsers supported custom message
-            event.returnValue = '';
-          });
-
     }
+
 
     // this gets called when the user pushes "Add", so their
     // question for the scavenger gets added to the screen
