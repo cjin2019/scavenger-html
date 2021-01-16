@@ -22,6 +22,8 @@
         creatorId: creatorId,
     }
 
+    send : Hunt (following the Hunt schema)
+
 "api/createpage" 
     query: {
         userId: userId,

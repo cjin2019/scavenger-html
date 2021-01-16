@@ -17,6 +17,10 @@ class Game extends Component {
         }
     }
 
+    componentDidMount(){
+
+    }
+    
     startGame = () => {
         this.setState({
             start: true,

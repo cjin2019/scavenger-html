@@ -122,6 +122,8 @@ router.get("/hunt", (req, res) => {
   });
 });
 
+
+
 // router.post("/hunt", (req, res) => {
 //   const newHunt = {
 //     _id: req.body._id,
