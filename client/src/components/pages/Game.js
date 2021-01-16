@@ -27,12 +27,19 @@ class Game extends Component {
             hunt: {
                 title: "This is a hardcoded title",
                 description: "This is a hardcoded description"
-            }
+            },
+            huntItems: [{
+                question: "This is a hardcoded question",
+                answer: "This is a hardcoded answer"
+            }]
         };
 
-        let display = (this.state.start) ?  (<PlayHunt />) : (<NewGame hunt = {data.hunt} 
-                                                                       onStart = {this.startGame}
-                                                            />);
+        let display = (this.state.start) ?  (<PlayHunt 
+                                                huntItem = {data.huntItems[0]}
+                                            />) : 
+                                            (<NewGame hunt = {data.hunt} 
+                                                    onStart = {this.startGame}
+                                            />);
         return (
             <div>
                 <h3>This is the game page</h3>
