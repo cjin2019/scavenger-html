@@ -9,6 +9,7 @@ import "../../utilities.css";
  * Proptypes
  * @param {Hunt} hunt a hunt following the hunt model schema
  * @param {()=>void} onStart function to call to update the parent state
+ *
  */
 class NewGame extends Component {
     constructor(props){

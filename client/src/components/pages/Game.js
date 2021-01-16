@@ -13,12 +13,23 @@ class Game extends Component {
 
         this.state = {
             start: false,
+            currentHuntItemIndex: -1
         }
     }
 
     startGame = () => {
         this.setState({
             start: true,
+            currentHuntItemIndex: 0
+        });
+    };
+
+    // assuming decrementing on all items but first
+    // and incrementing on all items but last
+    // inc is {+1, -1}
+    moveToDifferentQuestion = (inc) => {
+        this.setState({
+            currentHuntItemIndex: this.state.currentHuntItemIndex + inc,
         });
     };
 
@@ -29,20 +40,27 @@ class Game extends Component {
                 description: "This is a hardcoded description"
             },
             huntItems: [{
-                question: "This is a hardcoded question",
-                answer: "This is a hardcoded answer"
-            }]
+                question: "This is a hardcoded question 1",
+                answer: "This is a hardcoded answer 1"
+            }, {
+                question: "2",
+                answer: "2"
+            }, {
+                question: "3",
+                answer: "3"
+            }
+            ]
         };
 
         let display = (this.state.start) ?  (<PlayHunt 
-                                                huntItem = {data.huntItems[0]}
+                                                huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
+                                                onSubmit = {this.moveToDifferentQuestion}
                                             />) : 
                                             (<NewGame hunt = {data.hunt} 
                                                     onStart = {this.startGame}
                                             />);
         return (
             <div>
-                <h3>This is the game page</h3>
                 {display}
             </div>
 

@@ -8,6 +8,8 @@ import "../../utilities.css";
  * 
  * PropTypes
  * @param {HuntItem} huntItem is a hunt item following the huntitem schema
+ * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
+ * move on to the next question
  */
 class PlayHunt extends Component {
     constructor(props){
@@ -17,7 +19,7 @@ class PlayHunt extends Component {
     render(){
         return (
             <div>
-                <PlayNavBar />
+                <PlayNavBar onSubmit = {this.props.onSubmit}/>
                 <PlayHuntItem huntItem = {this.props.huntItem}/>
             </div>
         );

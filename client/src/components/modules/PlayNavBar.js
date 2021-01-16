@@ -8,7 +8,8 @@ import "./NavBar.css";
  * allows the user to go back and forth between hunt items
  * 
  * Proptypes
- * @param {onSubmit} ((event) => void)
+ * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
+ * move on to the next question
  */
 class PlayNavBar extends Component {
 
@@ -26,12 +27,12 @@ class PlayNavBar extends Component {
                 <div className = "u-inlineBlock">NavBar!</div>
                 <div className="u-inlineBlock">
                 <button
-                    onClick = {this.dummyButtonFunction}
+                    onClick = {() => {this.props.onSubmit(-1);}}
                 >
                     {"<back/>"}
                 </button>
                 <button
-                    onClick = {this.dummyButtonFunction}    
+                    onClick = {() => {this.props.onSubmit(1);}}    
                 >
                     {"<next/>"}
                 </button>

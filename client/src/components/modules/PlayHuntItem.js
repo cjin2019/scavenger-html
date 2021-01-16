@@ -7,6 +7,7 @@ import PartInput from "./hunt_item_parts/PartInput.js";
  * 
  * Proptypes
  * @param {HuntItem} huntItem is a hunt item following the hunt item schema 
+ * 
  */
 class PlayHuntItem extends Component {
     constructor(props){
