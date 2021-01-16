@@ -6,6 +6,7 @@ import CreateNavBar from "../modules/CreateNavBar";
 import { get, post } from "../../utilities";
 
 import "../../utilities.css";
+import { create } from "../../../../server/models/user.js";
 
 /**
  * CreateScavenger is a page to create a new scavenger hunt
@@ -45,12 +46,22 @@ class CreateScavenger extends Component {
             let pageId = null;
             if(createpages.length !== 0){
                 pageId = this.loadSavedItems(createpages[0]._id);
+                get("api/savedhuntitem", {createId: pageId}).then((savedHuntItems) => {
+                    console.log("Got saved hunt items");
+                    this.setState({
+                        huntItems: [...this.state.huntItems, ...savedHuntItems],
+                    });
+                });
             } 
             if(pageId === null){
                 post("api/createpage", body).then((createpage) => {
                     pageId = createpage._id;
                 });
             }
+
+            this.setState({
+                createId: pageId
+            });
         });
     }
 
@@ -60,9 +71,16 @@ class CreateScavenger extends Component {
     // dummy function for now but later will want to change the format of 
     // the question
     addNewHuntItem = (huntItemObj) => {
-
-        this.setState({
-            huntItems: [...this.state.huntItems, huntItemObj],
+        let body = {
+            createId: this.state.createId,
+            question: huntItemObj.question,
+            answer: huntItemObj.answer,
+        }
+        post("api/savedhuntitem", body).then((huntItem) => {
+            console.log("successfully saved huntitem");
+            this.setState({
+                huntItems: [...this.state.huntItems, huntItem],
+            });
         });
     }
 

@@ -45,6 +45,24 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.get("/savedhuntitem", (req, res) => {
+  let query = {"createId": req.query.createId};
+  HuntItem.find(query).then((huntitems) => {
+    res.send(huntitems);
+  });
+});
+
+router.post("/savedhuntitem", (req, res) => {
+  const newHuntItem = new HuntItem({
+    huntId: "",
+    createId: req.body.createId,
+    question: req.body.question,
+    answer: req. body.answer
+  });
+
+  newHuntItem.save().then((huntitem) => {res.send(huntitem);});
+});
+
 router.get("/createpage", (req, res) => {
   let query = {"userId": req.query.userId}; 
   CreatePage.find(query).then((createpage) => {
