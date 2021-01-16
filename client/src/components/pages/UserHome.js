@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import ListHunts from "../modules/ListHunts.js"
+import ListHunts from "../modules/ListHunts.js";
+import NavBar from "../modules/NavBar.js";
 
 import { get } from "../../utilities";
 import "../../utilities.css";
@@ -37,6 +38,7 @@ class UserHome extends Component {
     render(){
 
         return (<div>
+            <NavBar />
             <h1>This is the user home page</h1>
             <ListHunts 
                 huntShortcuts = {this.state.huntShortcuts}

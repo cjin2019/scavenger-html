@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router"
+import { navigate } from "@reach/router";
 
 import "./SingleHuntShortcut.css";
 /**
@@ -20,7 +20,6 @@ class SingleHuntShortcut extends Component {
 
     setRedirect = () => {
         navigate("/create");
-        console.log("hello redirecting!");
     }
     render(){
         let page = (

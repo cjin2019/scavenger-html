@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { get, post } from "../../utilities";
 import NewHuntItem from "../modules/NewHuntItem.js";
 import SubmittedHuntItem from "../modules/SubmittedHuntItem";
+import CreateNavBar from "../modules/CreateNavBar";
+
+import { get, post } from "../../utilities";
 
 import "../../utilities.css";
 
@@ -79,13 +81,7 @@ class CreateScavenger extends Component {
     render(){
         return (
         <div>
-            <button
-                type = "submit"
-                value = "Submit"
-                onClick = {this.handleSubmit}    
-            >
-                Submit
-            </button>
+            <CreateNavBar handleSubmit = {this.handleSubmit}/>
             <div>
                 <div>
                     <h3>Title</h3>

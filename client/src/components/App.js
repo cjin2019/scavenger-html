@@ -50,7 +50,6 @@ class App extends Component {
   render() {
     return (
       <>
-        <NavBar />
         <Router>
           <Skeleton
             path="/"
