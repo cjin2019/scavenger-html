@@ -34,9 +34,8 @@ class Game extends Component {
     };
 
     // returns a boolean if answer is correct
-    checkAnswer = (answer) => {
-        console.log(answer);
-        return true;
+    checkAnswer = (answer, expectedAnswer) => {
+        return answer === expectedAnswer;
     }
 
     render(){

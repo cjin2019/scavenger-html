@@ -12,7 +12,7 @@ import "../../utilities.css";
  * move on to the next question
  * @param {number} itemIndex is the index of the hunt item (0-indexed) in the hunt
  * @param {number} numItems is the number of hunt items in the hunt
- * @param {(answer {string}) => boolean} checkAnswer is a function to check to see is the user input 
+ * @param {({string}, {string}) => boolean} checkAnswer is a function to check to see is the user input 
  * is correct
  */
 class PlayHunt extends Component {

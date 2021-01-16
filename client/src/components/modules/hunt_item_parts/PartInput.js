@@ -5,6 +5,7 @@ import React, { Component } from "react";
  * the text/anything else
  * 
  * Proptype
+ * @param {string} expectedAnswer is the expected answer of the input
  * @param {({string})=>{boolean}} onSubmit is a function to execute when submitting
  * an input 
  */
@@ -26,7 +27,7 @@ class PartInput extends Component {
     }
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.onSubmit && this.props.onSubmit(this.state.content);
+        this.props.onSubmit && this.props.onSubmit(this.state.content, this.props.expectedAnswer);
         this.setState({
             content: "",
         });
