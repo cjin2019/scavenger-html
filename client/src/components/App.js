@@ -9,8 +9,8 @@ import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
 import UserHome from "./pages/UserHome.js";
-import NavBar from "./modules/NavBar.js";
 import CreateScavenger from "./pages/CreateScavenger.js";
+import Game from "./pages/Game.js";
 
 /**
  * Define the "App" component as a class.
@@ -62,6 +62,9 @@ class App extends Component {
           />
           <CreateScavenger 
             path = "/create"
+          />
+          <Game 
+            path = "/game"
           />
           <NotFound default />
         </Router>
