@@ -8,6 +8,30 @@
 
     huntItem {
         huntId: id of the hunt the item corresponds,
+        createId: id of the create page,
         question: (String/later add files and stuff) question of the item,
         answer: (String/later add more fancy stuff) answer of the item
     }
+
+"api/hunt"
+    query : {
+        creatorId: creatorId,
+    }
+
+"api/createpage" 
+    query: {
+        userId: userId,
+    }
+
+    body: {
+        userId: userId,
+        action: [] delete/add (enum type in createpage)
+    }
+
+"api/savedhuntitem"
+    query: {
+        createId: id of the createpage
+    }
+
+    body: huntItem 
+

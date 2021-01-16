@@ -12,18 +12,46 @@ import "../../utilities.css";
  * 
  */
 class CreateScavenger extends Component {
+
     constructor(props){
         super(props);
 
         this.state = {
             title: "",
+            createId: null,
             description: "",
             huntItems: [],
         };
 
     }
 
+    loadSavedItems = (pageId) => {
+        if(confirm("Do you want to load previous create progress?")){
+            return pageId;
+        } else{
+            post("api/createpage", {userId: "creatorId_1", action: "delete"});
+            return null;
+        }
+    };
+
     componentDidMount(){
+        
+        let body = {
+            userId: "creatorId_1",
+            action: "add",
+        };
+
+        get("api/createpage", body).then((createpages) => {
+            let pageId = null;
+            if(createpages.length !== 0){
+                pageId = this.loadSavedItems(createpages[0]._id);
+            } 
+            if(pageId === null){
+                post("api/createpage", body).then((createpage) => {
+                    pageId = createpage._id;
+                });
+            }
+        });
     }
 
 

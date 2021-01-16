@@ -7,18 +7,13 @@
 |
 */
 
-//hardcoded data
-const data = {
-  huntItems: [],
-  hunts: [],
-};
-
 const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
 const Hunt = require("./models/hunt");
 const HuntItem = require("./models/huntitem");
+const CreatePage = require("./models/createpage");
 
 // import authentication library
 const auth = require("./auth");
@@ -49,6 +44,33 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.get("/createpage", (req, res) => {
+  let query = {"userId": req.query.userId}; 
+  CreatePage.find(query).then((createpage) => {
+    res.send(createpage);});
+});
+
+router.post("/createpage", (req, res) => {
+  console.log(req.body);
+  let query = {"userId": req.body.userId};
+  if(req.body.action === "delete"){
+    CreatePage.deleteOne(query).then(() => {
+      console.log("deleted 1 doc");
+    });
+  } else {
+    newCreatePage = new CreatePage({
+      userId: req.body.userId,
+    });
+
+    newCreatePage.save().then((createpage) => {
+      res.send(createpage);
+    });
+
+  }
+  
+});
+
 router.post("/createhunt", (req, res) => {
   let huntId = null;
 
@@ -73,7 +95,7 @@ router.post("/createhunt", (req, res) => {
     }
 
   });
-  
+
 });
 
 router.get("/hunt", (req, res) => {
