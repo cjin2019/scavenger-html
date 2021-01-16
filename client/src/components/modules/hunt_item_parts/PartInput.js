@@ -15,6 +15,7 @@ class PartInput extends Component {
 
         this.state = {
             content: "",
+            complete: false
         };
     }
 
@@ -27,13 +28,15 @@ class PartInput extends Component {
     }
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.onSubmit && this.props.onSubmit(this.state.content, this.props.expectedAnswer);
+        let result = this.props.onSubmit && this.props.onSubmit(this.state.content, this.props.expectedAnswer);
         this.setState({
             content: "",
+            complete: result
         });
     }
 
     render(){
+        let displayCorrect = (this.state.complete) ? (<div>CORRECT!</div>): (<div></div>);
         return (
             <div>
                 <input
@@ -47,6 +50,9 @@ class PartInput extends Component {
                 >
                     {"<submit answer/>"}
                 </button>
+                <div>
+                    {displayCorrect}
+                </div>
             </div>
         );
     }
