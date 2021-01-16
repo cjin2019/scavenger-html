@@ -3,7 +3,7 @@
         creatorId: String/later user login,
         title: String,
         description: String,
-        huntItems: [huntItem]
+        createId: String, 
     }
 
     huntItem {
@@ -11,6 +11,10 @@
         createId: id of the create page,
         question: (String/later add files and stuff) question of the item,
         answer: (String/later add more fancy stuff) answer of the item
+    }
+
+    send {
+        succeed: true,
     }
 
 "api/hunt"
@@ -27,6 +31,12 @@
         userId: userId,
         action: [] delete/add (enum type in createpage)
     }
+
+    if delete
+    send {
+        msg: "deleted"
+    } add
+    send createpage model object 
 
 "api/savedhuntitem"
     query: {

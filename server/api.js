@@ -70,11 +70,11 @@ router.get("/createpage", (req, res) => {
 });
 
 router.post("/createpage", (req, res) => {
-  console.log(req.body);
   let query = {"userId": req.body.userId};
   if(req.body.action === "delete"){
     CreatePage.deleteOne(query).then(() => {
       console.log("deleted 1 doc");
+      res.send({msg: "deleted"});
     });
   } else {
     newCreatePage = new CreatePage({
@@ -100,19 +100,19 @@ router.post("/createhunt", (req, res) => {
 
   newHunt.save().then((hunt) => {
     huntId = hunt._id;
-
-    const huntItems = req.body.huntItems;
-    for(let index = 0; index < huntItems.length; index++){
-      const newHuntItem = new HuntItem({
-        huntId: huntId,
-        question: huntItems[index].question,
-        answer: huntItems[index].answer
+    console.log(huntId);
+    //update hunt item huntId
+    HuntItem.updateMany({createId: req.body.createId}, 
+                        {$set: {
+                          huntId: huntId,
+                        },}
+      ).then(() => {
+        console.log("updated items");
+        res.send({succeed: true});
       });
 
-      newHuntItem.save();
-    }
-
   });
+
 
 });
 

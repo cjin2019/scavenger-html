@@ -7,6 +7,7 @@ import { get, post } from "../../utilities";
 
 import "../../utilities.css";
 import { create } from "../../../../server/models/user.js";
+import { navigate } from "@reach/router";
 
 /**
  * CreateScavenger is a page to create a new scavenger hunt
@@ -48,6 +49,7 @@ class CreateScavenger extends Component {
                 pageId = this.loadSavedItems(createpages[0]._id);
                 get("api/savedhuntitem", {createId: pageId}).then((savedHuntItems) => {
                     console.log("Got saved hunt items");
+                    console.log(savedHuntItems);
                     this.setState({
                         huntItems: [...this.state.huntItems, ...savedHuntItems],
                     });
@@ -93,9 +95,14 @@ class CreateScavenger extends Component {
                         creatorId: "creatorId_1",
                         title: this.state.title,
                         description: this.state.description,
-                        huntItems: this.state.huntItems
+                        createId: this.state.createId,
                      };
-        post("/api/createhunt", body);
+        post("/api/createhunt", body).then(() => {
+            post("api/createpage", {userId: "creatorId_1", action: "delete"}).then(() => {
+                console.log("deleted 1 page");
+                navigate("/userhome");
+            });
+        });
     }
 
     handleTitleChange = (event) => {
