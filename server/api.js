@@ -17,6 +17,8 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Hunt = require("./models/hunt");
+const HuntItem = require("./models/huntitem");
 
 // import authentication library
 const auth = require("./auth");
@@ -48,40 +50,36 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 router.post("/createhunt", (req, res) => {
-  const huntId = `huntId_${Math.random()*10000}`;
-  const newHunt = {
-    _id: huntId,
+  let huntId = null;
+
+  const newHunt = new Hunt({
     creatorId: req.body.creatorId,
     title: req.body.title,
     description: req.body.description
-  };
+  });
 
-  data.hunts.push(newHunt);
-  data.huntItems = [...data.huntItems,...req.body.huntItems.map((huntItem) => ({
-    huntId: huntId,
-    question: huntItem.question,
-    answer: huntItem.answer,
-  }))];
+  newHunt.save().then((hunt) => {
+    huntId = hunt._id;
 
+    const huntItems = req.body.huntItems;
+    for(let index = 0; index < huntItems.length; index++){
+      const newHuntItem = new HuntItem({
+        huntId: huntId,
+        question: huntItems[index].question,
+        answer: huntItems[index].answer
+      });
+
+      newHuntItem.save();
+    }
+
+  });
+  
 });
-// router.get("/huntitem", (req, res) => {
-//   res.send(data.huntItems);
-// });
-
-// router.post("/huntitem", (req, res) => {
-//   const newHuntItem = {
-//     _id: req.body._id,
-//     question: req.body.question,
-//     answer: req.body.answer
-//   };
-
-//   data.huntItems.push(newHuntItem);
-//   res.send(newHuntItem);
-
-// });
 
 router.get("/hunt", (req, res) => {
-  res.send(data.hunts);
+  Hunt.find({ creatorId: req.query.creatorId}).then((hunt) => {
+    res.send(hunt);
+  });
 });
 
 // router.post("/hunt", (req, res) => {

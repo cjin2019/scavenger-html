@@ -20,7 +20,7 @@ class UserHome extends Component {
 
     componentDidMount(){
         // api calls for later
-        get("/api/hunt").then((hunts) => {
+        get("/api/hunt", {creatorId: "creatorId_1"}).then((hunts) => {
             const huntShortcuts = hunts.map((hunt) => (
                 {
                     _id: hunt._id,

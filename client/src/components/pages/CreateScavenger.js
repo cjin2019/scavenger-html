@@ -38,10 +38,6 @@ class CreateScavenger extends Component {
     // dummy function for now but later will want to change the format of 
     // the question
     addNewHuntItem = (huntItemObj) => {
-        const body = { _id: `hardcode1_${Math.random()*10000}`,
-                       question: huntItemObj.question,
-                       answer: huntItemObj.answer
-                     };
 
         this.setState({
             huntItems: [...this.state.huntItems, huntItemObj],
@@ -54,7 +50,7 @@ class CreateScavenger extends Component {
      */
     handleSubmit = (event) => {
         const body = {
-                        creatorId: `creatorId_${Math.random()*10000}`,
+                        creatorId: "creatorId_1",
                         title: this.state.title,
                         description: this.state.description,
                         huntItems: this.state.huntItems

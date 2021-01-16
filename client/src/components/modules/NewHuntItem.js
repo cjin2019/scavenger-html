@@ -47,12 +47,13 @@ class NewHuntItem extends Component {
     };
 
     render(){
+        let huntItemId = `huntId_${Math.random()*10000}`;
         return (
             <div className = "NewHuntItem-container">
                 <div>
                     <div>Question</div>
                     <NewItemPart 
-                        huntItemId = {"1"}
+                        huntItemId = {huntItemId}
                         itemType = {NewItemPart.types.question}
                         content = {this.state.question}
                         onChange = {this.changeQuestion}
@@ -61,7 +62,7 @@ class NewHuntItem extends Component {
                 <div>
                     <div>Answer</div>
                     <NewItemPart 
-                        huntItemId = {"1"}
+                        huntItemId = {huntItemId}
                         itemType = {NewItemPart.types.answer}
                         content = {this.state.answer}
                         onChange = {this.changeAnswer}
