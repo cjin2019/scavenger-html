@@ -50,19 +50,36 @@ router.post("/initsocket", (req, res) => {
 
 router.post("/game", (req, res) => {
   Hunt.findById(req.body.huntId).then((hunt) => {
-    console.log("Got hunt id " + hunt._id);
     HuntItem.find({huntId: hunt._id}).then((huntItems) => {
-      console.log("Got hunt items");
       const ids = huntItems.map((huntItem) => (huntItem._id));
       const newGame = new Game({
         huntId: hunt._id,
         creatorId: req.body.creatorId,
         orderHuntItemIds: ids,
       });
-      newGame.save().then(() => {res.send({}); console.log("Sent game");})
+      newGame.save().then(() => {res.send({});})
     });
   });
 });
+
+router.get("/game", (req, res) => {
+  Game.findOne({creatorId: req.query.creatorId}).then((game) => {
+    res.send(game);
+  });
+});
+
+router.post("/player", (req, res) => {
+  const newPlayer = new Player({
+    gameId: req.body.gameId,
+    userInfo: req.body.user,
+    currentHuntItemIndex: -1, //hard code to -1 for now
+    numCorrect: 0,
+  });
+
+  newPlayer.save().then(() => {res.send({});})
+
+});
+
 
 router.get("/savedhuntitem", (req, res) => {
   let query = {"createId": req.query.createId};
@@ -119,7 +136,6 @@ router.post("/createhunt", (req, res) => {
 
   newHunt.save().then((hunt) => {
     huntId = hunt._id;
-    console.log(huntId);
     //update hunt item huntId
     HuntItem.updateMany({createId: req.body.createId}, 
                         {$set: {
@@ -136,9 +152,15 @@ router.post("/createhunt", (req, res) => {
 });
 
 router.get("/hunt", (req, res) => {
-  Hunt.find({ creatorId: req.query.creatorId}).then((hunt) => {
-    res.send(hunt);
-  });
+  if(req.query.creatorId){
+    Hunt.find({ creatorId: req.query.creatorId}).then((hunt) => {
+      res.send(hunt);
+    });
+  } else {
+    Hunt.findById(req.query.huntId).then((hunt) => {
+      res.send(hunt);
+    })
+  }
 });
 
 

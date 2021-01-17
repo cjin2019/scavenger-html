@@ -56,7 +56,7 @@
     }
 
     query: {
-        gameId: id of the game
+        creatorId: id of the user
     }
 
     send: game following game schema

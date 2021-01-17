@@ -4,10 +4,10 @@ import SubmittedHuntItem from "../modules/SubmittedHuntItem";
 import CreateNavBar from "../modules/CreateNavBar";
 
 import { get, post } from "../../utilities";
+import { navigate } from "@reach/router";
 
 import "../../utilities.css";
-import { create } from "../../../../server/models/user.js";
-import { navigate } from "@reach/router";
+
 
 /**
  * CreateScavenger is a page to create a new scavenger hunt

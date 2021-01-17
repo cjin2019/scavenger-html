@@ -8,6 +8,7 @@ import "./SingleHuntShortcut.css";
  * shortcut for the user to choose from
  * 
  * Proptypes
+ * @param {String} userId id of the user
  * @param {string} _id of the hunt
  * @param {string} title of the hunt
  * @param {string} description of the hunt
@@ -22,7 +23,7 @@ class SingleHuntShortcut extends Component {
     setRedirect = () => {
         const body = {
             huntId: this.props._id,
-            creatorId: this.userId,
+            creatorId: this.props.userId,
         }
         post("api/game", body).then(() => {
             navigate("/newgame");

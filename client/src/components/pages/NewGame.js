@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
+import { get, post } from "../../utilities";
+
 import "../../utilities.css";
+
 
 /**
  * This is the NewGame component which gives the player the option to start
@@ -10,9 +13,32 @@ import "../../utilities.css";
 class NewGame extends Component {
     constructor(props){
         super(props);
+
+        this.state = {
+            title: "",
+            description: "",
+            gameId: "",
+        }
     }
 
-    componentDidMount(){}
+    componentDidMount(){
+        const user = {
+            _id: "creatorId_1",
+            name: "Hardcode name",
+        }
+
+        get("api/game", {creatorId: user._id}).then((game) =>{
+            this.setState({
+                gameId: game._id,
+            });
+            get("api/hunt", {huntId: game.huntId}).then((hunt) => {
+                this.setState({
+                    title: hunt.title,
+                    description: hunt.description
+                });
+            });
+        });
+    }
 
     handleGoHome = () => {
         //send a post request to delete a game
@@ -21,32 +47,22 @@ class NewGame extends Component {
 
     handleStart = () => {
         //send a post request to create a player
-        navigate("/startgame");
+        const user = {
+            _id: "creatorId_1",
+            name: "Hardcode name",
+        }
+        
+        post("api/player", {user: user, gameId: this.state.gameId}).then(() => {
+            navigate("/startgame");
+        });
     }
 
     render(){
-        const data = {
-            hunt: {
-                title: "This is a hardcoded title",
-                description: "This is a hardcoded description"
-            },
-            huntItems: [{
-                question: "This is a hardcoded question 1",
-                answer: "This is a hardcoded answer 1"
-            }, {
-                question: "2",
-                answer: "2"
-            }, {
-                question: "3",
-                answer: "3"
-            }
-            ]
-        };
 
         return (
             <div>
-                <h2>{data.hunt.title}</h2>
-                <h4>{data.hunt.description}</h4>
+                <h2>{this.state.title}</h2>
+                <h4>{this.state.description}</h4>
                 <div>
                     <button
                         onClick = {this.handleGoHome}
