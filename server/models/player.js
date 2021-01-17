@@ -2,9 +2,12 @@ require("mongoose");
 
 const PlayerSchema = new mongoose.Schema({
     gameId: String,
-    userId: String,
-    userName: String,
+    userInfo: {
+        _id: String,
+        name: String,
+    },
     currentHuntItemIndex: Number,
+    numCorrect: Number
 });
 
 // compile model from schema

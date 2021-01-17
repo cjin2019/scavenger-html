@@ -45,6 +45,10 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.post("/game", (req, res) => {
+  
+});
+
 router.get("/savedhuntitem", (req, res) => {
   let query = {"createId": req.query.createId};
   HuntItem.find(query).then((huntitems) => {

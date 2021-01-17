@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const GameSchema = new mongoose.Schema({
     huntId: String,
-    orderHuntItemIds: Array,
+    creatorId: String,
+    orderHuntItemIds: [String],
 });
 
 // compile model from schema

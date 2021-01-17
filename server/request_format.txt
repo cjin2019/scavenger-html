@@ -47,3 +47,28 @@
 
     body: huntItem 
 
+"api/game"
+
+    body: {
+        huntId: id of the hunt,
+        action: (for later) "add/delete"
+    }
+
+    query: {
+        gameId: id of the game
+    }
+
+    send: game following game schema
+
+"api/player"
+
+    body: {
+        user: a user object {_id: String, name: String}
+        gameId: id of the game
+    }
+
+    query: {
+        user: a user object {_id: String, name: String}
+    }
+
+    send: player following player schema 
