@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { navigate } from "@reach/router";
 import StartNavBar from "../modules/StartNavBar.js"
+import { get } from "../../utilities";
+
 
 import "../../utilities.css";
 import "../modules/NavBar.css";
@@ -10,23 +11,33 @@ class StartGame extends Component {
         super(props);
 
         this.state = {
-            players: ["creator_Id1"],
+            players: [],
+
         }
     }
 
     componentDidMount(){
+        const body = {
+            _id: "creatorId_1",
+            name: "Hardcode name",
+        };
+
         //send a get request to get the player
-        //send a get request to get the game
-        //later: send a get request to get the other players
+        get("api/player", body).then((player) => {
+            this.setState({
+                players: [...this.state.players, player],
+            });
+        });
+        //later: send a get request to get game then get the other players
     }
     render(){
         return (<div>
             <StartNavBar />
            {this.state.players.map((player) => (
             <div
-                key = {`playerId_${1}`}
+                key = {`playerId_${player._id}`}
             >
-                {player}
+                {player.userInfo.name}
             </div>))}
         </div>);
     }

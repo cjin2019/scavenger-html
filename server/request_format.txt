@@ -19,7 +19,8 @@
 
 "api/hunt"
     query : {
-        creatorId: creatorId,
+        creatorId: creatorId (optional),
+        huntId: id of the hunt (optional)
     }
 
     send : Hunt (following the Hunt schema)
@@ -56,7 +57,8 @@
     }
 
     query: {
-        creatorId: id of the user
+        creatorId: id of the user (optional),
+        gameId: id of the game (optional)
     }
 
     send: game following game schema

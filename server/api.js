@@ -63,9 +63,16 @@ router.post("/game", (req, res) => {
 });
 
 router.get("/game", (req, res) => {
-  Game.findOne({creatorId: req.query.creatorId}).then((game) => {
-    res.send(game);
-  });
+  if(req.query.creatorId){
+    Game.findOne({creatorId: req.query.creatorId}).then((game) => {
+      res.send(game);
+    });
+  } else {
+    Game.findById(req.query.gameId).then((game) => {
+      res.send(game);
+    });
+  }
+  
 });
 
 router.post("/player", (req, res) => {
@@ -78,6 +85,13 @@ router.post("/player", (req, res) => {
 
   newPlayer.save().then(() => {res.send({});})
 
+});
+
+router.get("/player", (req, res) => {
+  const query = {"userInfo._id": req.query._id};
+  Player.findOne(query).then((player) => {
+    res.send(player);
+  });
 });
 
 
@@ -162,20 +176,6 @@ router.get("/hunt", (req, res) => {
     })
   }
 });
-
-
-
-// router.post("/hunt", (req, res) => {
-//   const newHunt = {
-//     _id: req.body._id,
-//     title: req.body.title,
-//     description: req.body.description,
-//     huntItems: req.body.huntItems
-//   };
-
-//   data.scavengerHunts.push(newHunt);
-//   res.send(newHunt);
-// });
 
 
 // anything else falls to this "not found" case
