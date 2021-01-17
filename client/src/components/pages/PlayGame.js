@@ -158,6 +158,7 @@ class PlayGame extends Component {
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
                             itemIndex = {playerIndex}
                             numItems = {numItems}
+                            gameId = {this.state.game._id}
                 />
                 {displayItem}
             </div>

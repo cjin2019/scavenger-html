@@ -21,6 +21,13 @@ class NewGame extends Component {
         }
     }
 
+    hardCodeUser = () => {
+        return {
+            _id: "creatorId_1",
+            name: "Hardcode name",
+        };
+    }
+
     componentDidMount(){
         const user = {
             _id: "creatorId_1",
@@ -42,17 +49,24 @@ class NewGame extends Component {
 
     handleGoHome = () => {
         //send a post request to delete a game
-        navigate("/userhome");
+        const body = {
+            gameId: this.state.gameId,
+            action: "delete",
+        }
+        post("api/game", body).then(() => {
+            navigate("/userhome");
+        });
     }
 
     handleStart = () => {
         //send a post request to create a player
-        const user = {
-            _id: "creatorId_1",
-            name: "Hardcode name",
+        const user = this.hardCodeUser();
+        const body = {
+            user: user, 
+            gameId: this.state.gameId,
+            action: "add",
         }
-        
-        post("api/player", {user: user, gameId: this.state.gameId}).then(() => {
+        post("api/player", body).then(() => {
             navigate("/startgame");
         });
     }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
+import { get, post } from "../../utilities";
 
 import "../../utilities.css";
 import "./NavBar.css";
@@ -11,6 +12,7 @@ import "./NavBar.css";
  * Proptypes
  * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
  * move on to the next question
+ * @param {string} gameId is the id of the game
  * @param {number} itemIndex is the index of the hunt item (0-indexed) in the hunt
  * @param {number} numItems is the number of hunt items in the hunt
  */
@@ -20,8 +22,11 @@ class PlayNavBar extends Component {
         super(props);
     }
 
-    dummyButtonFunction = () => {
-        navigate("/userhome");
+    //for now delete the game and goes home
+    submitGame = () => {
+        post("api/game", {gameId: this.props.gameId, action: "delete"}).then(() =>{
+            navigate("/userhome");
+        });
     };
 
     render() {
@@ -29,7 +34,7 @@ class PlayNavBar extends Component {
                                                             {"<back/>"}
                                                         </button>) :
                                                         (<div></div>);
-        let displayNext = (this.props.itemIndex === this.props.numItems - 1) ?  (<button onClick = {this.dummyButtonFunction}> 
+        let displayNext = (this.props.itemIndex === this.props.numItems - 1) ?  (<button onClick = {this.submitGame}> 
                                                                                     {"<submit/>"}
                                                                                 </button>) :
                                                                                 (<button onClick = {() => {this.props.onSubmit(1);}}   >

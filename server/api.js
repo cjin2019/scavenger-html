@@ -99,17 +99,21 @@ router.post("/submission", (req, res) => {
 });
 
 router.post("/game", (req, res) => {
-  Hunt.findById(req.body.huntId).then((hunt) => {
-    HuntItem.find({huntId: hunt._id}).then((huntItems) => {
-      const ids = huntItems.map((huntItem) => (huntItem._id));
-      const newGame = new Game({
-        huntId: hunt._id,
-        creatorId: req.body.creatorId,
-        orderHuntItemIds: ids,
+  if(req.body.action && req.body.action === "delete"){
+    Game.findByIdAndDelete(req.body.gameId).then(() => {res.send({});});
+  } else{
+    Hunt.findById(req.body.huntId).then((hunt) => {
+      HuntItem.find({huntId: hunt._id}).then((huntItems) => {
+        const ids = huntItems.map((huntItem) => (huntItem._id));
+        const newGame = new Game({
+          huntId: hunt._id,
+          creatorId: req.body.creatorId,
+          orderHuntItemIds: ids,
+        });
+        newGame.save().then((game) => {res.send({game});})
       });
-      newGame.save().then(() => {res.send({});})
     });
-  });
+  }
 });
 
 router.get("/game", (req, res) => {
