@@ -20,7 +20,7 @@ class StartNavBar extends Component {
 
     handleStart = () => {
         this.props.handleSubmit && this.props.handleSubmit();
-        navigate("/game");
+        navigate("/playgame");
     };
 
     render() {

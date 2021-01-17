@@ -10,7 +10,7 @@ import { socket } from "../client-socket.js";
 import { get, post } from "../utilities";
 import UserHome from "./pages/UserHome.js";
 import CreateScavenger from "./pages/CreateScavenger.js";
-import Game from "./pages/Game.js";
+import PlayGame from "./pages/PlayGame.js";
 import NewGame from "./pages/NewGame.js";
 import StartGame from "./pages/StartGame.js";
 
@@ -65,8 +65,8 @@ class App extends Component {
           <CreateScavenger 
             path = "/create"
           />
-          <Game 
-            path = "/game"
+          <PlayGame 
+            path = "/playgame"
           />
           <NewGame 
             path = "/newgame"

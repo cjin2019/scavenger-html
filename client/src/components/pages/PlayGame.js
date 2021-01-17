@@ -7,7 +7,7 @@ import "../../utilities.css";
  * This is the game page that displays starting the game and
  * playing the game
  */
-class Game extends Component {
+class PlayGame extends Component {
     constructor(props){
         super(props);
 
@@ -67,4 +67,4 @@ class Game extends Component {
     }
 }
 
-export default Game;
+export default PlayGame;
