@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 /**
- * PartInput is an item part that allows users to submit
+ * AnswerInput is an item part that allows users to submit
  * the text/anything else
  * 
  * Proptype
@@ -9,7 +9,7 @@ import React, { Component } from "react";
  * @param {({string})=>{boolean}} onSubmit is a function to execute when submitting
  * an input 
  */
-class PartInput extends Component {
+class AnswerInput extends Component {
     constructor(props){
         super(props);
 
@@ -58,4 +58,4 @@ class PartInput extends Component {
     }
 }
 
-export default PartInput;
+export default AnswerInput;
