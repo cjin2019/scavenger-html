@@ -25,6 +25,7 @@ class PlayGame extends Component {
                 orderHuntItemIds: [],
             },
             huntItems: [],
+            currentHuntItemIndex: 0
         }
     }
 
@@ -39,8 +40,6 @@ class PlayGame extends Component {
 
     getHuntItems = (huntItemIds) => {
         get("api/playhuntitems", {huntItemIds: huntItemIds}).then((huntItems) => {
-            console.log("Got items");
-            console.log(huntItems);
 
             this.setState({
                 huntItems: huntItems,
@@ -50,8 +49,7 @@ class PlayGame extends Component {
 
     getGame = (gameId) => {
         get("api/game", {gameId: gameId}).then((game) => {
-            console.log("Got game");
-            console.log(game);
+
             this.setState({
                 game: game,
             });
@@ -65,10 +63,9 @@ class PlayGame extends Component {
         const body = this.hardCodeUser();
 
         get("api/player", body).then((player) => {
-            console.log("Got player");
-            console.log(player);
             this.setState({
                 player: player,
+                currentHuntItemIndex: player.currentHuntItemIndex,
             });
 
             this.getGame(player.gameId);
@@ -80,8 +77,18 @@ class PlayGame extends Component {
     // and incrementing on all items but last
     // inc is {+1, -1}
     moveToDifferentQuestion = (inc) => {
-        this.setState({
-            currentHuntItemIndex: this.state.player.currentHuntItemIndex + inc,
+
+        // this.setState({
+        //     currentHuntItemIndex: this.state.currentHuntItemIndex + inc, 
+        // })
+        const body = {
+            playerId: this.state.player._id,
+            itemIndex: this.state.player.currentHuntItemIndex + inc,
+        }
+        post("api/player", body).then((player) => {
+            this.setState({
+                player: player,
+            });
         });
     };
 
@@ -91,35 +98,19 @@ class PlayGame extends Component {
     }
 
     render(){
-        const data = {
-            hunt: {
-                title: "This is a hardcoded title",
-                description: "This is a hardcoded description"
-            },
-            huntItems: [{
-                question: "This is a hardcoded question 1",
-                answer: "This is a hardcoded answer 1"
-            }, {
-                question: "2",
-                answer: "2"
-            }, {
-                question: "3",
-                answer: "3"
-            }
-            ]
-        };
 
-        const index = this.state.player.currentHuntItemIndex;
+        const playerIndex = this.state.player.currentHuntItemIndex;
         const numItems = this.state.huntItems.length;
-        let displayItem = (this.state.huntItems.length === 0 ) ? (<div></div>) :
+        let displayItem = (this.state.huntItems.length === 0 || 
+                            this.state.huntItems[playerIndex] === undefined) ? (<div></div>) :
                                                                  (<PlayHuntItem 
-                                                                    huntItem = {this.state.huntItems[index]}
+                                                                    huntItem = {this.state.huntItems[playerIndex]}
                                                                     checkAnswer = {this.checkAnswer}
                                                                  />); 
         return (
             <div>
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
-                            itemIndex = {index}
+                            itemIndex = {playerIndex}
                             numItems = {numItems}
                 />
                 {displayItem}

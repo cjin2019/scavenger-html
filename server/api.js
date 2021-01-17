@@ -29,6 +29,7 @@ const socketManager = require("./server-socket");
 const player = require("./models/player");
 const { mongo } = require("mongoose");
 
+
 // writing helper function
 
 /**
@@ -105,7 +106,10 @@ router.post("/player", (req, res) => {
       Player.findByIdAndUpdate(req.body.playerId, 
                                 {$set: {
                                   currentHuntItemIndex: req.body.itemIndex,
-                                }}).then(()=> {res.send({});});
+                                }},
+                                {
+                                  new: true,
+                                }).then((player)=> { console.log(player); res.send(player);});
     }
   } else {
     const newPlayer = new Player({

@@ -15,7 +15,8 @@ class PlayHuntItem extends Component {
         super(props);
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+    }
 
     render(){
         return (<div>
