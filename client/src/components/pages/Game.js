@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import PlayHunt from "../modules/PlayHunt.js";
+import PlayHuntItem from "../modules/PlayHuntItem.js";
+import PlayNavBar from "../modules/PlayNavBar.js";
 import "../../utilities.css";
 
 /**
@@ -51,17 +52,15 @@ class Game extends Component {
             }
             ]
         };
-
-        let display =   (<PlayHunt 
-                            huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
-                            onSubmit = {this.moveToDifferentQuestion}
-                            itemIndex = {this.state.currentHuntItemIndex}
-                            numItems = {data.huntItems.length}
-                            checkAnswer = {this.checkAnswer}
-                        />) ;
         return (
             <div>
-                {display}
+                <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
+                            itemIndex = {this.state.currentHuntItemIndex}
+                            numItems = {data.huntItems.length}
+                />
+                <PlayHuntItem huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
+                              checkAnswer = {this.checkAnswer}
+                />
             </div>
 
         );

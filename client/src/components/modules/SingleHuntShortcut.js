@@ -19,7 +19,7 @@ class SingleHuntShortcut extends Component {
     }
 
     setRedirect = () => {
-        navigate("/game");
+        navigate("/newgame");
     }
     render(){
         let page = (

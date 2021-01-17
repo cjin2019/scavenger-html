@@ -15,11 +15,13 @@ class NewGame extends Component {
     componentDidMount(){}
 
     handleGoHome = () => {
+        //send a post request to delete a game
         navigate("/userhome");
     }
 
     handleStart = () => {
-        this.props.onStart && this.props.onStart();
+        //send a post request to create a player
+        navigate("/startgame");
     }
 
     render(){
