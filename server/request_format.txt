@@ -90,4 +90,20 @@
 
     send: a list of huntitem in the order of huntIds with the _id and question (NO ANSWER)
 
+"api/submission"
 
+    query: {
+        playerId: id of the player,
+        huntItemId: id of the hunt,
+        gameId: id of the game,
+    }
+
+    body: {
+        playerId: id of the player,
+        huntItemId: id of the hunt,
+        gameId: id of the game,
+        currentSubmission: player's answer, 
+    }
+
+    send: a submission item following submssion item schema
+    

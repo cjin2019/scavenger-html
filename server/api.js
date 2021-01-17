@@ -69,6 +69,35 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.get("/submission", (req, res) => {
+  const query = {
+    playerId: req.query.playerId,
+    huntItemId: req.query.huntItemId,
+    gameId: req.query.gameId,
+  }
+  SubmissionItem.findOne(query).then((submissionItem) => {
+    //if no submission yet, send a msg: NO SUBMISSION
+    if(submissionItem === null){
+      res.send({msg: "NO SUBMISSION"});
+    } else{
+      res.send(submissionItem);
+    }
+  });
+});
+
+router.post("/submission", (req, res) => {
+  const filter = {
+    playerId: req.body.playerId,
+    huntItemId: req.body.huntItemId,
+    gameId: req.body.gameId,
+  };
+
+  const update = { $set: {"currentSubmission": req.body.currentSubmission} };
+  SubmissionItem.updateOne(filter, update, {upsert: true}).then((submissionItem) => {
+    res.send(submissionItem);
+  });
+});
+
 router.post("/game", (req, res) => {
   Hunt.findById(req.body.huntId).then((hunt) => {
     HuntItem.find({huntId: hunt._id}).then((huntItems) => {
@@ -225,7 +254,6 @@ router.get("/playhuntitems", (req, res) => {
     const huntItemsResponse = huntitems.map((huntitem) => ({
       _id: huntitem._id,
       question: huntitem.question,
-      answer: huntitem.answer
     }));
     console.log("Got hunt items: " + huntItemsResponse);
     res.send(huntItemsResponse);
