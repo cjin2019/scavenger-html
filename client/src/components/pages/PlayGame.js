@@ -25,7 +25,6 @@ class PlayGame extends Component {
                 orderHuntItemIds: [],
             },
             huntItems: [],
-            currentHuntItemIndex: 0
         }
     }
 
@@ -78,9 +77,6 @@ class PlayGame extends Component {
     // inc is {+1, -1}
     moveToDifferentQuestion = (inc) => {
 
-        // this.setState({
-        //     currentHuntItemIndex: this.state.currentHuntItemIndex + inc, 
-        // })
         const body = {
             playerId: this.state.player._id,
             itemIndex: this.state.player.currentHuntItemIndex + inc,
