@@ -7,7 +7,7 @@ import SingleHuntShortcut from "./SingleHuntShortcut.js";
  * 
  * Proptypes
  * @param {Hunt[]} hunts
- * 
+ * @param {String} userId id of the user
  */
 class ListHunts extends Component {
     constructor(props) {
@@ -27,6 +27,7 @@ class ListHunts extends Component {
                     _id = {hunt._id}
                     title = {hunt.title}
                     description = {hunt.description}
+                    userId = {this.props.userId}
                 />
             ))}
         </div> );

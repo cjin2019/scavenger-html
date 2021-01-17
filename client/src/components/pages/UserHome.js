@@ -35,6 +35,7 @@ class UserHome extends Component {
             <h1>This is the user home page</h1>
             <ListHunts 
                 hunts = {this.state.hunts}
+                userId = {"creatorId_1"}
             />
         </div>);
     }

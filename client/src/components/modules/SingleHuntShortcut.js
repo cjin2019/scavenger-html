@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
+import { post } from "../../utilities";
 
 import "./SingleHuntShortcut.css";
 /**
@@ -19,7 +20,14 @@ class SingleHuntShortcut extends Component {
     }
 
     setRedirect = () => {
-        navigate("/newgame");
+        const body = {
+            huntId: this.props._id,
+            creatorId: this.userId,
+        }
+        post("api/game", body).then(() => {
+            navigate("/newgame");
+        });
+        
     }
     render(){
         let page = (
