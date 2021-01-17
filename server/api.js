@@ -14,6 +14,9 @@ const User = require("./models/user");
 const Hunt = require("./models/hunt");
 const HuntItem = require("./models/huntitem");
 const CreatePage = require("./models/createpage");
+const Game = require("./models/game");
+const Player = require("./models/player");
+const SubmissionItem = require("./models/submissionitem");
 
 // import authentication library
 const auth = require("./auth");
@@ -46,7 +49,7 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 router.post("/game", (req, res) => {
-  
+
 });
 
 router.get("/savedhuntitem", (req, res) => {
