@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { navigate } from "@reach/router";
-
 import "../../utilities.css";
 import "./NavBar.css";
 
@@ -9,7 +7,7 @@ import "./NavBar.css";
  * CreateNavBar is a component that is added to create page
  * 
  * Proptypes
- * @param {{} => void} handleSubmit a function to call when start game
+ * @param {{} => void} onSubmit a function to call when start game
  * @param {string} gameId the id of the game to be created
  */
 class StartNavBar extends Component {
@@ -18,10 +16,10 @@ class StartNavBar extends Component {
         super(props);
     }
 
-    handleStart = () => {
-        this.props.handleSubmit && this.props.handleSubmit();
-        navigate("/playgame");
-    };
+    // handleStart = () => {
+    //     this.props.onSubmit && this.props.onSubmit();
+    //     navigate("/playgame");
+    // };
 
     render() {
         return (
@@ -30,7 +28,7 @@ class StartNavBar extends Component {
                 <div className = "u-inlineBlock">{this.props.gameId}</div>
                 <div className="u-inlineBlock">
                 <button
-                    onClick = {this.handleStart}    
+                    onClick = {this.props.onSubmit}    
                 >
                     {"<start/>"}
                 </button>

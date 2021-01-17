@@ -26,6 +26,7 @@ const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
+const player = require("./models/player");
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -76,14 +77,26 @@ router.get("/game", (req, res) => {
 });
 
 router.post("/player", (req, res) => {
-  const newPlayer = new Player({
-    gameId: req.body.gameId,
-    userInfo: req.body.user,
-    currentHuntItemIndex: -1, //hard code to -1 for now
-    numCorrect: 0,
-  });
+  console.log(req.body);
+  if(req.body.playerId){
+    console.log("reached the first if statement");
+    if(req.body.itemIndex !== undefined){
+      console.log("reached inside");
+      Player.findByIdAndUpdate(req.body.playerId, 
+                                {$set: {
+                                  currentHuntItemIndex: req.body.itemIndex,
+                                }}).then(()=> {res.send({});});
+    }
+  } else {
+    const newPlayer = new Player({
+      gameId: req.body.gameId,
+      userInfo: req.body.user,
+      currentHuntItemIndex: -1, //hard code to -1 for now
+      numCorrect: 0,
+    });
+    newPlayer.save().then(() => {res.send({});});
+  }
 
-  newPlayer.save().then(() => {res.send({});})
 
 });
 
