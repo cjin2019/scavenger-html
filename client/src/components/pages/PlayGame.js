@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PlayHuntItem from "../modules/PlayHuntItem.js";
 import PlayNavBar from "../modules/PlayNavBar.js";
+import { get, post } from "../../utilities";
+
 import "../../utilities.css";
 
 /**
@@ -12,12 +14,66 @@ class PlayGame extends Component {
         super(props);
 
         this.state = {
-            currentHuntItemIndex: 0
+            player: {
+                gameId: "",
+                userInfo: null,
+                currentHuntItemIndex: 0,
+                numCorrect: 0,
+            },
+            game: {
+                huntId: "",
+                orderHuntItemIds: [],
+            },
+            huntItems: [],
         }
     }
 
+    hardCodeUser = () => {
+        return {
+            _id: "creatorId_1",
+            name: "Hardcode name",
+        };
+    }
+
+    // helper set up
+
+    getHuntItems = (huntItemIds) => {
+        get("api/playhuntitems", {huntItemIds: huntItemIds}).then((huntItems) => {
+            console.log("Got items");
+            console.log(huntItems);
+
+            this.setState({
+                huntItems: huntItems,
+            });
+        });
+    };
+
+    getGame = (gameId) => {
+        get("api/game", {gameId: gameId}).then((game) => {
+            console.log("Got game");
+            console.log(game);
+            this.setState({
+                game: game,
+            });
+
+            this.getHuntItems(game.orderHuntItemIds);
+        });
+    };
+
     componentDidMount(){
 
+        const body = this.hardCodeUser();
+
+        get("api/player", body).then((player) => {
+            console.log("Got player");
+            console.log(player);
+            this.setState({
+                player: player,
+            });
+
+            this.getGame(player.gameId);
+
+        });
     }
 
     // assuming decrementing on all items but first
@@ -25,7 +81,7 @@ class PlayGame extends Component {
     // inc is {+1, -1}
     moveToDifferentQuestion = (inc) => {
         this.setState({
-            currentHuntItemIndex: this.state.currentHuntItemIndex + inc,
+            currentHuntItemIndex: this.state.player.currentHuntItemIndex + inc,
         });
     };
 
@@ -52,15 +108,21 @@ class PlayGame extends Component {
             }
             ]
         };
+
+        const index = this.state.player.currentHuntItemIndex;
+        const numItems = this.state.huntItems.length;
+        let displayItem = (this.state.huntItems.length === 0 ) ? (<div></div>) :
+                                                                 (<PlayHuntItem 
+                                                                    huntItem = {this.state.huntItems[index]}
+                                                                    checkAnswer = {this.checkAnswer}
+                                                                 />); 
         return (
             <div>
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
-                            itemIndex = {this.state.currentHuntItemIndex}
-                            numItems = {data.huntItems.length}
+                            itemIndex = {index}
+                            numItems = {numItems}
                 />
-                <PlayHuntItem huntItem = {data.huntItems[this.state.currentHuntItemIndex]}
-                              checkAnswer = {this.checkAnswer}
-                />
+                {displayItem}
             </div>
 
         );

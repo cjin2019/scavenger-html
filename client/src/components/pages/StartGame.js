@@ -25,6 +25,7 @@ class StartGame extends Component {
     start = () => {
         const player = this.state.player;
         post("api/player", {playerId: player._id, itemIndex: 0}).then(() => {
+            console.log("will go into play game page");
             navigate("/playgame");
         });
     };

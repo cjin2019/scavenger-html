@@ -81,3 +81,13 @@
     }
 
     send: player following player schema 
+
+"api/playhuntitems"
+
+    query: {
+        huntItemIds: list of ids of the hunt
+    }
+
+    send: a list of huntitem in the order of huntIds with the _id and question (NO ANSWER)
+
+

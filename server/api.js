@@ -27,6 +27,25 @@ const router = express.Router();
 //initialize socket
 const socketManager = require("./server-socket");
 const player = require("./models/player");
+const { mongo } = require("mongoose");
+
+// writing helper function
+
+/**
+ * @param {String} ids the list of ids to retrieve 
+ * @returns pipeline for aggregate function
+ */
+function getOrderedHuntItems(ids) {
+
+  let pipeline = [
+    {$match: {"_id": {$in: ids}}},
+    {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
+    {$sort: {"__order": 1}}
+   ];
+
+  console.log("Got the pipeline set");
+  return pipeline;
+}
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -70,6 +89,7 @@ router.get("/game", (req, res) => {
     });
   } else {
     Game.findById(req.query.gameId).then((game) => {
+      console.log("Server got game: " + game);
       res.send(game);
     });
   }
@@ -103,6 +123,7 @@ router.post("/player", (req, res) => {
 router.get("/player", (req, res) => {
   const query = {"userInfo._id": req.query._id};
   Player.findOne(query).then((player) => {
+    console.log("Server got player: " + player);
     res.send(player);
   });
 });
@@ -190,6 +211,22 @@ router.get("/hunt", (req, res) => {
   }
 });
 
+router.get("/playhuntitems", (req, res) => {
+  console.log(req.query.huntItemIds.split(","));
+  const ids = req.query.huntItemIds.split(",").map((idString) =>(mongo.ObjectID(idString)));
+  console.log(ids);
+  const pipeline = getOrderedHuntItems(ids);
+  console.log("This is the pipeline: " + pipeline);
+  HuntItem.aggregate(pipeline).then((huntitems) => {
+    const huntItemsResponse = huntitems.map((huntitem) => ({
+      _id: huntitem._id,
+      question: huntitem.question,
+      answer: huntitem.answer
+    }));
+    console.log("Got hunt items: " + huntItemsResponse);
+    res.send(huntItemsResponse);
+  });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
