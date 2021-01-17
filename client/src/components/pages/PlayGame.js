@@ -25,6 +25,7 @@ class PlayGame extends Component {
                 orderHuntItemIds: [],
             },
             huntItems: [],
+            currentSubmission: ""
         }
     }
 
@@ -37,12 +38,36 @@ class PlayGame extends Component {
 
     // helper set up
 
+    getPreviousSubmission = () => {
+        const index = this.state.player.currentHuntItemIndex;
+        const query = {
+            playerId: this.state.player._id,
+            gameId: this.state.game._id,
+            huntItemId: this.state.huntItems[index]._id,
+        }
+        get("api/submission", query).then((submissionItem) =>{
+            //if submission exists
+            if(submissionItem.currentSubmission){
+                this.setState({
+                    currentSubmission: submissionItem.currentSubmission,
+                })
+            } else {
+                this.setState({
+                    currentSubmission: "",
+                })
+            }
+            
+        });
+    };
+
     getHuntItems = (huntItemIds) => {
         get("api/playhuntitems", {huntItemIds: huntItemIds}).then((huntItems) => {
 
             this.setState({
                 huntItems: huntItems,
             });
+
+            this.getPreviousSubmission();
         });
     };
 
@@ -57,6 +82,27 @@ class PlayGame extends Component {
         });
     };
 
+    onChange = (event) => {
+        this.setState({
+            currentSubmission: event.target.value,
+        });
+    }
+
+    onSubmit = () => {
+        const index = this.state.player.currentHuntItemIndex;
+        const body = {
+            playerId: this.state.player._id,
+            gameId: this.state.game._id,
+            huntItemId: this.state.huntItems[index]._id,
+            currentSubmission: this.state.currentSubmission,
+        }
+        post("api/submission", body).then((submissionItem) => {
+            this.setState({
+                currentSubmission: submissionItem.currentSubmission,
+            });
+        });
+    }
+
     componentDidMount(){
 
         const body = this.hardCodeUser();
@@ -64,7 +110,6 @@ class PlayGame extends Component {
         get("api/player", body).then((player) => {
             this.setState({
                 player: player,
-                currentHuntItemIndex: player.currentHuntItemIndex,
             });
 
             this.getGame(player.gameId);
@@ -85,11 +130,14 @@ class PlayGame extends Component {
             this.setState({
                 player: player,
             });
+
+            console.log("updated submission too!");
+            this.getPreviousSubmission();
         });
     };
 
     // returns a boolean if answer is correct
-    checkAnswer = (answer, expectedAnswer) => {
+    checkAnswer = (submittedAnswer) => {
         return answer === expectedAnswer;
     }
 
@@ -101,7 +149,9 @@ class PlayGame extends Component {
                             this.state.huntItems[playerIndex] === undefined) ? (<div></div>) :
                                                                  (<PlayHuntItem 
                                                                     huntItem = {this.state.huntItems[playerIndex]}
-                                                                    checkAnswer = {this.checkAnswer}
+                                                                    onChange = {this.onChange}
+                                                                    onSubmit = {this.onSubmit}
+                                                                    currentSubmission = {this.state.currentSubmission}
                                                                  />); 
         return (
             <div>

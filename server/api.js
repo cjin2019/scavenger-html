@@ -129,16 +129,14 @@ router.get("/game", (req, res) => {
 router.post("/player", (req, res) => {
   console.log(req.body);
   if(req.body.playerId){
-    console.log("reached the first if statement");
     if(req.body.itemIndex !== undefined){
-      console.log("reached inside");
       Player.findByIdAndUpdate(req.body.playerId, 
                                 {$set: {
                                   currentHuntItemIndex: req.body.itemIndex,
                                 }},
                                 {
                                   new: true,
-                                }).then((player)=> { console.log(player); res.send(player);});
+                                }).then((player)=> { res.send(player);});
     }
   } else {
     const newPlayer = new Player({

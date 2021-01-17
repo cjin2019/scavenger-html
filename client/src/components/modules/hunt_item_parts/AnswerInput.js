@@ -5,8 +5,9 @@ import React, { Component } from "react";
  * the text/anything else
  * 
  * Proptype
- * @param {string} expectedAnswer is the expected answer of the input
- * @param {({string})=>{boolean}} onSubmit is a function to execute when submitting
+ * @param {string} content is the user answer input
+ * @param {({string})=>void} onSubmit is a function to execute when submitting
+ * @param {({event}) => void } onChange is a function to execute when input is changing
  * an input 
  */
 class AnswerInput extends Component {
@@ -14,25 +15,8 @@ class AnswerInput extends Component {
         super(props);
 
         this.state = {
-            content: "",
             complete: false
         };
-    }
-
-    componentDidMount() {}
-
-    handleChange = (event) => {
-        this.setState({
-            content: event.target.value,
-        });
-    }
-    handleSubmit = (event) => {
-        event.preventDefault();
-        let result = this.props.onSubmit && this.props.onSubmit(this.state.content, this.props.expectedAnswer);
-        this.setState({
-            content: "",
-            complete: result
-        });
     }
 
     render(){
@@ -42,11 +26,11 @@ class AnswerInput extends Component {
                 <input
                     type = "text"
                     placeholder = ""
-                    value = {this.state.content}
-                    onChange = {this.handleChange}
+                    value = {this.props.content}
+                    onChange = {this.props.onChange}
                 />
                 <button
-                    onClick = {this.handleSubmit}
+                    onClick = {this.props.onSubmit}
                 >
                     {"<submit answer/>"}
                 </button>
