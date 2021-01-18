@@ -17,11 +17,6 @@ class LandingPage extends Component {
         super(props);
     }
 
-    redirect = () => {
-        this.props.handleLogin();
-        console.log("does this redirect work?");
-    };
-
     render(){
         return (<div>
             <h1>Welcome to Scavenger html! Push the login button to start

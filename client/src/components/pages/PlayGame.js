@@ -115,9 +115,7 @@ class PlayGame extends Component {
             isCorrect: this.checkAnswer(),
         }
 
-        console.log(body.isCorrect);
         post("api/submission", body).then((submissionItem) => {
-            console.log(submissionItem);
             this.setState({
                 isCorrect: body.isCorrect,
             });
@@ -127,7 +125,6 @@ class PlayGame extends Component {
 
     getUserInfo = () => {
         get("api/user", {userId: this.props.userId}).then((user) => {
-            console.log("Set user info in play game: " + user);
             this.getPlayer(user);
         });
     };
@@ -150,8 +147,6 @@ class PlayGame extends Component {
             this.setState({
                 player: player,
             });
-
-            console.log("updated submission too!");
             this.getPreviousSubmission();
         });
     };
@@ -161,7 +156,6 @@ class PlayGame extends Component {
     // later for security return 
     checkAnswer = () => {
         const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex].answer;
-        console.log(this.state.huntItems[this.state.player.currentHuntItemIndex]);
         return this.state.currentSubmission === correctAnswer;
     }
 

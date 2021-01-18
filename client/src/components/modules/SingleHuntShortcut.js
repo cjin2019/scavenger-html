@@ -26,7 +26,6 @@ class SingleHuntShortcut extends Component {
             creatorId: this.props.userId,
         }
         post("api/game", body).then((res) => {
-            console.log(res);
             navigate("/newgame");
         });
         

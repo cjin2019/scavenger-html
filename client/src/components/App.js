@@ -30,12 +30,10 @@ class App extends Component {
 
   getCurrentUser = (callbackFunction) => {
     get("/api/whoami").then((user) => {
-      console.log(user);
       if (user._id) {
         
         // they are registed in the database, and currently logged in.
         this.setState({ userId: user._id });
-        console.log(this.state.userId);
       }
 
       callbackFunction();
@@ -43,7 +41,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("App remounted");
     this.getCurrentUser(() => {console.log("hardcoded call back");});
   }
 

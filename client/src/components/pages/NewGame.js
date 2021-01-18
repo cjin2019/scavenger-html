@@ -49,7 +49,6 @@ class NewGame extends Component {
             this.setState({
                 user: user,
             });
-            console.log("Set user info: " + user);
             this.getGame(userId);
         });
     };

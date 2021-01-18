@@ -45,7 +45,6 @@ class CreateScavenger extends Component {
             this.setState({
                 huntId: hunt._id,
             });
-            console.log("load already created template");
             this.loadSavedHuntItems(hunt._id);
         } else {
             post("api/hunt", {huntId: hunt._id, 
@@ -60,7 +59,6 @@ class CreateScavenger extends Component {
                           action: "add",
                           isFinalized: false,
                         }).then((hunt) => {
-            console.log("created hunt template");
             this.setState({
                 huntId: hunt._id,
             });
@@ -71,7 +69,6 @@ class CreateScavenger extends Component {
         get("api/hunt", {creatorId: creatorId, 
                          isFinalized: false,
                         }).then((unsubmittedHunts) => {
-            console.log("unsubmitted hunts " + unsubmittedHunts);
             if(unsubmittedHunts.length === 0){
                 this.createHunt(creatorId);
             } else{
@@ -81,7 +78,6 @@ class CreateScavenger extends Component {
     };
 
     loadUserCreateTemplate = () => {
-        console.log("Remounted in create-scavenger: " + this.props.userId);
         if(this.props.userId){
             get("api/user", {userId: this.props.userId}).then((user) => 
                 {this.loadSavedHunt(user._id);}
@@ -105,7 +101,6 @@ class CreateScavenger extends Component {
             answer: huntItemObj.answer,
         }
         post("api/savedhuntitem", body).then((huntItem) => {
-            console.log("successfully saved huntitem");
             this.setState({
                 huntItems: [...this.state.huntItems, huntItem],
             });

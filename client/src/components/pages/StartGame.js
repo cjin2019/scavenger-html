@@ -50,7 +50,6 @@ class StartGame extends Component {
 
     getUserInfo = () => {
         get("api/user", {userId: this.props.userId}).then((user) => {
-            console.log("Set user info in start game: " + user);
             this.getPlayer(user);
         });
     };

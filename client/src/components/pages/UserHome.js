@@ -30,7 +30,6 @@ class UserHome extends Component {
     }
 
     getInitialHomeValues = () => {
-        console.log("In user home " + this.props.userId);
         if(this.props.userId){
             get("/api/user", {userId: this.props.userId}).then((user) => {
                 this.setState({

@@ -42,8 +42,6 @@ function getOrderedHuntItems(ids) {
     {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
     {$sort: {"__order": 1}}
    ];
-
-  console.log("Got the pipeline set");
   return pipeline;
 }
 
@@ -133,7 +131,6 @@ router.get("/game", (req, res) => {
     });
   } else {
     Game.findById(req.query.gameId).then((game) => {
-      console.log("Server got game: " + game);
       res.send(game);
     });
   }
@@ -147,7 +144,6 @@ router.post("/deleteplayer", (req, res) => {
 });
 
 router.post("/player", (req, res) => {
-  console.log(req.body);
   if(req.body.playerId){
     if(req.body.itemIndex !== undefined){
       Player.findByIdAndUpdate(req.body.playerId, 
@@ -174,7 +170,6 @@ router.post("/player", (req, res) => {
 router.get("/player", (req, res) => {
   const query = {"userInfo._id": req.query._id};
   Player.findOne(query).then((player) => {
-    console.log("Server got player: " + player);
     res.send(player);
   });
 });
@@ -205,9 +200,7 @@ router.get("/hunt", (req, res) => {
       creatorId: req.query.creatorId,
       isFinalized: req.query.isFinalized === "true",
     };
-    console.log(query);
     Hunt.find(query).then((hunts) => {
-      console.log(hunts);
       res.send(hunts);
     });
   } else {
@@ -244,18 +237,14 @@ router.post("/hunt", (req, res) => {
 });
 
 router.get("/playhuntitems", (req, res) => {
-  console.log(req.query.huntItemIds.split(","));
   const ids = req.query.huntItemIds.split(",").map((idString) =>(mongo.ObjectID(idString)));
-  console.log(ids);
   const pipeline = getOrderedHuntItems(ids);
-  console.log("This is the pipeline: " + pipeline);
   HuntItem.aggregate(pipeline).then((huntitems) => {
     const huntItemsResponse = huntitems.map((huntitem) => ({
       _id: huntitem._id,
       question: huntitem.question,
       answer: huntitem.answer,
     }));
-    console.log("Got hunt items: " + huntItemsResponse);
     res.send(huntItemsResponse);
   });
 });
