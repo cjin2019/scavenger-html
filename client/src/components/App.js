@@ -13,6 +13,7 @@ import CreateScavenger from "./pages/CreateScavenger.js";
 import PlayGame from "./pages/PlayGame.js";
 import NewGame from "./pages/NewGame.js";
 import StartGame from "./pages/StartGame.js";
+import LandingPage from "./pages/LandingPage";
 
 /**
  * Define the "App" component as a class.
@@ -53,7 +54,13 @@ class App extends Component {
     return (
       <>
         <Router>
-          <Skeleton
+          {/* <Skeleton
+            path="/"
+            handleLogin={this.handleLogin}
+            handleLogout={this.handleLogout}
+            userId={this.state.userId}
+          /> */}
+          <LandingPage
             path="/"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
@@ -61,6 +68,9 @@ class App extends Component {
           />
           <UserHome 
             path = "/userhome"
+            handleLogin={this.handleLogin}
+            handleLogout={this.handleLogout}
+            userId={this.state.userId}
           />
           <CreateScavenger 
             path = "/create"
