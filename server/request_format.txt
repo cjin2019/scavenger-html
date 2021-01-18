@@ -1,21 +1,3 @@
-"api/createhunt"
-    body: {
-        creatorId: String/later user login,
-        title: String,
-        description: String,
-    }
-
-    huntItem {
-        huntId: id of the hunt the item corresponds,
-        createId: id of the create page,
-        question: (String/later add files and stuff) question of the item,
-        answer: (String/later add more fancy stuff) answer of the item
-    }
-
-    send {
-        succeed: true,
-    }
-
 "api/hunt"
     query : {
         (creatorId: creatorId (optional),

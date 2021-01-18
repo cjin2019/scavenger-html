@@ -180,33 +180,6 @@ router.post("/savedhuntitem", (req, res) => {
   newHuntItem.save().then((huntitem) => {res.send(huntitem);});
 });
 
-router.post("/createhunt", (req, res) => {
-  let huntId = null;
-
-  const newHunt = new Hunt({
-    creatorId: req.body.creatorId,
-    title: req.body.title,
-    description: req.body.description
-  });
-
-  newHunt.save().then((hunt) => {
-    huntId = hunt._id;
-    //update hunt item huntId
-    console.log(req.body.createId);
-    HuntItem.updateMany({createId: req.body.createId}, 
-                        {$set: {
-                          huntId: huntId,
-                        },}
-      ).then(() => {
-        console.log("updated items");
-        res.send({succeed: true});
-      });
-
-  });
-
-
-});
-
 router.get("/hunt", (req, res) => {
   if(req.query.creatorId){
     const query = {
