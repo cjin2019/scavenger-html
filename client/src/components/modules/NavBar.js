@@ -37,7 +37,7 @@ class NavBar extends Component {
                     <Link to = "/create" className = "Navbar-link">
                         {"<create/>"}
                     </Link>
-                    <Link to = "/userhome" className = "Navbar-link">
+                    <Link to = "/browse" className = "Navbar-link">
                         {"<browse/>"}
                     </Link>
                     {this.props.userId ? (

@@ -14,6 +14,7 @@ import PlayGame from "./pages/PlayGame.js";
 import NewGame from "./pages/NewGame.js";
 import StartGame from "./pages/StartGame.js";
 import LandingPage from "./pages/LandingPage";
+import Browse from "./pages/Browse.js";
 
 /**
  * Define the "App" component as a class.
@@ -86,6 +87,12 @@ class App extends Component {
             handleLogout={this.handleLogout}
             getUser = {this.getCurrentUser}
             userId={this.state.userId}
+          />
+          <Browse 
+            path = "/browse"
+            handleLogin = {this.handleLogin}
+            handleLogout = {this.handleLogout}
+            userId = {this.state.userId}
           />
           <CreateScavenger 
             path = "/create"

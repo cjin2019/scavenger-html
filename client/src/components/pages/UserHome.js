@@ -57,7 +57,7 @@ class UserHome extends Component {
     render(){
 
         let display = (<div>
-            <h1>You created scavenger hunts</h1>
+            <h1>Your created scavenger hunts</h1>
             <ListHunts 
                 hunts = {this.state.hunts}
                 userId = {this.state.user._id}

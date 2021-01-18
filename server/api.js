@@ -199,7 +199,9 @@ router.post("/savedhuntitem", (req, res) => {
 
 router.get("/hunt", (req, res) => {
   if(req.query.creatorId){
-    const query = {
+    const query = (req.query.creatorId === "ALL_USERS") ? 
+    { isFinalized:  req.query.isFinalized === "true",
+    } : {
       creatorId: req.query.creatorId,
       isFinalized: req.query.isFinalized === "true",
     };
