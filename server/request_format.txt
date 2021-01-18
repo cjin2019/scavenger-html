@@ -3,7 +3,6 @@
         creatorId: String/later user login,
         title: String,
         description: String,
-        createId: String, 
     }
 
     huntItem {
@@ -19,8 +18,20 @@
 
 "api/hunt"
     query : {
-        creatorId: creatorId (optional),
+        (creatorId: creatorId (optional),
+         isFinalized: false, 
+        )
         huntId: id of the hunt (optional)
+    }
+
+    body : {
+        huntId: id of the hunt (if action = "delete/update")
+        action: "add", "delete" , "update",
+        creatorId: id of the creator (if action = "add/update")
+        title: (if action = "update")
+        description: (if action = "update")
+        isFinalized: true (if action = "update")
+                    false (if action = "add")
     }
 
     send : Hunt (following the Hunt schema)
@@ -43,9 +54,14 @@
 
 "api/savedhuntitem"
     query: {
-        createId: id of the createpage
+        huntId: id of the the hunt
     }
 
+    body: {
+        huntId: id of the hunt,
+        question: question,
+        answer: answer
+    }
     body: huntItem 
 
 "api/game"
@@ -106,4 +122,4 @@
     }
 
     send: a submission item following submssion item schema
-    
+

@@ -165,7 +165,7 @@ router.get("/player", (req, res) => {
 
 
 router.get("/savedhuntitem", (req, res) => {
-  let query = {"createId": req.query.createId};
+  let query = {"huntId": req.query.huntId};
   HuntItem.find(query).then((huntitems) => {
     res.send(huntitems);
   });
@@ -173,10 +173,9 @@ router.get("/savedhuntitem", (req, res) => {
 
 router.post("/savedhuntitem", (req, res) => {
   const newHuntItem = new HuntItem({
-    huntId: "",
-    createId: req.body.createId,
+    huntId: req.body.huntId, 
     question: req.body.question,
-    answer: req. body.answer
+    answer: req.body.answer
   });
 
   newHuntItem.save().then((huntitem) => {res.send(huntitem);});
@@ -220,6 +219,7 @@ router.post("/createhunt", (req, res) => {
   newHunt.save().then((hunt) => {
     huntId = hunt._id;
     //update hunt item huntId
+    console.log(req.body.createId);
     HuntItem.updateMany({createId: req.body.createId}, 
                         {$set: {
                           huntId: huntId,
@@ -236,13 +236,45 @@ router.post("/createhunt", (req, res) => {
 
 router.get("/hunt", (req, res) => {
   if(req.query.creatorId){
-    Hunt.find({ creatorId: req.query.creatorId}).then((hunt) => {
-      res.send(hunt);
+    const query = {
+      creatorId: req.query.creatorId,
+      isFinalized: req.query.isFinalized === "true",
+    };
+    console.log(query);
+    Hunt.find(query).then((hunts) => {
+      console.log(hunts);
+      res.send(hunts);
     });
   } else {
     Hunt.findById(req.query.huntId).then((hunt) => {
       res.send(hunt);
     })
+  }
+});
+
+router.post("/hunt", (req, res) => {
+  if(req.body.action === "add"){
+    newHunt = new Hunt({
+      creatorId: req.body.creatorId,
+      title: "",
+      description: "",
+      isFinalized: false,
+    });
+    newHunt.save().then((hunt) => {
+      res.send(hunt);
+    });
+  } else if (req.body.action === "delete") {
+    Hunt.findByIdAndDelete(req.body.huntId).then(() => {
+      res.send({msg: "DELETED HUNT FROM DATABASE"});
+    });
+  } else {
+    const update = { $set: {"title": req.body.title,
+                            "description": req.body.description,
+                            "isFinalized": true, 
+                          } };
+    Hunt.findByIdAndUpdate(req.body.huntId, update).then(() => {
+      res.send({msg: "UPDATED HUNT TO VIEWED BY OTHER USERS"});
+    });
   }
 });
 

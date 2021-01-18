@@ -4,6 +4,7 @@ const HuntSchema = new mongoose.Schema({
     creatorId: String,
     title: String,
     description: String,
+    isFinalized: Boolean,
 });
 
 // compile model from schema

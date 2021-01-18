@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 //for now question and answer are strings later going to be more advanced
 const HuntItemSchema = new mongoose.Schema({
     huntId: String,
-    createId: String,
     question: String,
     answer: String
 });

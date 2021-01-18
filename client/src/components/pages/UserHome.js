@@ -20,7 +20,7 @@ class UserHome extends Component {
 
     componentDidMount(){
         // api calls for later
-        get("/api/hunt", {creatorId: "creatorId_1"}).then((hunts) => {
+        get("/api/hunt", {creatorId: "creatorId_1", isFinalized: true}).then((hunts) => {
 
             this.setState({
                 hunts: hunts,

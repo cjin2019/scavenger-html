@@ -20,51 +20,64 @@ class CreateScavenger extends Component {
 
         this.state = {
             title: "",
-            createId: null,
+            huntId: null,
             description: "",
             huntItems: [],
         };
 
     }
 
-    loadSavedItems = (pageId) => {
-        if(confirm("Do you want to load previous create progress?")){
-            return pageId;
-        } else{
-            post("api/createpage", {userId: "creatorId_1", action: "delete"});
-            return null;
+    loadSavedHuntItems = (huntId) => {
+        get("api/savedhuntitem", {huntId: huntId}).then((huntItems) => {
+            this.setState({
+                huntItems: [...this.state.huntItems, ...huntItems],
+            });
+        });
+    };
+
+    initializeTemplate = (hunt, creatorId) => {
+        if(confirm("You have an unsubmitted hunt. Do you want to complete this hunt?")){
+            this.setState({
+                huntId: hunt._id,
+            });
+            console.log("load already created template");
+            this.loadSavedHuntItems(hunt._id);
+        } else {
+            post("api/hunt", {huntId: hunt._id, 
+                            action: "delete"}).then(() => {
+                                this.createHunt(creatorId);
+                            });
         }
     };
 
-    componentDidMount(){
-        
-        let body = {
-            userId: "creatorId_1",
-            action: "add",
-        };
-
-        get("api/createpage", body).then((createpages) => {
-            let pageId = null;
-            if(createpages.length !== 0){
-                pageId = this.loadSavedItems(createpages[0]._id);
-                get("api/savedhuntitem", {createId: pageId}).then((savedHuntItems) => {
-                    console.log("Got saved hunt items");
-                    console.log(savedHuntItems);
-                    this.setState({
-                        huntItems: [...this.state.huntItems, ...savedHuntItems],
-                    });
-                });
-            } 
-            if(pageId === null){
-                post("api/createpage", body).then((createpage) => {
-                    pageId = createpage._id;
-                });
-            }
-
+    createHunt = (creatorId) => {
+        post("api/hunt", {creatorId: creatorId, 
+                          action: "add",
+                          isFinalized: false,
+                        }).then((hunt) => {
+            console.log("created hunt template");
             this.setState({
-                createId: pageId
+                huntId: hunt._id,
             });
         });
+    }
+
+    loadSavedHunt = (creatorId) => {
+        get("api/hunt", {creatorId: creatorId, 
+                         isFinalized: false,
+                        }).then((unsubmittedHunts) => {
+            console.log("unsubmitted hunts " + unsubmittedHunts);
+            if(unsubmittedHunts.length === 0){
+                this.createHunt(creatorId);
+            } else{
+                this.initializeTemplate(unsubmittedHunts[0], creatorId);
+            }
+        });
+    };
+
+    componentDidMount(){
+        const  creatorId = "creatorId_1";
+        this.loadSavedHunt(creatorId);
     }
 
 
@@ -74,7 +87,7 @@ class CreateScavenger extends Component {
     // the question
     addNewHuntItem = (huntItemObj) => {
         let body = {
-            createId: this.state.createId,
+            huntId: this.state.huntId,
             question: huntItemObj.question,
             answer: huntItemObj.answer,
         }
@@ -93,15 +106,13 @@ class CreateScavenger extends Component {
     handleSubmit = (event) => {
         const body = {
                         creatorId: "creatorId_1",
+                        add: "update",
                         title: this.state.title,
                         description: this.state.description,
-                        createId: this.state.createId,
+                        huntId: this.state.huntId,
                      };
-        post("/api/createhunt", body).then(() => {
-            post("api/createpage", {userId: "creatorId_1", action: "delete"}).then(() => {
-                console.log("deleted 1 page");
-                navigate("/userhome");
-            });
+        post("/api/hunt", body).then(() => {
+            navigate("/userhome");
         });
     }
 

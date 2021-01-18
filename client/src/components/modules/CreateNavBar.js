@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import { navigate } from "@reach/router";
+import { post } from "../../utilities";
 
 import "../../utilities.css";
 import "./NavBar.css";
@@ -19,7 +20,9 @@ class CreateNavBar extends Component {
 
     handleGoHome = (event) => {
         if(confirm("Do you want to go home? Changes you made will NOT be saved.")){
-            navigate("/userhome");
+            post("api/createpage", {userId: "creatorId_1", action: "delete"}).then(() => {
+                navigate("/userhome");
+            });
         }
     }
 
