@@ -36,22 +36,6 @@
 
     send : Hunt (following the Hunt schema)
 
-"api/createpage" 
-    query: {
-        userId: userId,
-    }
-
-    body: {
-        userId: userId,
-        action: [] delete/add (enum type in createpage)
-    }
-
-    if delete
-    send {
-        msg: "deleted"
-    } add
-    send createpage model object 
-
 "api/savedhuntitem"
     query: {
         huntId: id of the the hunt

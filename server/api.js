@@ -13,7 +13,6 @@ const express = require("express");
 const User = require("./models/user");
 const Hunt = require("./models/hunt");
 const HuntItem = require("./models/huntitem");
-const CreatePage = require("./models/createpage");
 const Game = require("./models/game");
 const Player = require("./models/player");
 const SubmissionItem = require("./models/submissionitem");
@@ -179,32 +178,6 @@ router.post("/savedhuntitem", (req, res) => {
   });
 
   newHuntItem.save().then((huntitem) => {res.send(huntitem);});
-});
-
-router.get("/createpage", (req, res) => {
-  let query = {"userId": req.query.userId}; 
-  CreatePage.find(query).then((createpage) => {
-    res.send(createpage);});
-});
-
-router.post("/createpage", (req, res) => {
-  let query = {"userId": req.body.userId};
-  if(req.body.action === "delete"){
-    CreatePage.deleteOne(query).then(() => {
-      console.log("deleted 1 doc");
-      res.send({msg: "deleted"});
-    });
-  } else {
-    newCreatePage = new CreatePage({
-      userId: req.body.userId,
-    });
-
-    newCreatePage.save().then((createpage) => {
-      res.send(createpage);
-    });
-
-  }
-  
 });
 
 router.post("/createhunt", (req, res) => {
