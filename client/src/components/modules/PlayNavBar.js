@@ -12,7 +12,7 @@ import "./NavBar.css";
  * Proptypes
  * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
  * move on to the next question
- * @param {string} gameId is the id of the game
+ * @param {Player} player is a player following the player schema
  * @param {number} itemIndex is the index of the hunt item (0-indexed) in the hunt
  * @param {number} numItems is the number of hunt items in the hunt
  */
@@ -24,8 +24,10 @@ class PlayNavBar extends Component {
 
     //for now delete the game and goes home
     submitGame = () => {
-        post("api/game", {gameId: this.props.gameId, action: "delete"}).then(() =>{
-            navigate("/userhome");
+        post("api/deleteplayer", {playerId: this.props.player._id}).then(() =>{
+            post("api/game", {gameId: this.props.player.gameId, action: "delete"}).then(() => {
+                navigate("/userhome");
+            });
         });
     };
 

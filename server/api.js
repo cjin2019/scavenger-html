@@ -129,6 +129,12 @@ router.get("/game", (req, res) => {
   
 });
 
+router.post("/deleteplayer", (req, res) => {
+  Player.findByIdAndDelete(req.body.playerId).then(() => {
+    res.send({msg: "DELETED PLAYER"});
+  });
+});
+
 router.post("/player", (req, res) => {
   console.log(req.body);
   if(req.body.playerId){

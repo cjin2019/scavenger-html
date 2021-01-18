@@ -64,6 +64,12 @@
 
     send: player following player schema 
 
+"api/deleteplayer"
+    body : {
+        playerId: is of the player
+    }
+
+    send: {msg: "DELTED PLAYER"}
 "api/playhuntitems"
 
     query: {

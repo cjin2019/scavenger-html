@@ -100,6 +100,7 @@ class PlayGame extends Component {
             this.setState({
                 currentSubmission: submissionItem.currentSubmission,
             });
+            console.log(this.state.checkAnswer());
         });
     }
 
@@ -137,8 +138,11 @@ class PlayGame extends Component {
     };
 
     // returns a boolean if answer is correct
-    checkAnswer = (submittedAnswer) => {
-        return answer === expectedAnswer;
+    // for now in get request return huntitem answer
+    // later for security return 
+    checkAnswer = () => {
+        const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex];
+        return this.state.currentSubmission === correctAnswer;
     }
 
     render(){
@@ -158,7 +162,7 @@ class PlayGame extends Component {
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
                             itemIndex = {playerIndex}
                             numItems = {numItems}
-                            gameId = {this.state.game._id}
+                            player = {this.state.player}
                 />
                 {displayItem}
             </div>
