@@ -25,7 +25,8 @@ class PlayGame extends Component {
                 orderHuntItemIds: [],
             },
             huntItems: [],
-            currentSubmission: ""
+            currentSubmission: "",
+            isCorrect: false,
         }
     }
 
@@ -50,10 +51,12 @@ class PlayGame extends Component {
             if(submissionItem.currentSubmission){
                 this.setState({
                     currentSubmission: submissionItem.currentSubmission,
+                    isCorrect: submissionItem.isCorrect,
                 })
             } else {
                 this.setState({
                     currentSubmission: "",
+                    isCorrect: false,
                 })
             }
             
@@ -88,6 +91,7 @@ class PlayGame extends Component {
         });
     }
 
+    //return true if correct
     onSubmit = () => {
         const index = this.state.player.currentHuntItemIndex;
         const body = {
@@ -95,12 +99,16 @@ class PlayGame extends Component {
             gameId: this.state.game._id,
             huntItemId: this.state.huntItems[index]._id,
             currentSubmission: this.state.currentSubmission,
+            isCorrect: this.checkAnswer(),
         }
+
+        console.log(body.isCorrect);
         post("api/submission", body).then((submissionItem) => {
+            console.log(submissionItem);
             this.setState({
-                currentSubmission: submissionItem.currentSubmission,
+                isCorrect: body.isCorrect,
             });
-            console.log(this.checkAnswer());
+
         });
     }
 
@@ -142,6 +150,7 @@ class PlayGame extends Component {
     // later for security return 
     checkAnswer = () => {
         const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex].answer;
+        console.log(this.state.huntItems[this.state.player.currentHuntItemIndex]);
         return this.state.currentSubmission === correctAnswer;
     }
 
@@ -156,6 +165,7 @@ class PlayGame extends Component {
                                                                     onChange = {this.onChange}
                                                                     onSubmit = {this.onSubmit}
                                                                     currentSubmission = {this.state.currentSubmission}
+                                                                    isCorrect = {this.state.isCorrect}
                                                                  />); 
         return (
             <div>

@@ -4,7 +4,8 @@ const SubmissionItemSchema = new mongoose.Schema({
     huntItemId: String,
     playerId: String,
     gameId: String,
-    currentSubmission: String
+    currentSubmission: String,
+    isCorrect: Boolean,
 });
 
 // compile model from schema

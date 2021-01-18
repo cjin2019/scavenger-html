@@ -91,7 +91,8 @@ router.post("/submission", (req, res) => {
     gameId: req.body.gameId,
   };
 
-  const update = { $set: {"currentSubmission": req.body.currentSubmission} };
+  const update = { $set: {"currentSubmission": req.body.currentSubmission,
+                          "isCorrect": req.body.isCorrect === "true"} };
   SubmissionItem.updateOne(filter, update, {upsert: true}).then((submissionItem) => {
     res.send(submissionItem);
   });
@@ -240,6 +241,7 @@ router.get("/playhuntitems", (req, res) => {
     const huntItemsResponse = huntitems.map((huntitem) => ({
       _id: huntitem._id,
       question: huntitem.question,
+      answer: huntitem.answer,
     }));
     console.log("Got hunt items: " + huntItemsResponse);
     res.send(huntItemsResponse);

@@ -8,6 +8,7 @@ import { get, post } from "../../utilities";
  * 
  * Proptypes
  * @param {string} currentSubmission is the user answer input
+ * @param {boolean} isCorrect true if the current submission is correct
  * @param {({string})=>void} onSubmit is a function to execute when submitting
  * @param {({event}) => void } onChange is a function to execute when input is changing
  * @param {HuntItem} huntItem is a hunt item following the hunt item schema 
@@ -31,6 +32,7 @@ class PlayHuntItem extends Component {
                             onSubmit = {this.props.onSubmit}
                             onChange = {this.props.onChange}
                             content = {this.props.currentSubmission}
+                            complete = {this.props.isCorrect}
                         />
                     </div>
                 </div>);

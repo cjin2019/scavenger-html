@@ -6,6 +6,7 @@ import React, { Component } from "react";
  * 
  * Proptype
  * @param {string} content is the user answer input
+ * @param {boolean} complete is true if answer is correct
  * @param {({string})=>void} onSubmit is a function to execute when submitting
  * @param {({event}) => void } onChange is a function to execute when input is changing
  * an input 
@@ -13,14 +14,10 @@ import React, { Component } from "react";
 class AnswerInput extends Component {
     constructor(props){
         super(props);
-
-        this.state = {
-            complete: false
-        };
     }
 
     render(){
-        let displayCorrect = (this.state.complete) ? (<div>CORRECT!</div>): (<div></div>);
+        let displayCorrect = (this.props.complete) ? (<div>CORRECT!</div>): (<div></div>);
         return (
             <div>
                 <input
