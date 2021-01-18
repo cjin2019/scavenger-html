@@ -12,6 +12,8 @@ import "../../utilities.css";
 /**
  * CreateScavenger is a page to create a new scavenger hunt
  * 
+ * Constraints don't allow the user to submit if there are no hunt items!
+ * 
  * Proptypes
  * @param {string} userId id of the user
  * @param {() => void} getCurrentUser calls a function in app to get the current user
@@ -115,16 +117,22 @@ class CreateScavenger extends Component {
      * @param {*} event the event 
      */
     handleSubmit = (event) => {
-        const body = {
-                        creatorId: this.props.userId,
-                        add: "update",
-                        title: this.state.title,
-                        description: this.state.description,
-                        huntId: this.state.huntId,
-                     };
-        post("/api/hunt", body).then(() => {
-            navigate("/userhome");
-        });
+        if(this.state.huntItems.length > 0){
+            const body = {
+                creatorId: this.props.userId,
+                add: "update",
+                title: this.state.title,
+                description: this.state.description,
+                huntId: this.state.huntId,
+             };
+             post("/api/hunt", body).then(() => {
+                navigate("/userhome");
+            });
+        } else {
+            alert("You must submit at least one hunt item");
+        }
+        
+        
     }
 
     handleTitleChange = (event) => {

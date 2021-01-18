@@ -77,9 +77,12 @@ class NewGame extends Component {
             gameId: this.state.gameId,
             action: "add",
         }
-        post("api/player", body).then(() => {
-            navigate("/startgame");
-        });
+
+        if(confirm("Once you start game, you cannot leave the scavenger html until you complete!")){
+            post("api/player", body).then(() => {
+                navigate("/startgame");
+            });
+        }
     }
 
     render(){
