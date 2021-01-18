@@ -102,6 +102,8 @@ class App extends Component {
           />
           <StartGame 
             path = "/startgame"
+            userId = {this.state.userId}
+            getUser = {this.getCurrentUser}
           />
           <NotFound default />
         </Router>

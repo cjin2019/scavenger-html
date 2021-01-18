@@ -6,6 +6,14 @@ import { navigate } from "@reach/router";
 import "../../utilities.css";
 import "../modules/NavBar.css";
 
+/**
+ * This is the StartGame component that displays the current players in the game
+ * 
+ * Proptypes
+ * @param {string} userId is the id of the user
+ * @param {(callback function) => void} getUser is a function to call when this component
+ * is remounted to make sure that user is still valid
+ */
 class StartGame extends Component {
     constructor(props){
         super(props);
@@ -30,18 +38,29 @@ class StartGame extends Component {
         });
     };
 
-    componentDidMount(){
-        const body = this.hardCodeUser();
-
-        //send a get request to get the player
-        get("api/player", body).then((player) => {
+    getPlayer = (user) => {
+        get("api/player", user).then((player) => {
             this.setState({
                 player: player,
                 players: [...this.state.players, player],
             });
         });
+    };
+
+    getUserInfo = () => {
+        get("api/user", {userId: this.props.userId}).then((user) => {
+            console.log("Set user info in start game: " + user);
+            this.getPlayer(user);
+        });
+    };
+
+    componentDidMount(){
+        this.props.getUser(this.getUserInfo);
+        //send a get request to get the player
+        
         //later: send a get request to get game then get the other players
     }
+
     render(){
         return (<div>
             <StartNavBar onSubmit = {this.start}/>
