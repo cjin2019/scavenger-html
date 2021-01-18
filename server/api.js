@@ -68,6 +68,16 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+// get user info
+router.get("/user", (req, res) => {
+  User.findById(req.query.userId).then((user) => {
+    res.send({
+      name: user.name,
+      _id: user._id,
+    });
+  });
+});
+
 router.get("/submission", (req, res) => {
   const query = {
     playerId: req.query.playerId,

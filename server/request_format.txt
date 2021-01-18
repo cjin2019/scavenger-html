@@ -1,3 +1,13 @@
+"api/user"
+    query: {
+        userId: id of the user
+    }
+
+    body: {
+        userId: id of the user
+    }
+    send: a user object following the user schema except the googleid!, {msg: "FIRST TIME USER"} if no user has been created
+
 "api/hunt"
     query : {
         (creatorId: creatorId (optional),

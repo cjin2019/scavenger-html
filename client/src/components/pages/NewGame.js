@@ -9,6 +9,8 @@ import "../../utilities.css";
  * This is the NewGame component which gives the player the option to start
  * game or go home
  *
+ * Proptypes
+ * @param {string} userId id of the user
  */
 class NewGame extends Component {
     constructor(props){
@@ -28,23 +30,31 @@ class NewGame extends Component {
         };
     }
 
+    getHunt = (huntId) => {
+        get("api/hunt", {huntId: huntId}).then((hunt) => {
+            this.setState({
+                title: hunt.title,
+                description: hunt.description
+            });
+        });
+    }
+
+    getGame = (creatorId) => {
+        get("api/game", {creatorId: creatorId}).then((game) =>{
+            this.setState({
+                gameId: game._id,
+            });
+
+            this.getHunt(game.huntId);
+        });
+    }
     componentDidMount(){
         const user = {
             _id: "creatorId_1",
             name: "Hardcode name",
         }
 
-        get("api/game", {creatorId: user._id}).then((game) =>{
-            this.setState({
-                gameId: game._id,
-            });
-            get("api/hunt", {huntId: game.huntId}).then((hunt) => {
-                this.setState({
-                    title: hunt.title,
-                    description: hunt.description
-                });
-            });
-        });
+        this.getGame(user._id);
     }
 
     handleGoHome = () => {

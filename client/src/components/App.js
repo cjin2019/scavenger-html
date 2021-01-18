@@ -27,13 +27,23 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+  getCurrentUser = (callbackFunction) => {
     get("/api/whoami").then((user) => {
+      console.log(user);
       if (user._id) {
+        
         // they are registed in the database, and currently logged in.
         this.setState({ userId: user._id });
+        console.log(this.state.userId);
       }
+
+      callbackFunction();
     });
+  };
+
+  componentDidMount() {
+    console.log("App remounted");
+    this.getCurrentUser(() => {console.log("hardcoded call back");});
   }
 
   handleLogin = (res) => {
@@ -74,10 +84,13 @@ class App extends Component {
             path = "/userhome"
             handleLogin={this.handleLogin}
             handleLogout={this.handleLogout}
+            getUser = {this.getCurrentUser}
             userId={this.state.userId}
           />
           <CreateScavenger 
             path = "/create"
+            userId = {this.state.userId}
+            getUser = {this.getCurrentUser}
           />
           <PlayGame 
             path = "/playgame"

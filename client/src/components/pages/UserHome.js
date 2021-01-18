@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ListHunts from "../modules/ListHunts.js";
 import NavBar from "../modules/NavBar.js";
 
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 import "../../utilities.css";
 
 /**
@@ -13,6 +13,8 @@ import "../../utilities.css";
  * @param {string} userId is the id of the user when logged in
  * @param {() => void} handleLogin is a function to execute when log in is clicked
  * @param {() => void} handleLogout is a function to execute when log out is clicked
+ * @param {(callback function) => void} getUser is a function to execute when reloading and making sure
+ * user is not undefined
  */
 class UserHome extends Component {
     constructor(props){
@@ -20,26 +22,45 @@ class UserHome extends Component {
 
         this.state = {
             hunts: [],
+            user: {
+                name: "",
+                _id: "",
+            },
         };
+    }
+
+    getInitialHomeValues = () => {
+        console.log("In user home " + this.props.userId);
+        if(this.props.userId){
+            get("/api/user", {userId: this.props.userId}).then((user) => {
+                this.setState({
+                    user: user
+                });
+                get("/api/hunt", {creatorId: user._id, isFinalized: true}).then((hunts) => {
+                    this.setState({
+                        hunts: hunts, 
+                    });
+                });
+            });
+        }
     }
 
     componentDidMount(){
         // api calls for later
-        get("/api/hunt", {creatorId: "creatorId_1", isFinalized: true}).then((hunts) => {
-
-            this.setState({
-                hunts: hunts,
-            })
+        
+        this.props.getUser(() => {
+            this.getInitialHomeValues();
         });
+
     }
 
     render(){
 
         let display = (<div>
-            <h1>This is the user home page</h1>
+            <h1>You created scavenger hunts</h1>
             <ListHunts 
                 hunts = {this.state.hunts}
-                userId = {"creatorId_1"}
+                userId = {this.state.user._id}
             />
         </div>);
 

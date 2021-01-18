@@ -12,6 +12,9 @@ import "../../utilities.css";
 /**
  * CreateScavenger is a page to create a new scavenger hunt
  * 
+ * Proptypes
+ * @param {string} userId id of the user
+ * @param {() => void} getCurrentUser calls a function in app to get the current user
  */
 class CreateScavenger extends Component {
 
@@ -75,9 +78,17 @@ class CreateScavenger extends Component {
         });
     };
 
+    loadUserCreateTemplate = () => {
+        console.log("Remounted in create-scavenger: " + this.props.userId);
+        if(this.props.userId){
+            get("api/user", {userId: this.props.userId}).then((user) => 
+                {this.loadSavedHunt(user._id);}
+            );
+        }
+    };
+
     componentDidMount(){
-        const  creatorId = "creatorId_1";
-        this.loadSavedHunt(creatorId);
+        this.props.getUser(this.loadUserCreateTemplate);
     }
 
 
@@ -105,7 +116,7 @@ class CreateScavenger extends Component {
      */
     handleSubmit = (event) => {
         const body = {
-                        creatorId: "creatorId_1",
+                        creatorId: this.props.userId,
                         add: "update",
                         title: this.state.title,
                         description: this.state.description,
