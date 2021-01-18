@@ -10,6 +10,7 @@ import "./NavBar.css";
  * CreateNavBar is a component that is added to create page
  * 
  * Proptypes
+ * @param {string} huntId id of the hunt
  * @param {handleSubmit} ((event) => void)
  */
 class CreateNavBar extends Component {
@@ -20,7 +21,7 @@ class CreateNavBar extends Component {
 
     handleGoHome = (event) => {
         if(confirm("Do you want to go home? Changes you made will NOT be saved.")){
-            post("api/createpage", {userId: "creatorId_1", action: "delete"}).then(() => {
+            post("api/hunt", {huntId: this.props.huntId, action: "delete"}).then(() => {
                 navigate("/userhome");
             });
         }

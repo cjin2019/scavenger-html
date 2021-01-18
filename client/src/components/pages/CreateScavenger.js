@@ -131,7 +131,10 @@ class CreateScavenger extends Component {
     render(){
         return (
         <div>
-            <CreateNavBar handleSubmit = {this.handleSubmit}/>
+            <CreateNavBar 
+                handleSubmit = {this.handleSubmit}
+                huntId = {this.state.huntId}
+            />
             <div>
                 <div>
                     <h3>Title</h3>
