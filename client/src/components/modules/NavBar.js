@@ -10,6 +10,7 @@ import "./NavBar.css";
  * and browse page 
  * 
  * Proptypes
+ * @param {string} userId is the id of the user when logged in
  * @param {() => void} handleLogin is a function to execute when log in is clicked
  * @param {() => void} handleLogout is a function to execute when log out is clicked
  * 

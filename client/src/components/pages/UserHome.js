@@ -47,6 +47,7 @@ class UserHome extends Component {
                 <NavBar 
                     handleLogin={this.props.handleLogin}
                     handleLogout={this.props.handleLogout}
+                    userId = {this.props.userId}
                 />
                 <div></div>
                 {this.props.userId ?
