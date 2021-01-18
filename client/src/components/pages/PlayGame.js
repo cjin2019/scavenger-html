@@ -100,7 +100,7 @@ class PlayGame extends Component {
             this.setState({
                 currentSubmission: submissionItem.currentSubmission,
             });
-            console.log(this.state.checkAnswer());
+            console.log(this.checkAnswer());
         });
     }
 
@@ -141,7 +141,7 @@ class PlayGame extends Component {
     // for now in get request return huntitem answer
     // later for security return 
     checkAnswer = () => {
-        const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex];
+        const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex].answer;
         return this.state.currentSubmission === correctAnswer;
     }
 
