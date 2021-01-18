@@ -11,6 +11,7 @@ import "../../utilities.css";
  *
  * Proptypes
  * @param {string} userId id of the user
+ * @param {(callback function) => void} getUser is a function to execute when new game is remounted
  */
 class NewGame extends Component {
     constructor(props){
@@ -20,14 +21,8 @@ class NewGame extends Component {
             title: "",
             description: "",
             gameId: "",
+            user: undefined,
         }
-    }
-
-    hardCodeUser = () => {
-        return {
-            _id: "creatorId_1",
-            name: "Hardcode name",
-        };
     }
 
     getHunt = (huntId) => {
@@ -48,13 +43,20 @@ class NewGame extends Component {
             this.getHunt(game.huntId);
         });
     }
-    componentDidMount(){
-        const user = {
-            _id: "creatorId_1",
-            name: "Hardcode name",
-        }
 
-        this.getGame(user._id);
+    getUserInfo = (userId) => {
+        get("api/user", {userId: userId}).then((user) => {
+            this.setState({
+                user: user,
+            });
+            console.log("Set user info: " + user);
+            this.getGame(userId);
+        });
+    };
+
+    componentDidMount(){
+
+        this.props.getUser(() => {this.getUserInfo(this.props.userId);});
     }
 
     handleGoHome = () => {
@@ -70,9 +72,8 @@ class NewGame extends Component {
 
     handleStart = () => {
         //send a post request to create a player
-        const user = this.hardCodeUser();
         const body = {
-            user: user, 
+            user: this.state.user, 
             gameId: this.state.gameId,
             action: "add",
         }
