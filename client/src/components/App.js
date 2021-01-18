@@ -94,6 +94,8 @@ class App extends Component {
           />
           <PlayGame 
             path = "/playgame"
+            userId = {this.state.userId}
+            getUser = {this.getCurrentUser}
           />
           <NewGame 
             path = "/newgame"

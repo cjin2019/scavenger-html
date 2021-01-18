@@ -8,6 +8,9 @@ import "../../utilities.css";
 /**
  * This is the game page that displays starting the game and
  * playing the game
+ * 
+ * @param {string} userId id of the user
+ * @param {(callback function) => void} getUser is a function to execute when new game is remounted
  */
 class PlayGame extends Component {
     constructor(props){
@@ -85,6 +88,16 @@ class PlayGame extends Component {
         });
     };
 
+    getPlayer = (user) => {
+        get("api/player", user).then((player) => {
+            this.setState({
+                player: player,
+            });
+
+            this.getGame(player.gameId);
+        });
+    }
+
     onChange = (event) => {
         this.setState({
             currentSubmission: event.target.value,
@@ -110,20 +123,18 @@ class PlayGame extends Component {
             });
 
         });
-    }
+    };
+
+    getUserInfo = () => {
+        get("api/user", {userId: this.props.userId}).then((user) => {
+            console.log("Set user info in play game: " + user);
+            this.getPlayer(user);
+        });
+    };
+
 
     componentDidMount(){
-
-        const body = this.hardCodeUser();
-
-        get("api/player", body).then((player) => {
-            this.setState({
-                player: player,
-            });
-
-            this.getGame(player.gameId);
-
-        });
+        this.props.getUser(this.getUserInfo);
     }
 
     // assuming decrementing on all items but first
