@@ -1,10 +1,21 @@
 # Scavenger-html
 
-## What I have done
-- General idea: Users can create, play, and browse for scavenger hunts. The end goal is to have users compete in scavenger hunt games. 
-### Features
+## General Idea
+- Users can create, play, and browse for scavenger hunts. The end goal is to have users compete in scavenger hunt games. 
+
+## My Process
+- I wanted to focus on the general idea of hunt as the main feature. Each hunt is comprised of "hunt items". For my current implementation,
+I decided to keep hunt items as a question (text display), and answer (text input). Later on, I will expand this idea of hunt items as described in some of my description for the hunts I have already created. 
+
+## Current Feature Progress
 - Create: Users can create their own scavenger hunt by hitting the create button. In the create page, users can add the title and description of the hunt. They can add a hunt item into the hunt by inputting a question and answer and hitting the submit button. The hunt items will be saved if the user submitted the items but not the hunt. 
-- - Hello this is a test
+- Play: Users can play a game following this flow: hit play button in userhome/browse -> newgame -> startgame (shows players) => playgame (actually plays the game) -> userhome
+- Browse: If users don't want to create their own scavenger hunt, they can choose a hunt to play and go through the same process outlined in play.
+
+## Next Steps
+- Create:
+  - Hello
+
 
 ## What you need to change
 
