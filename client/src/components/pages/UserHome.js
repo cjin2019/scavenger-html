@@ -57,10 +57,12 @@ class UserHome extends Component {
 
         let display = (<div>
             <h1>Your created scavenger hunts</h1>
-            <ListHunts 
+            {this.state.hunts.length === 0 ? 
+            (<div>You have no created hunts go to browse to play a hunt or to create to create one</div>) : 
+            (<ListHunts 
                 hunts = {this.state.hunts}
                 userId = {this.state.user._id}
-            />
+            />)}
         </div>);
 
         return (<div>
