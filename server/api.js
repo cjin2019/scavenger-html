@@ -108,10 +108,9 @@ router.post("/submission", (req, res) => {
     huntItemId: req.body.huntItemId,
     gameId: req.body.gameId,
   };
-
-  const update = { $set: {"currentSubmission": req.body.currentSubmission,
-                          "isCorrect": req.body.isCorrect === "true"} };
-  SubmissionItem.updateOne(filter, update, {upsert: true}).then((submissionItem) => {
+  const update = { $set: {currentSubmission: req.body.currentSubmission,
+                          isCorrect: req.body.isCorrect} };
+  SubmissionItem.findOneAndUpdate(filter, update, {upsert: true, returnOriginal: false}).then((submissionItem) => {
     res.send(submissionItem);
   });
 });
@@ -167,9 +166,7 @@ router.post("/player", (req, res) => {
                                 {$set: {
                                   currentHuntItemIndex: req.body.itemIndex,
                                 }},
-                                {
-                                  new: true,
-                                }).then((player)=> { res.send(player);});
+                                { new: true,}).then((player)=> { res.send(player);});
     }
   } else {
     const newPlayer = new Player({

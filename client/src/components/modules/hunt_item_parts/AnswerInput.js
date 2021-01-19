@@ -17,6 +17,7 @@ class AnswerInput extends Component {
     }
 
     render(){
+        console.log(this.props.complete);
         let displayCorrect = (this.props.complete) ? (<div>CORRECT!</div>): (<div></div>);
         return (
             <div>
@@ -25,6 +26,7 @@ class AnswerInput extends Component {
                     placeholder = ""
                     value = {this.props.content}
                     onChange = {this.props.onChange}
+                    disabled = {this.props.complete}
                 />
                 <button
                     onClick = {this.props.onSubmit}

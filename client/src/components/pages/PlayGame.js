@@ -33,13 +33,6 @@ class PlayGame extends Component {
         }
     }
 
-    hardCodeUser = () => {
-        return {
-            _id: "creatorId_1",
-            name: "Hardcode name",
-        };
-    }
-
     // helper set up
 
     getPreviousSubmission = () => {
@@ -117,7 +110,7 @@ class PlayGame extends Component {
 
         post("api/submission", body).then((submissionItem) => {
             this.setState({
-                isCorrect: body.isCorrect,
+                isCorrect: submissionItem.isCorrect,
             });
 
         });
