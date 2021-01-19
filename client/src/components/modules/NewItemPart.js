@@ -26,7 +26,6 @@ import PropTypes from "prop-types";
      render() {
          return (
              <>
-                <div>This is an Item Part</div>
                 <input
                     type = "text"
                     placeholder = {this.props.itemType}

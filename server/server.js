@@ -36,7 +36,7 @@ const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const databaseName = "catbook";
+const databaseName = process.env.DATABASE_NAME;
 const mongoConnectionURL = process.env.ATLAS_SRV;
 // TODO change database name to the name you chose
 
