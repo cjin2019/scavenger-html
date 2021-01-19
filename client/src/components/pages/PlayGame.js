@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PlayHuntItem from "../modules/PlayHuntItem.js";
 import PlayNavBar from "../modules/PlayNavBar.js";
 import { get, post } from "../../utilities";
+import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 
@@ -124,7 +125,9 @@ class PlayGame extends Component {
 
 
     componentDidMount(){
-        this.props.getUser(this.getUserInfo);
+        if(this.props.userId){
+            this.props.getUser(this.getUserInfo);
+        }
     }
 
     // assuming decrementing on all items but first
@@ -165,7 +168,7 @@ class PlayGame extends Component {
                                                                     currentSubmission = {this.state.currentSubmission}
                                                                     isCorrect = {this.state.isCorrect}
                                                                  />); 
-        return (
+        let display = (
             <div>
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
                             itemIndex = {playerIndex}
@@ -176,6 +179,13 @@ class PlayGame extends Component {
             </div>
 
         );
+
+        let displayLogin = (<div>
+            <div>Go to login page first</div>
+            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
+        </div>);
+
+        return (<div>{this.props.userId ? display : displayLogin}</div>);
     }
 }
 

@@ -144,7 +144,7 @@ class CreateScavenger extends Component {
     }
 
     render(){
-        return (
+        let display = (
         <div>
             <CreateNavBar 
                 handleSubmit = {this.handleSubmit}
@@ -181,6 +181,13 @@ class CreateScavenger extends Component {
                 onSubmit = {this.addNewHuntItem}
             />
         </div>);
+
+        let displayLogin = (<div>
+            <div>Go to login page first</div>
+            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
+        </div>);
+
+        return (<div> {this.props.userId ? display: displayLogin} </div>);
     }
 }
 

@@ -56,14 +56,16 @@ class StartGame extends Component {
     };
 
     componentDidMount(){
-        this.props.getUser(this.getUserInfo);
+        if(this.props.userId){
+            this.props.getUser(this.getUserInfo);
+        }
         //send a get request to get the player
         
         //later: send a get request to get game then get the other players
     }
 
     render(){
-        return (<div>
+        let display = (<div>
             <StartNavBar onSubmit = {this.start}/>
            {this.state.players.map((player) => (
             <div
@@ -73,6 +75,11 @@ class StartGame extends Component {
                 {player.userInfo.name}
             </div>))}
         </div>);
+        let displayLogin = (<div>
+            <div>Go to login page first</div>
+            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
+        </div>);
+        return (<div>{this.props.userId ? display: displayLogin}</div>);
     }
 }
 

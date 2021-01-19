@@ -55,8 +55,9 @@ class NewGame extends Component {
     };
 
     componentDidMount(){
-
-        this.props.getUser(() => {this.getUserInfo(this.props.userId);});
+        if(this.props.userId){
+            this.props.getUser(() => {this.getUserInfo(this.props.userId);});
+        }
     }
 
     handleGoHome = () => {
@@ -99,7 +100,7 @@ class NewGame extends Component {
 
     render(){
 
-        return (
+        let display = (
             <div className = "NewGame-container">
                 <h2>{this.state.title}</h2>
                 <h4>{this.state.description}</h4>
@@ -117,6 +118,12 @@ class NewGame extends Component {
                 </div>
             </div>
         );
+
+        let displayLogin = (<div>
+            <div>Go to login page first</div>
+            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
+        </div>);
+        return (<div>{this.props.userId ? display: displayLogin}</div>);
     }
 }
 

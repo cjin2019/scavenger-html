@@ -4,6 +4,7 @@ import NavBar from "../modules/NavBar.js";
 
 import { get, post } from "../../utilities";
 import "../../utilities.css";
+import { navigate } from "@reach/router";
 
 /**
  * UserHome is a page that displays (for now all hunts)
@@ -41,12 +42,13 @@ class UserHome extends Component {
                     });
                 });
             });
+        } else {
+            navigate("/");
         }
     }
 
     componentDidMount(){
         // api calls for later
-        
         this.props.getUser(() => {
             this.getInitialHomeValues();
         });
@@ -61,7 +63,7 @@ class UserHome extends Component {
             (<div>You have no created hunts go to browse to play a hunt or to create to create one</div>) : 
             (<ListHunts 
                 hunts = {this.state.hunts}
-                userId = {this.state.user._id}
+                userId = {this.props.userId}
             />)}
         </div>);
 
@@ -70,12 +72,9 @@ class UserHome extends Component {
                     handleLogin={this.props.handleLogin}
                     handleLogout={this.props.handleLogout}
                     userId = {this.props.userId}
+                    getUser = {this.props.getUser}
                 />
-                <div></div>
-                {this.props.userId ?
-                    display :
-                    (<div>Please login to gain access to the userhome</div>)
-                    }
+                {display}
                 </div>);
     }
 }

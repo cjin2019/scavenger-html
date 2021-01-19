@@ -41,6 +41,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    console.log("Mounted app");
     this.getCurrentUser(() => {console.log("hardcoded call back");});
   }
 
@@ -89,6 +90,7 @@ class App extends Component {
             path = "/browse"
             handleLogin = {this.handleLogin}
             handleLogout = {this.handleLogout}
+            getUser = {this.getCurrentUser}
             userId = {this.state.userId}
           />
           <CreateScavenger 
