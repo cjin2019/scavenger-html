@@ -1,12 +1,9 @@
-# Project Skeleton
+# Scavenger-html
 
-## What we provide
-
-- Google Auth (Skeleton.js & auth.js)
-  - Disclaimer: Auth isn't being taught until the second week.
-- Socket Infrastructure (client-socket.js & server-socket.js)
-  - Disclaimer: Socket isn't being taught until the second week.
-- User Model (auth.js & user.js)
+## What I have done
+- General idea: Users can create, play, and browse for scavenger hunts. The end goal is to have users compete in scavenger hunt games. 
+### Features
+- Create: Users can create their own scavenger hunt by hitting the create button. In the create page, users can add the title and description of the hunt. They can add a hunt item into the hunt by inputting a question and answer and hitting the submit button. The hunt items will be saved if the user submitted the items but not the hunt. 
 
 ## What you need to change
 
