@@ -7,6 +7,7 @@ import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
 
 import "../../utilities.css";
+import "./CreateScavenger.css";
 
 
 /**
@@ -149,7 +150,7 @@ class CreateScavenger extends Component {
                 handleSubmit = {this.handleSubmit}
                 huntId = {this.state.huntId}
             />
-            <div>
+            <div className = "CreateScavenger-basicinfocontainer">
                 <div>
                     <h3>Title</h3>
                     <input

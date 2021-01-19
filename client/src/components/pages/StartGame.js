@@ -5,6 +5,7 @@ import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import "../modules/NavBar.css";
+import "./StartGame.css";
 
 /**
  * This is the StartGame component that displays the current players in the game
@@ -67,6 +68,7 @@ class StartGame extends Component {
            {this.state.players.map((player) => (
             <div
                 key = {`playerId_${player._id}`}
+                className = "StartGame-container"
             >
                 {player.userInfo.name}
             </div>))}

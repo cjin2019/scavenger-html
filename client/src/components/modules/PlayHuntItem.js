@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PartDisplay from "./hunt_item_parts/PartDisplay.js";
 import AnswerInput from "./hunt_item_parts/AnswerInput.js";
 import { get, post } from "../../utilities";
+
+import "./PlayHuntItem.css"
 /**
  * PlayHuntItem is a component that is displayed on the play hunt that
  * shows the item question and submission for the user answer
@@ -24,7 +26,7 @@ class PlayHuntItem extends Component {
     render(){
 
         return (<div>
-                    <div>
+                    <div className = "PlayHuntItem-container">
                         <h4>Question</h4>
                         <PartDisplay content = {this.props.huntItem.question}/>
                         <h4>Answer Submission</h4>

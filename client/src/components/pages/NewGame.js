@@ -3,6 +3,7 @@ import { navigate } from "@reach/router";
 import { get, post } from "../../utilities";
 
 import "../../utilities.css";
+import "./NewGame.css"
 
 
 /**
@@ -99,7 +100,7 @@ class NewGame extends Component {
     render(){
 
         return (
-            <div>
+            <div className = "NewGame-container">
                 <h2>{this.state.title}</h2>
                 <h4>{this.state.description}</h4>
                 <div>
