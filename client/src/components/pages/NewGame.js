@@ -69,6 +69,12 @@ class NewGame extends Component {
         });
     }
 
+    postNewPlayer = (body) => {
+        post("api/player", body).then(() => {
+            navigate("/startgame");
+        });
+    };
+
     handleStart = () => {
         //send a post request to create a player
         const body = {
@@ -78,8 +84,14 @@ class NewGame extends Component {
         }
 
         if(confirm("Once you start game, you cannot leave the scavenger html until you complete!")){
-            post("api/player", body).then(() => {
-                navigate("/startgame");
+            get("api/player", {_id: body.user._id}).then((player) => {
+                if(player._id){
+                    post("api/deleteplayer", {playerId: player._id}).then(() => {
+                        this.postNewPlayer(body);
+                    });
+                } else{
+                    this.postNewPlayer(body);
+                }
             });
         }
     }

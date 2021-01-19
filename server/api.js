@@ -45,6 +45,14 @@ function getOrderedHuntItems(ids) {
   return pipeline;
 }
 
+/**
+ * @param {JSON/null} response 
+ * @returns {JSON}
+ */
+function sendValidResponse(response){
+  return response === null ? {} : response;
+}
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -127,20 +135,27 @@ router.post("/game", (req, res) => {
 router.get("/game", (req, res) => {
   if(req.query.creatorId){
     Game.findOne({creatorId: req.query.creatorId}).then((game) => {
-      res.send(game);
+      res.send(sendValidResponse(game));
     });
   } else {
     Game.findById(req.query.gameId).then((game) => {
-      res.send(game);
+      res.send(sendValidResponse(game));
     });
   }
   
 });
 
 router.post("/deleteplayer", (req, res) => {
-  Player.findByIdAndDelete(req.body.playerId).then(() => {
-    res.send({msg: "DELETED PLAYER"});
-  });
+  if(req.body.userId){
+    Player.findOneAndDelete({"userInfo._id": req.body.userId}).then((response) => {
+      console.log(response);
+      res.send({msg: "DELETED PLAYER"});
+    });
+  } else{
+    Player.findByIdAndDelete(req.body.playerId).then(() => {
+      res.send({msg: "DELETED PLAYER"});
+    });
+  }
 });
 
 router.post("/player", (req, res) => {
@@ -170,7 +185,7 @@ router.post("/player", (req, res) => {
 router.get("/player", (req, res) => {
   const query = {"userInfo._id": req.query._id};
   Player.findOne(query).then((player) => {
-    res.send(player);
+    res.send(sendValidResponse(player));
   });
 });
 
