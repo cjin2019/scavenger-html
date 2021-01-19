@@ -1,0 +1,109 @@
+"api/user"
+    query: {
+        userId: id of the user
+    }
+
+    body: {
+        userId: id of the user
+    }
+    send: a user object following the user schema except the googleid!, {msg: "FIRST TIME USER"} if no user has been created
+
+"api/hunt"
+    query : {
+        (creatorId: creatorId  (optional), 
+         isFinalized: true, 
+        )
+        huntId: id of the hunt (optional)
+    }
+
+    body : {
+        huntId: id of the hunt (if action = "delete/update")
+        action: "add", "delete" , "update",
+        creatorId: id of the creator (if action = "add/update")
+        title: (if action = "update")
+        description: (if action = "update")
+        isFinalized: true (if action = "update")
+                    false (if action = "add")
+    }
+
+    send : Hunt (following the Hunt schema)
+
+"api/savedhuntitem"
+    query: {
+        huntId: id of the the hunt
+    }
+
+    body: {
+        huntId: id of the hunt,
+        question: question,
+        answer: answer
+    }
+    body: huntItem 
+
+"api/game"
+
+    body: {
+        huntId: id of the hunt,
+        creatorId: id of the creator of the game,
+        gameId: id of the game (if action === delete)
+        action: (for later) "add/delete"
+    }
+
+    query: {
+        creatorId: id of the user (optional),
+        gameId: id of the game (optional)
+    }
+
+    send: game following game schema
+
+"api/player"
+
+    body: {
+        user: a user object {_id: String, name: String}
+        gameId: id of the game
+    }
+
+    2) for update
+    body: {
+        playerId: id of the player,
+        itemIndex: index of the item the player is on
+    }
+
+    query: {
+        user: a user object {_id: String, name: String}
+    }
+
+    send: player following player schema 
+
+"api/deleteplayer"
+    body : {
+        playerId: id of the player OR
+        userId: id of the user
+    }
+
+    send: {msg: "DELTED PLAYER"}
+"api/playhuntitems"
+
+    query: {
+        huntItemIds: list of ids of the hunt
+    }
+
+    send: a list of huntitem in the order of huntIds with the _id and question (NO ANSWER)
+
+"api/submission"
+
+    query: {
+        playerId: id of the player,
+        huntItemId: id of the hunt,
+        gameId: id of the game,
+    }
+
+    body: {
+        playerId: id of the player,
+        huntItemId: id of the hunt,
+        gameId: id of the game,
+        currentSubmission: player's answer, 
+    }
+
+    send: a submission item following submssion item schema
+

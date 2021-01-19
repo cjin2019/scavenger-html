@@ -15,15 +15,17 @@
 */
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
 
 :root {
-  --primary: #396dff;
+  --primary: #1c3da8;
   --primary--dim: #6987db;
-  --darkgrey: #d4d4d4;
-  --medgrey: #e0e0e0;
+  --darkgrey:#1B1A1A;
+  --medgrey: #373434;
   --grey: #f7f7f7;
   --white: #fff;
+  --black: #000000;
+  --blue--purple: #5162F6;
 
   --xs: 4px;
   --s: 8px;
@@ -34,8 +36,10 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Ubuntu", monospace;
   font-weight: 300;
+  color: var(--blue--purple);
+  background-color: var(--black);
 }
 
 form {
