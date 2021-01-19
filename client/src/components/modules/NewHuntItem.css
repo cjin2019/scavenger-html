@@ -1,4 +1,5 @@
 .NewHuntItem-container {
     background-color: var(--medgrey);
     margin: 5% auto;
+    font-size: var(--l);
 }

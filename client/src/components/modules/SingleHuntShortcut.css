@@ -1,4 +1,5 @@
 .SingleHuntShortcut-container{
     background-color: var(--medgrey);
     border-radius: var(--l);
+    font-size: var(--l);
 }

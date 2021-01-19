@@ -1,6 +1,7 @@
 .NavBar-container {
     background-color: var(--darkgrey);
     border-bottom: 7px solid var(--blue--purple);
+    font-size: var(--l);
 }
 .Navbar-link,
 .Navbar-link:visited {

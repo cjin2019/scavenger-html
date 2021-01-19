@@ -1,5 +1,5 @@
-.SubmittedHuntItem-container {
+.NewGame-container{
     background-color: var(--medgrey);
-    margin: 5% auto;
+    border-radius: var(--l);
     font-size: var(--l);
 }
