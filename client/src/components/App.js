@@ -15,6 +15,7 @@ import NewGame from "./pages/NewGame.js";
 import StartGame from "./pages/StartGame.js";
 import LandingPage from "./pages/LandingPage";
 import Browse from "./pages/Browse.js";
+import Scoreboard from "./pages/Scoreboard.js";
 
 /**
  * Define the "App" component as a class.
@@ -112,6 +113,10 @@ class App extends Component {
             path = "/startgame"
             userId = {this.state.userId}
             getUser = {this.getCurrentUser}
+          />
+          <Scoreboard 
+            path = "/scoreboard"
+            userId = {this.state.userId}
           />
           <NotFound default />
         </Router>

@@ -65,8 +65,8 @@
 
     2) for update
     body: {
-        playerId: id of the player,
-        itemIndex: index of the item the player is on
+        playerId: id of the player (if want to update number of questions correct we just need playerId),
+        itemIndex: index of the item the player is on 
     }
 
     query: {

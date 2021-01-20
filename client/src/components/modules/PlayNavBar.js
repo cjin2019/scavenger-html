@@ -24,11 +24,7 @@ class PlayNavBar extends Component {
 
     //for now delete the game and goes home
     submitGame = () => {
-        post("api/deleteplayer", {playerId: this.props.player._id}).then(() =>{
-            post("api/game", {gameId: this.props.player.gameId, action: "delete"}).then(() => {
-                navigate("/userhome");
-            });
-        });
+        navigate("/scoreboard");
     };
 
     render() {
