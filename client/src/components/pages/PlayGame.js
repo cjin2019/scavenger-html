@@ -29,8 +29,11 @@ class PlayGame extends Component {
                 orderHuntItemIds: [],
             },
             huntItems: [],
-            currentSubmission: "",
-            isCorrect: false,
+            currentSubmissionItem: {
+                currentSubmission: "",
+                isCorrect: false,
+                numSubmissions: 0,
+            },
         }
     }
 
@@ -47,13 +50,15 @@ class PlayGame extends Component {
             //if submission exists
             if(submissionItem.currentSubmission){
                 this.setState({
-                    currentSubmission: submissionItem.currentSubmission,
-                    isCorrect: submissionItem.isCorrect,
+                    currentSubmissionItem: submissionItem,
                 })
             } else {
                 this.setState({
-                    currentSubmission: "",
-                    isCorrect: false,
+                    currentSubmissionItem: {
+                        currentSubmission: "",
+                        isCorrect: false,
+                        numSubmissions: 0,
+                    },
                 })
             }
             
@@ -102,8 +107,10 @@ class PlayGame extends Component {
     }
 
     onChange = (event) => {
+        let currentSubmissionItem = { ...this.state.currentSubmissionItem};
+        currentSubmissionItem.currentSubmission = event.target.value;
         this.setState({
-            currentSubmission: event.target.value,
+            currentSubmissionItem: currentSubmissionItem,
         });
     }
 
@@ -114,13 +121,13 @@ class PlayGame extends Component {
             playerId: this.state.player._id,
             gameId: this.state.game._id,
             huntItemId: this.state.huntItems[index]._id,
-            currentSubmission: this.state.currentSubmission,
+            currentSubmission: this.state.currentSubmissionItem.currentSubmission,
             isCorrect: this.checkAnswer(),
         }
 
         post("api/submission", body).then((submissionItem) => {
             this.setState({
-                isCorrect: submissionItem.isCorrect,
+                currentSubmissionItem: submissionItem,
             });
 
             if(submissionItem.isCorrect){
@@ -165,11 +172,10 @@ class PlayGame extends Component {
     // later for security return 
     checkAnswer = () => {
         const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex].answer;
-        return this.state.currentSubmission === correctAnswer;
+        return this.state.currentSubmissionItem.currentSubmission === correctAnswer;
     }
 
     render(){
-
         const playerIndex = this.state.player.currentHuntItemIndex;
         const numItems = this.state.huntItems.length;
         let displayItem = (this.state.huntItems.length === 0 || 
@@ -178,8 +184,7 @@ class PlayGame extends Component {
                                                                     huntItem = {this.state.huntItems[playerIndex]}
                                                                     onChange = {this.onChange}
                                                                     onSubmit = {this.onSubmit}
-                                                                    currentSubmission = {this.state.currentSubmission}
-                                                                    isCorrect = {this.state.isCorrect}
+                                                                    currentSubmissionItem = {this.state.currentSubmissionItem}
                                                                  />); 
         let display = (
             <div>

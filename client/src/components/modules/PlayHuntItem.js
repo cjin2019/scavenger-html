@@ -9,8 +9,7 @@ import "./PlayHuntItem.css"
  * shows the item question and submission for the user answer
  * 
  * Proptypes
- * @param {string} currentSubmission is the user answer input
- * @param {boolean} isCorrect true if the current submission is correct
+ * @param {submissionitem} currentSubmissionItem is a submission item following the submission item schema
  * @param {({string})=>void} onSubmit is a function to execute when submitting
  * @param {({event}) => void } onChange is a function to execute when input is changing
  * @param {HuntItem} huntItem is a hunt item following the hunt item schema 
@@ -24,7 +23,6 @@ class PlayHuntItem extends Component {
     }
 
     render(){
-
         return (<div>
                     <div className = "PlayHuntItem-container">
                         <h4>Question</h4>
@@ -33,8 +31,7 @@ class PlayHuntItem extends Component {
                         <AnswerInput 
                             onSubmit = {this.props.onSubmit}
                             onChange = {this.props.onChange}
-                            content = {this.props.currentSubmission}
-                            complete = {this.props.isCorrect}
+                            currentSubmissionItem = {this.props.currentSubmissionItem}
                         />
                     </div>
                 </div>);

@@ -6,6 +6,7 @@ import "./HuntItem.css";
  * the text/anything else
  * 
  * Proptype
+ * @param {submissionitem} currentSubmissionItem is a submission item following the submission item schema
  * @param {string} content is the user answer input
  * @param {boolean} complete is true if answer is correct
  * @param {({string})=>void} onSubmit is a function to execute when submitting
@@ -15,18 +16,19 @@ import "./HuntItem.css";
 class AnswerInput extends Component {
     constructor(props){
         super(props);
+        
     }
 
     render(){
-        let displayCorrect = (this.props.complete) ? (<div>CORRECT!</div>): (<div></div>);
+        let displayCorrect = (this.props.currentSubmissionItem.isCorrect) ? (<div>CORRECT!</div>): (<div></div>);
         return (
             <div className = "HuntItem-container">
                 <input
                     type = "text"
                     placeholder = ""
-                    value = {this.props.content}
+                    value = {this.props.currentSubmissionItem.currentSubmission}
                     onChange = {this.props.onChange}
-                    disabled = {this.props.complete}
+                    disabled = {this.props.currentSubmissionItem.isCorrect}
                 />
                 <button
                     onClick = {this.props.onSubmit}
