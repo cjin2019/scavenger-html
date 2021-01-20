@@ -13,6 +13,8 @@
     border: none;
     outline: none;
     color: var(--white);
+
+    font-family: var(--font);
     font-size: var(--l);
     opacity: 1.0;
 }
