@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./HuntItem.css";
 
 /**
  * ItemDisplay is an item part that only displays 
@@ -16,7 +17,7 @@ class PartDisplay extends Component {
 
     render(){
         return (
-            <div>
+            <div className = "HuntItem-container">
                 {this.props.content}
             </div>
         );

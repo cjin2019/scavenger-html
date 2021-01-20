@@ -1,0 +1,18 @@
+.HuntItem-container {
+    margin: 1em;
+}
+
+.HuntItem-button {
+    background-color: var(--darkgrey);
+    padding: 0.5em;
+    border-radius: 0.25em;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: var(--m);
+    opacity: 1.0;
+}
+
+.HuntItem-button:hover{
+    border: 2.5px solid var(--white);
+}

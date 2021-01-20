@@ -28,7 +28,8 @@ class StartNavBar extends Component {
                 <div className = "u-inlineBlock">{this.props.gameId}</div>
                 <div className="u-inlineBlock">
                 <button
-                    onClick = {this.props.onSubmit}    
+                    onClick = {this.props.onSubmit}
+                    className = "Navbar-button"
                 >
                     {"<start/>"}
                 </button>

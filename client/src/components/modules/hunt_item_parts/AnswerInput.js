@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./HuntItem.css";
 
 /**
  * AnswerInput is an item part that allows users to submit
@@ -20,7 +21,7 @@ class AnswerInput extends Component {
         console.log(this.props.complete);
         let displayCorrect = (this.props.complete) ? (<div>CORRECT!</div>): (<div></div>);
         return (
-            <div>
+            <div className = "HuntItem-container">
                 <input
                     type = "text"
                     placeholder = ""
@@ -30,6 +31,7 @@ class AnswerInput extends Component {
                 />
                 <button
                     onClick = {this.props.onSubmit}
+                    className = "HuntItem-button"
                 >
                     {"<submit answer/>"}
                 </button>

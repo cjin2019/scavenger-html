@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import PlayHuntItem from "../modules/PlayHuntItem.js";
-import PlayNavBar from "../modules/PlayNavBar.js";
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
 
 import "../../utilities.css";
-import user from "../../../../server/models/user.js";
+import "./ButtonPage.css";
 
 /**
  * Scoreboard is the page showing the final result of the game
@@ -61,7 +59,12 @@ class Scoreboard extends Component {
         {this.state.players.map((player) => (<div>
             <div>{player.userInfo.name}, {player.numCorrect}</div>
         </div>))}
-        <button onClick = {this.handleSubmit}>{"<go home/>"}</button>
+        <button 
+            onClick = {this.handleSubmit}
+            className = "ButtonPage-button"
+        >
+            {"<go home/>"}
+        </button>
         </div>);
     }
 }

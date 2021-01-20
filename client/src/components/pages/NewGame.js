@@ -4,6 +4,7 @@ import { get, post } from "../../utilities";
 
 import "../../utilities.css";
 import "./NewGame.css"
+import "./ButtonPage.css"
 
 
 /**
@@ -104,16 +105,16 @@ class NewGame extends Component {
             <div className = "NewGame-container">
                 <h2>{this.state.title}</h2>
                 <h4>{this.state.description}</h4>
-                <div className = "NewGame-buttonContainer">
+                <div className = "ButtonPage-buttonContainer">
                     <button
                         onClick = {this.handleGoHome}
-                        className = "NewGame-button"
+                        className = "ButtonPage-button"
                     >
                         {"<go home/>"}
                     </button>
                     <button
                         onClick = {this.handleStart}
-                        className = "NewGame-button"
+                        className = "ButtonPage-button"
                     >
                         {"<start/>"}
                     </button>
