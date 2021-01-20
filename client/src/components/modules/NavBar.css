@@ -1,14 +1,23 @@
 .NavBar-container {
+    padding: 0.5em 1em 0.5em;
     background-color: var(--darkgrey);
     border-bottom: 7px solid var(--blue--purple);
     font-size: var(--l);
+
+    display: flex;
+    justify-content: space-between;
 }
-.Navbar-link,
-.Navbar-link:visited {
+.Navbar-button,
+.Navbar-button:visited{
+    background-color: var(--darkgrey);
+    border: none;
+    outline: none;
     color: var(--white);
-    opacity: 0.6;
+    font-size: var(--l);
+    opacity: 1.0;
 }
 
-.Navbar-link:hover{
-    opacity: 0.8;
+.Navbar-button:hover{
+    opacity: 0.7;
+    border: none;
 }

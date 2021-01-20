@@ -1,6 +1,7 @@
 import { Link } from "@reach/router";
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import "./NavBar.css";
@@ -28,28 +29,25 @@ class NavBar extends Component {
     render() {
         return (
             <nav className = "NavBar-container">
-                <div className = "u-inlineBlock">NavBar!</div>
-                <div className="u-inlineBlock">
-                    <Link to="/userhome" className = "Navbar-link">
-                        {"<home/>"}
-                    </Link>
-                    <Link to = "/create" className = "Navbar-link">
-                        {"<create/>"}
-                    </Link>
-                    <Link to = "/browse" className = "Navbar-link">
-                        {"<browse/>"}
-                    </Link>
+                <div>
+                    <button onClick = {() => {navigate("/userhome")}} className = "Navbar-button">   {"<home/>"}</button>
+                </div>
+                <div>
+                    <button onClick = {() => {navigate("/create")}} className = "Navbar-button">{"<create/>"}</button>
+                    <button onClick = {() => {navigate("/browse")}} className = "Navbar-button">{"</browse>"}</button>
                     {this.props.userId ? (
                     <GoogleLogout
                         clientId={GOOGLE_CLIENT_ID}
-                        buttonText="Logout"
+                        render={renderProps => (
+                            <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "Navbar-button">{"<logout/>"}</button>
+                        )}
                         onLogoutSuccess={this.props.handleLogout}
                         onFailure={(err) => console.log(err)}
                     />
                     ) : (
                     <GoogleLogin
                         clientId={GOOGLE_CLIENT_ID}
-                        buttonText="Login"
+                        buttonText="<login/>"
                         onSuccess={this.props.handleLogin}
                         onFailure={(err) => console.log(err)}
                     />

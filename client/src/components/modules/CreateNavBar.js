@@ -30,22 +30,18 @@ class CreateNavBar extends Component {
     render() {
         return (
             <nav className = "NavBar-container">
-                <div className = "u-inlineBlock">NavBar!</div>
-                <div className="u-inlineBlock">
                 <button
                     onClick = {this.handleGoHome}
+                    className = "Navbar-button"
                 >
                     {"<go home/>"}
                 </button>
                 <button
-                    type = "submit"
-                    value = "Submit"
-                    onClick = {this.props.handleSubmit}    
+                    onClick = {this.props.handleSubmit} 
+                    className = "Navbar-button"   
                 >
                     {"<submit/>"}
                 </button>
-
-                </div>
             </nav>
         );
     }

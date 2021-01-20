@@ -28,21 +28,21 @@ class PlayNavBar extends Component {
     };
 
     render() {
-        let displayBack = (this.props.itemIndex !==0) ? (<button onClick = {() => {this.props.onSubmit(-1);}}>
+        let displayBack = (this.props.itemIndex !==0) ? (<button onClick = {() => {this.props.onSubmit(-1);}} className = "Navbar-button">
                                                             {"<back/>"}
                                                         </button>) :
                                                         (<div></div>);
-        let displayNext = (this.props.itemIndex === this.props.numItems - 1) ?  (<button onClick = {this.submitGame}> 
+        let displayNext = (this.props.itemIndex === this.props.numItems - 1) ?  (<button onClick = {this.submitGame} className = "Navbar-button"> 
                                                                                     {"<submit/>"}
                                                                                 </button>) :
-                                                                                (<button onClick = {() => {this.props.onSubmit(1);}}   >
+                                                                                (<button onClick = {() => {this.props.onSubmit(1);}} className = "Navbar-button">
                                                                                     {"<next/>"}
                                                                                 </button>);
                                                                                 
         return (
             <nav className = "NavBar-container">
-                <div className = "u-inlineBlock">NavBar!</div>
-                <div className="u-inlineBlock">
+                <div></div>
+                <div>
                     {displayBack}
                     {displayNext}
                 </div>
