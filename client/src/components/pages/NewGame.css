@@ -2,4 +2,28 @@
     background-color: var(--medgrey);
     border-radius: var(--l);
     font-size: var(--l);
+    margin: 3em;
+    padding: 1.5em;
+}
+
+.NewGame-buttonContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.NewGame-button,
+.NewGame-button:visited{
+    padding: 1em;
+    border-radius: 0.5em;
+    background-color: var(--darkgrey);
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: var(--l);
+    opacity: 1.0;
+}
+
+.NewGame-button:hover{
+    opacity: 0.7;
+    border: none;
 }

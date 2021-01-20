@@ -104,14 +104,16 @@ class NewGame extends Component {
             <div className = "NewGame-container">
                 <h2>{this.state.title}</h2>
                 <h4>{this.state.description}</h4>
-                <div>
+                <div className = "NewGame-buttonContainer">
                     <button
                         onClick = {this.handleGoHome}
+                        className = "NewGame-button"
                     >
                         {"<go home/>"}
                     </button>
                     <button
                         onClick = {this.handleStart}
+                        className = "NewGame-button"
                     >
                         {"<start/>"}
                     </button>

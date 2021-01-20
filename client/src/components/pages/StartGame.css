@@ -2,4 +2,20 @@
     background-color: var(--medgrey);
     border-radius: var(--l);
     font-size: var(--l);
+    margin: 1.5em;
+}
+
+.StartGame-button,
+.StartGame-button:visited{
+    background-color: var(--darkgrey);
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-size: var(--l);
+    opacity: 1.0;
+}
+
+.StartGame-button:hover{
+    opacity: 0.7;
+    border: none;
 }

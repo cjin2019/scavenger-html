@@ -6,6 +6,8 @@ import { get, post } from "../../utilities";
 import "../../utilities.css";
 import { navigate } from "@reach/router";
 
+import "./FindHunts.css"
+
 /**
  * Browse is the page that shows all hunts
  * 
@@ -41,11 +43,13 @@ class Browse extends Component {
                     handleLogout={this.props.handleLogout}
                     userId = {this.props.userId}
             />
-            <h1>All scavenger hunts</h1>
-            <ListHunts 
-                hunts = {this.state.hunts}
-                userId = {this.props.userId}
-            />
+            <div className = "FindHunts-container">
+                <h1 className = "FindHunts-title">All scavenger hunts</h1>
+                <ListHunts 
+                    hunts = {this.state.hunts}
+                    userId = {this.props.userId}
+                />
+            </div>
         </div>);
 
         let displayLogin = (<div>
