@@ -23,6 +23,7 @@ class PlayHuntItem extends Component {
     }
 
     render(){
+        const submissionLimit = 5;
         return (<div>
                     <div className = "PlayHuntItem-container">
                         <div>
@@ -36,7 +37,7 @@ class PlayHuntItem extends Component {
                                 onChange = {this.props.onChange}
                                 currentSubmissionItem = {this.props.currentSubmissionItem}
                             />
-                            <div>{this.props.currentSubmissionItem.numSubmissions}</div>
+                            <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {submissionLimit}</div>
                         </div>
                     </div>
                 </div>);
