@@ -13,7 +13,6 @@ import "./NavBar.css";
  * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
  * move on to the next question
  * @param {Player} player is a player following the player schema
- * @param {number} itemIndex is the index of the hunt item (0-indexed) in the hunt
  * @param {number} numItems is the number of hunt items in the hunt
  */
 class PlayNavBar extends Component {
@@ -28,11 +27,12 @@ class PlayNavBar extends Component {
     };
 
     render() {
-        let displayBack = (this.props.itemIndex !==0) ? (<button onClick = {() => {this.props.onSubmit(-1);}} className = "Navbar-button">
+        let itemIndex = this.props.player.currentHuntItemIndex;
+        let displayBack = (itemIndex !==0) ? (<button onClick = {() => {this.props.onSubmit(-1);}} className = "Navbar-button">
                                                             {"<back/>"}
                                                         </button>) :
                                                         (<div></div>);
-        let displayNext = (this.props.itemIndex === this.props.numItems - 1) ?  (<button onClick = {this.submitGame} className = "Navbar-button"> 
+        let displayNext = (itemIndex === this.props.numItems - 1) ?  (<button onClick = {this.submitGame} className = "Navbar-button"> 
                                                                                     {"<submit/>"}
                                                                                 </button>) :
                                                                                 (<button onClick = {() => {this.props.onSubmit(1);}} className = "Navbar-button">
@@ -41,7 +41,9 @@ class PlayNavBar extends Component {
                                                                                 
         return (
             <nav className = "NavBar-container">
-                <div></div>
+                <div>
+                    <div>Current Score: {this.props.player.numCorrect}/{this.props.numItems}</div>
+                </div>
                 <div>
                     {displayBack}
                     {displayNext}

@@ -18,7 +18,6 @@ class AnswerInput extends Component {
     }
 
     render(){
-        console.log(this.props.complete);
         let displayCorrect = (this.props.complete) ? (<div>CORRECT!</div>): (<div></div>);
         return (
             <div className = "HuntItem-container">

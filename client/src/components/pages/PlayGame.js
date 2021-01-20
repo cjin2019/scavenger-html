@@ -184,7 +184,6 @@ class PlayGame extends Component {
         let display = (
             <div>
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
-                            itemIndex = {playerIndex}
                             numItems = {numItems}
                             player = {this.state.player}
                 />

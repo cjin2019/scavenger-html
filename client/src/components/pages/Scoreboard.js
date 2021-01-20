@@ -57,7 +57,11 @@ class Scoreboard extends Component {
     render(){
         return (<div><h1>Scoreboard</h1>
         {this.state.players.map((player) => (<div>
-            <div>{player.userInfo.name}, {player.numCorrect}</div>
+            <div
+                key = {`playerId_${player.userInfo._id}`}
+            >
+                {player.userInfo.name}, {player.numCorrect}
+            </div>
         </div>))}
         <button 
             onClick = {this.handleSubmit}
