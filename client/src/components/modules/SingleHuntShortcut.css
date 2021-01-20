@@ -1,13 +1,32 @@
 .SingleHuntShortcut-container{
     background-color: var(--medgrey);
     border-radius: var(--l);
+    /* border: 5px var(--white); */
     font-size: var(--l);
 
-    margin: 1em;
+    margin: 1.5em;
     padding: 0.5em;
 
     display: flex;
+    justify-content: space-between;
 }
+
+.SingleHuntShortcut-info{
+    padding: 0.5em;
+}
+
+.SingleHuntShortcut-description{
+    font-size: var(--m);
+}
+
+.SingleHuntShortcut-outerContainer :hover{
+    transform: scale(1.03);
+}
+
+.SingleHuntShortcut-outerContainer > .SingleHuntShortcut-container :hover{
+    transform: scale(1.0);
+}
+
 .SingleHuntShortcut-playbutton{
     width: 40px;
     height: 40px;

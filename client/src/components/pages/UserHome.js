@@ -3,8 +3,10 @@ import ListHunts from "../modules/ListHunts.js";
 import NavBar from "../modules/NavBar.js";
 
 import { get, post } from "../../utilities";
-import "../../utilities.css";
 import { navigate } from "@reach/router";
+
+import "../../utilities.css";
+import "./UserHome.css"
 
 /**
  * UserHome is a page that displays (for now all hunts)
@@ -57,8 +59,8 @@ class UserHome extends Component {
 
     render(){
 
-        let display = (<div>
-            <h1>Your created scavenger hunts</h1>
+        let display = (<div className = "UserHome-container">
+            <h1 className = "UserHome-title">Your created scavenger hunts</h1>
             {this.state.hunts.length === 0 ? 
             (<div>You have no created hunts go to browse to play a hunt or to create to create one</div>) : 
             (<ListHunts 
