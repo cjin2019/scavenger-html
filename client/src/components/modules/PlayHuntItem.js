@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PartDisplay from "./hunt_item_parts/PartDisplay.js";
 import AnswerInput from "./hunt_item_parts/AnswerInput.js";
-import { get, post } from "../../utilities";
 
 import "./PlayHuntItem.css"
 /**

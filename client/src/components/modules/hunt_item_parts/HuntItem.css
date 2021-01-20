@@ -5,10 +5,13 @@
 .HuntItem-button {
     background-color: var(--darkgrey);
     padding: 0.5em;
+
     border-radius: 0.25em;
     border: none;
     outline: none;
+
     color: var(--white);
+    font-family: var(--font);
     font-size: var(--m);
     opacity: 1.0;
 }

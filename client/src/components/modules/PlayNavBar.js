@@ -19,6 +19,10 @@ class PlayNavBar extends Component {
 
     constructor(props){
         super(props);
+
+        this.state = {
+            currentTime: Date.now(),
+        }
     }
 
     //for now delete the game and goes home
@@ -38,11 +42,14 @@ class PlayNavBar extends Component {
                                                                                 (<button onClick = {() => {this.props.onSubmit(1);}} className = "Navbar-button">
                                                                                     {"<next/>"}
                                                                                 </button>);
-                                                                                
+        let displayTime = Date.now();                                                                     
         return (
             <nav className = "NavBar-container">
                 <div>
                     <div>Current Score: {this.props.player.numCorrect}/{this.props.numItems}</div>
+                </div>
+                <div>
+                    <div>{displayTime}</div>
                 </div>
                 <div>
                     {displayBack}
