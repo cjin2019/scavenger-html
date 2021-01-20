@@ -47,7 +47,9 @@ class NavBar extends Component {
                     ) : (
                     <GoogleLogin
                         clientId={GOOGLE_CLIENT_ID}
-                        buttonText="<login/>"
+                        render={renderProps => (
+                            <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "Navbar-button">{"<login/>"}</button>
+                        )}
                         onSuccess={this.props.handleLogin}
                         onFailure={(err) => console.log(err)}
                     />
