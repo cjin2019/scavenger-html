@@ -25,14 +25,19 @@ class PlayHuntItem extends Component {
     render(){
         return (<div>
                     <div className = "PlayHuntItem-container">
-                        <h4>Question</h4>
-                        <PartDisplay content = {this.props.huntItem.question}/>
-                        <h4>Answer Submission</h4>
-                        <AnswerInput 
-                            onSubmit = {this.props.onSubmit}
-                            onChange = {this.props.onChange}
-                            currentSubmissionItem = {this.props.currentSubmissionItem}
-                        />
+                        <div>
+                            <h4>Question</h4>
+                            <PartDisplay content = {this.props.huntItem.question}/>
+                        </div>
+                        <div>
+                            <h4>Answer Submission</h4>
+                            <AnswerInput 
+                                onSubmit = {this.props.onSubmit}
+                                onChange = {this.props.onChange}
+                                currentSubmissionItem = {this.props.currentSubmissionItem}
+                            />
+                            <div>{this.props.currentSubmissionItem.numSubmissions}</div>
+                        </div>
                     </div>
                 </div>);
     }

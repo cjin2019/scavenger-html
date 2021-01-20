@@ -103,6 +103,7 @@
         huntItemId: id of the hunt,
         gameId: id of the game,
         currentSubmission: player's answer, 
+        isCorrect: whether the player's answer is correct
     }
 
     send: a submission item following submssion item schema

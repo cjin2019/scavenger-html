@@ -120,7 +120,8 @@ router.post("/submission", (req, res) => {
     gameId: req.body.gameId,
   };
   const update = { $set: {currentSubmission: req.body.currentSubmission,
-                          isCorrect: req.body.isCorrect} };
+                          isCorrect: req.body.isCorrect},
+                   $inc:  {numSubmissions: 1}};
   SubmissionItem.findOneAndUpdate(filter, update, {upsert: true, returnOriginal: false}).then((submissionItem) => {
     res.send(submissionItem);
   });

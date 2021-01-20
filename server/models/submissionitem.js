@@ -5,6 +5,7 @@ const SubmissionItemSchema = new mongoose.Schema({
     playerId: String,
     gameId: String,
     currentSubmission: String,
+    numSubmissions: Number,
     isCorrect: Boolean,
 });
 
