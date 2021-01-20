@@ -138,16 +138,16 @@ class PlayGame extends Component {
     };
 
     getUserInfo = () => {
-        get("api/user", {userId: this.props.userId}).then((user) => {
-            this.getPlayer(user);
-        });
+        if(this.props.userId){
+            get("api/user", {userId: this.props.userId}).then((user) => {
+                this.getPlayer(user);
+            });
+        }
     };
 
 
     componentDidMount(){
-        if(this.props.userId){
-            this.props.getUser(this.getUserInfo);
-        }
+        this.props.getUser(this.getUserInfo);
     }
 
     // assuming decrementing on all items but first

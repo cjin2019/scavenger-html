@@ -46,19 +46,19 @@ class NewGame extends Component {
         });
     }
 
-    getUserInfo = (userId) => {
-        get("api/user", {userId: userId}).then((user) => {
-            this.setState({
-                user: user,
+    getUserInfo = () => {
+        if(this.props.userId){
+            get("api/user", {userId: this.props.userId}).then((user) => {
+                this.setState({
+                    user: user,
+                });
+                this.getGame(this.props.userId);
             });
-            this.getGame(userId);
-        });
+        }
     };
 
     componentDidMount(){
-        if(this.props.userId){
-            this.props.getUser(() => {this.getUserInfo(this.props.userId);});
-        }
+        this.props.getUser(() => {this.getUserInfo();});
     }
 
     handleGoHome = () => {
