@@ -47,9 +47,19 @@ class SingleHuntShortcut extends Component {
     render(){
         let page = (
         <div className="SingleHuntShortcut-container">
-            <div className = "u-bold">{this.props.title}</div>
-            <div>{this.props.description}</div>
-            <button onClick = {this.setRedirect}>{"<play/>"}</button>
+            <div>
+                <div className = "u-bold">{this.props.title}</div>
+                <div>{this.props.description}</div>
+            </div>
+            <div>
+
+            </div>
+            <div>
+                <button onClick = {this.setRedirect}
+                    className = "SingleHuntShortcut-playbutton"
+                >
+                </button>
+            </div>
         </div> );
         return page;
     }

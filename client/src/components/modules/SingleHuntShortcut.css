@@ -2,4 +2,35 @@
     background-color: var(--medgrey);
     border-radius: var(--l);
     font-size: var(--l);
+
+    margin: 1em;
+    padding: 0.5em;
+
+    display: flex;
+}
+.SingleHuntShortcut-playbutton{
+    width: 40px;
+    height: 40px;
+    display: block;
+    /* div height to be the same as width*/
+    padding-top: 100%;
+    margin-top: 50%;
+
+    /* make it a circle */
+    border-radius: 50%;
+    border: none;
+    outline: none;
+
+    background-color: var(--darkgrey);
+
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+
+    background-image: url("../../public/play_circle_filled_white_24px.svg");
+}
+
+.SingleHuntShortcut-playbutton:hover {
+    opacity: 0.7;
+    border: none;
 }
