@@ -92,6 +92,15 @@ class PlayGame extends Component {
         });
     }
 
+    incrementNumCorrect = () => {
+        post("api/player", {playerId: this.state.player._id}).then((player) => {
+            console.log(player.numCorrect);
+            this.setState({
+                player: player,
+            });
+        });
+    }
+
     onChange = (event) => {
         this.setState({
             currentSubmission: event.target.value,
@@ -113,6 +122,10 @@ class PlayGame extends Component {
             this.setState({
                 isCorrect: submissionItem.isCorrect,
             });
+
+            if(submissionItem.isCorrect){
+                this.incrementNumCorrect();
+            }
 
         });
     };

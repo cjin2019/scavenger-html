@@ -54,6 +54,17 @@ function sendValidResponse(response){
   return response === null ? {} : response;
 }
 
+/**
+ * 
+ * @param {string} playerId id of the player
+ */
+function incrementNumCorrect(playerId, res){
+  Player.findByIdAndUpdate(playerId, 
+    {$inc: {
+      numCorrect: 1,
+    }},
+    { new: true,}).then((player)=> { res.send(player); console.log(player);});
+}
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -167,6 +178,8 @@ router.post("/player", (req, res) => {
                                   currentHuntItemIndex: req.body.itemIndex,
                                 }},
                                 { new: true,}).then((player)=> { res.send(player);});
+    } else{
+      incrementNumCorrect(req.body.playerId, res);
     }
   } else {
     const newPlayer = new Player({
@@ -177,8 +190,6 @@ router.post("/player", (req, res) => {
     });
     newPlayer.save().then(() => {res.send({});});
   }
-
-
 });
 
 router.get("/player", (req, res) => {
