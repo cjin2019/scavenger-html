@@ -7,7 +7,8 @@ const PlayerSchema = new mongoose.Schema({
         name: String,
     },
     currentHuntItemIndex: Number,
-    numCorrect: Number
+    numCorrect: Number,
+    millisecondsToSubmit: Number, 
 });
 
 // compile model from schema

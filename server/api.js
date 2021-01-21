@@ -194,7 +194,14 @@ router.post("/player", (req, res) => {
                                   currentHuntItemIndex: req.body.itemIndex,
                                 }},
                                 { new: true,}).then((player)=> { res.send(player);});
-    } else{
+    } else if(req.body.millisecondsToSubmit){
+      Player.findByIdAndUpdate(req.body.playerId, 
+                                {$set: {
+                                  millisecondsToSubmit: req.body.millisecondsToSubmit,
+                                }},
+                                { new: true,}).then((player)=> { res.send(player); console.log(player);});
+    } 
+    else{
       incrementNumCorrect(req.body.playerId, res);
     }
   } else {

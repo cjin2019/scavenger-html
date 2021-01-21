@@ -60,7 +60,7 @@ class Scoreboard extends Component {
             <div
                 key = {`playerId_${player.userInfo._id}`}
             >
-                {player.userInfo.name}, {player.numCorrect}
+                {player.userInfo.name}, {player.numCorrect}, {player.millisecondsToSubmit}
             </div>
         </div>))}
         <button 

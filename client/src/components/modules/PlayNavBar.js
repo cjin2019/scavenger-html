@@ -27,18 +27,10 @@ class PlayNavBar extends Component {
         }
     }
 
-    // get the utc of the current time
-    getCurrentUTC = () => {
-        // https://stackoverflow.com/questions/948532/how-do-you-convert-a-javascript-date-to-utc
-        let date = new Date(); 
-        let now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-        return new Date(now_utc);
-    };
-
-    //for now delete the game and goes home
     submitGame = () => {
-        navigate("/scoreboard");
+        post("api/player", {playerId: this.props.player._id, millisecondsToSubmit: Date.now() - this.props.startTime}).then(() => {
+            navigate("/scoreboard");
+        });
     };
 
     countdownRenderer = ({ hours, minutes, seconds, completed }) => {
