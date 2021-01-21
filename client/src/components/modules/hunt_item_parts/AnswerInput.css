@@ -1,0 +1,19 @@
+.AnswerInput-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.AnswerInput-inputContainer {
+    font-family: var(--font);
+    font-size: var(--m);
+
+    color: var(--white);
+    background-color: var(--black);
+    border-radius: 0.25em;
+}
+
+.AnswerInput-inputContainer:disabled{
+    color: var(--green);
+    border: 2.5px solid var(--green);
+}
+

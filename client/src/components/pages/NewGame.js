@@ -58,7 +58,7 @@ class NewGame extends Component {
     };
 
     componentDidMount(){
-        this.props.getUser(() => {this.getUserInfo();});
+        this.props.getUser(this.getUserInfo);
     }
 
     handleGoHome = () => {

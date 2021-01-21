@@ -19,7 +19,7 @@
     font-size: var(--m);
 }
 
-.SingleHuntShortcut-outerContainer :hover{
+.SingleHuntShortcut-outerContainer:hover{
     transform: scale(1.03);
 }
 

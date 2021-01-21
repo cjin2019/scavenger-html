@@ -28,10 +28,14 @@ class PlayNavBar extends Component {
     }
 
     submitGame = () => {
-        post("api/player", {playerId: this.props.player._id, millisecondsToSubmit: Date.now() - this.props.startTime}).then(() => {
+        const hardcodedLimit = 1000*60*1;
+        const currentTimeTaken = Date.now() - this.props.startTime;
+        const finalTime = (currentTimeTaken > hardcodedLimit) ? hardcodedLimit: currentTimeTaken;
+        post("api/player", {playerId: this.props.player._id, millisecondsToSubmit: finalTime}).then(() => {
             navigate("/scoreboard");
         });
     };
+
 
     countdownRenderer = ({ hours, minutes, seconds, completed }) => {
         // console.log(hours+", " + minutes +", " + seconds);
@@ -57,7 +61,7 @@ class PlayNavBar extends Component {
                                                                                     {"<next/>"}
                                                                                 </button>);
         // hardcoded limit of time
-        const displayTime = 1000*60*5 - (Date.now() - this.props.startTime);                                                                 
+        const displayTime = 1000*60*1 - (Date.now() - this.props.startTime);                                                                 
         return (
             <nav className = "NavBar-container">
                 <div>
@@ -68,6 +72,7 @@ class PlayNavBar extends Component {
                         <Countdown 
                             date = {Date.now() + displayTime}
                             renderer = {this.countdownRenderer}
+                            onComplete = {this.submitGame}
                         />
                     </div>
                 </div>
