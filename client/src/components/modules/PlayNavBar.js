@@ -42,7 +42,7 @@ class PlayNavBar extends Component {
     };
 
     countdownRenderer = ({ hours, minutes, seconds, completed }) => {
-        console.log(hours+", " + minutes +", " + seconds);
+        // console.log(hours+", " + minutes +", " + seconds);
         if (completed) {
           // Render a completed state
           return <span>00:00:00</span>;
@@ -72,7 +72,7 @@ class PlayNavBar extends Component {
                     <div>Current Score: {this.props.player.numCorrect}/{this.props.numItems}</div>
                 </div>
                 <div>
-                    <div>
+                    <div className = "Navbar-labelContainer">
                         <Countdown 
                             date = {Date.now() + displayTime}
                             renderer = {this.countdownRenderer}

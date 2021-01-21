@@ -6,6 +6,13 @@
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.Navbar-labelContainer {
+    background-color: var(--medgrey);
+    padding: 0.5em;
+    border-radius: 0.25em;
 }
 .Navbar-button,
 .Navbar-button:visited{
