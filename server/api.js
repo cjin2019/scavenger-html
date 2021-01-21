@@ -151,10 +151,12 @@ router.post("/game", (req, res) => {
   if(req.body.action && req.body.action === "delete"){
     Game.findByIdAndDelete(req.body.gameId).then(() => {res.send({});});
   } else if (req.body.action && req.body.action === "update") {
-    Game.findByIdAndUpdate(req.body.gameId, {$set: {startTime: Date.now()}}, {new: true}).then((game) => {
-      res.send(game);
-      console.log(game);
-    });
+    if (req.body.setting) {
+      Game.findByIdAndUpdate(req.body.gameId, {$set: { setting : req.body.setting }}, {new: true}).then((game) => {res.send(game); console.log(game);});
+    }
+    else {
+      Game.findByIdAndUpdate(req.body.gameId, {$set: { startTime : Date.now() }}, {new: true}).then((game) => {res.send(game); console.log(game);});
+    }
   } else{
     Hunt.findById(req.body.huntId).then((hunt) => {
       HuntItem.find({huntId: hunt._id}).then((huntItems) => {
@@ -168,10 +170,12 @@ router.get("/game", (req, res) => {
   if(req.query.creatorId){
     Game.findOne({creatorId: req.query.creatorId}).then((game) => {
       res.send(sendValidResponse(game));
+      console.log(game);
     });
   } else {
     Game.findById(req.query.gameId).then((game) => {
       res.send(sendValidResponse(game));
+      console.log(game);
     });
   }
   

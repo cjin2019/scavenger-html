@@ -84,7 +84,6 @@ class PlayGame extends Component {
 
     getGame = (gameId) => {
         get("api/game", {gameId: gameId}).then((game) => {
-
             this.setState({
                 game: game,
             });

@@ -43,9 +43,10 @@
 "api/game"
 
     body: {
-        huntId: id of the hunt,
-        creatorId: id of the creator of the game,
+        huntId: id of the hunt (if no action),
+        creatorId: id of the creator of the game (if no action),
         gameId: id of the game (if action === delete/update)
+        setting: setting of the game (check the game schema)
         action: (for later) "add/delete/update",
     }
 
