@@ -78,6 +78,10 @@ function createGame(res, huntId, creatorId, huntItems){
     creatorId: creatorId,
     orderHuntItemIds: ids,
     startTime: null,
+    setting: {
+      timeLimitMilliseconds: 1000*60*1,
+      numSubmissionLimit: 2,
+    },
   });
   newGame.save().then((game) => {res.send({game});});
 }

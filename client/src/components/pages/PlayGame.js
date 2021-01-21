@@ -29,6 +29,10 @@ class PlayGame extends Component {
                 huntId: "",
                 orderHuntItemIds: [],
                 startTime: Date.now(),
+                setting: {
+                    timeLimitMilliseconds: 1000*60*1,
+                    numSubmissionLimit: 2,  
+                }
             },
             huntItems: [],
             currentSubmissionItem: {
@@ -189,13 +193,14 @@ class PlayGame extends Component {
                                                                     onChange = {this.onChange}
                                                                     onSubmit = {this.onSubmit}
                                                                     currentSubmissionItem = {this.state.currentSubmissionItem}
+                                                                    game = {this.state.game}
                                                                  />); 
         let display = (
             <div>
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
                             numItems = {numItems}
                             player = {this.state.player}
-                            startTime = {startTime}
+                            game = {this.state.game}
                 />
                 {displayItem}
             </div>

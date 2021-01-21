@@ -16,6 +16,7 @@ import "./NavBar.css";
  * @param {Player} player is a player following the player schema
  * @param {number} numItems is the number of hunt items in the hunt
  * @param {number} startTime is the current date and time 
+ * @param {Game} game is a game object following the game schema
  */
 class PlayNavBar extends Component {
 
@@ -28,9 +29,9 @@ class PlayNavBar extends Component {
     }
 
     submitGame = () => {
-        const hardcodedLimit = 1000*60*1;
-        const currentTimeTaken = Date.now() - this.props.startTime;
-        const finalTime = (currentTimeTaken > hardcodedLimit) ? hardcodedLimit: currentTimeTaken;
+        const timeLimit = this.props.game.setting.timeLimitMilliseconds;
+        const currentTimeTaken = Date.now() - this.props.game.startTime;
+        const finalTime = (currentTimeTaken > timeLimit) ? timeLimit: currentTimeTaken;
         post("api/player", {playerId: this.props.player._id, millisecondsToSubmit: finalTime}).then(() => {
             navigate("/scoreboard");
         });
@@ -61,7 +62,7 @@ class PlayNavBar extends Component {
                                                                                     {"<next/>"}
                                                                                 </button>);
         // hardcoded limit of time
-        const displayTime = 1000*60*1 - (Date.now() - this.props.startTime);                                                                 
+        const displayTime = this.props.game.setting.timeLimitMilliseconds - (Date.now() - this.props.game.startTime);                                                                 
         return (
             <nav className = "NavBar-container">
                 <div>

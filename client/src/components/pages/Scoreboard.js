@@ -31,7 +31,6 @@ class Scoreboard extends Component {
                 player: player,
                 players:[...this.state.players, player],
             });
-
             // call a get request to get all other players with the same gameId
         });
     }

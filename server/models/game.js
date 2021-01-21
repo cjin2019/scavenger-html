@@ -5,6 +5,10 @@ const GameSchema = new mongoose.Schema({
     creatorId: String,
     orderHuntItemIds: [String],
     startTime: Number,
+    setting: {
+        timeLimitMilliseconds: Number,
+        numSubmissionLimit: Number,
+    },
 });
 
 // compile model from schema
