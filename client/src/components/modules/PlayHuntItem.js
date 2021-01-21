@@ -22,7 +22,7 @@ class PlayHuntItem extends Component {
     }
 
     render(){
-        const submissionLimit = 5;
+        const hardCodedNumSubmissionLimit = 2; 
         return (<div>
                     <div className = "PlayHuntItem-container">
                         <div>
@@ -35,8 +35,9 @@ class PlayHuntItem extends Component {
                                 onSubmit = {this.props.onSubmit}
                                 onChange = {this.props.onChange}
                                 currentSubmissionItem = {this.props.currentSubmissionItem}
+                                numSubmissionLimit = {hardCodedNumSubmissionLimit}
                             />
-                            <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {submissionLimit}</div>
+                            <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {hardCodedNumSubmissionLimit}</div>
                         </div>
                     </div>
                 </div>);

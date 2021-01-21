@@ -12,8 +12,13 @@
     border-radius: 0.25em;
 }
 
-.AnswerInput-inputContainer:disabled{
+.AnswerInput-inputContainerCorrect:disabled{
     color: var(--green);
     border: 2.5px solid var(--green);
+}
+
+.AnswerInput-inputContainerUsedLimit:disabled {
+    color: var(--red);
+    border: 2.5px solid var(--red);
 }
 
