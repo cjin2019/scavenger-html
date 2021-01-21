@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { navigate } from "@reach/router";
 import { get, post } from "../../utilities";
+import { forceUserLogin } from "./PageFunctions.js";
 
 import "../../utilities.css";
 import "./NewGame.css"
 import "./ButtonPage.css"
-
 
 /**
  * This is the NewGame component which gives the player the option to start
@@ -122,11 +122,7 @@ class NewGame extends Component {
             </div>
         );
 
-        let displayLogin = (<div>
-            <div>Go to login page first</div>
-            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
-        </div>);
-        return (<div>{this.props.userId ? display: displayLogin}</div>);
+        return forceUserLogin(this.props.userId, display);
     }
 }
 

@@ -3,6 +3,7 @@ import PlayHuntItem from "../modules/PlayHuntItem.js";
 import PlayNavBar from "../modules/PlayNavBar.js";
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { forceUserLogin } from "./PageFunctions.js";
 
 import "../../utilities.css";
 
@@ -201,12 +202,7 @@ class PlayGame extends Component {
 
         );
 
-        let displayLogin = (<div>
-            <div>Go to login page first</div>
-            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
-        </div>);
-
-        return (<div>{this.props.userId ? display : displayLogin}</div>);
+        return forceUserLogin(this.props.userId, display);
     }
 }
 

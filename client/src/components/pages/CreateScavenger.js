@@ -5,6 +5,7 @@ import CreateNavBar from "../modules/CreateNavBar";
 
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { forceUserLogin } from "./PageFunctions.js";
 
 import "../../utilities.css";
 import "./CreateScavenger.css";
@@ -182,12 +183,7 @@ class CreateScavenger extends Component {
             />
         </div>);
 
-        let displayLogin = (<div>
-            <div>Go to login page first</div>
-            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
-        </div>);
-
-        return (<div> {this.props.userId ? display: displayLogin} </div>);
+        return forceUserLogin(this.props.userId, display);
     }
 }
 

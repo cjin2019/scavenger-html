@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import StartNavBar from "../modules/StartNavBar.js"
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { forceUserLogin } from "./PageFunctions.js";
 
 import "../../utilities.css";
 import "../modules/NavBar.css";
@@ -77,11 +78,8 @@ class StartGame extends Component {
                 </div>
             </div>
         </div>);
-        let displayLogin = (<div>
-            <div>Go to login page first</div>
-            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
-        </div>);
-        return (<div>{this.props.userId ? display: displayLogin}</div>);
+        
+        return forceUserLogin(this.props.userId, display);
     }
 }
 

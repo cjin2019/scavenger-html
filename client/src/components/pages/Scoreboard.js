@@ -4,6 +4,7 @@ import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import "./ButtonPage.css";
+import { forceUserLogin } from "./PageFunctions";
 
 /**
  * Scoreboard is the page showing the final result of the game
@@ -36,12 +37,14 @@ class Scoreboard extends Component {
     }
 
     getUserInfo = () => {
-        get("api/user", {userId: this.props.userId}).then((user) => {
-            this.setState({
-                name: user.name,
+        if(this.props.userId){
+            get("api/user", {userId: this.props.userId}).then((user) => {
+                this.setState({
+                    name: user.name,
+                });
+                this.getPlayer(user);
             });
-            this.getPlayer(user);
-        });
+        }
     };
 
     handleSubmit = () => {
@@ -55,14 +58,14 @@ class Scoreboard extends Component {
     }
 
     render(){
-        return (<div><h1>Scoreboard</h1>
-        {this.state.players.map((player) => (<div>
+        let display = (<div><h1>Scoreboard</h1>
+        {this.state.players.map((player) => (
             <div
                 key = {`playerId_${player.userInfo._id}`}
             >
                 {player.userInfo.name}, {player.numCorrect}, {player.millisecondsToSubmit}
             </div>
-        </div>))}
+        ))}
         <button 
             onClick = {this.handleSubmit}
             className = "ButtonPage-button"
@@ -70,6 +73,8 @@ class Scoreboard extends Component {
             {"<go home/>"}
         </button>
         </div>);
+
+        return forceUserLogin(this.props.userId, display);
     }
 }
 
