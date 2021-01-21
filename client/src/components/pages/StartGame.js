@@ -66,12 +66,15 @@ class StartGame extends Component {
         let display = (<div>
             <StartNavBar onSubmit = {this.start}/>
             <div className = "StartGame-container">
-                {this.state.players.map((player) => (
-                <div
-                    key = {`playerId_${player._id}`}
-                >
-                    {player.userInfo.name}
-                </div>))}
+                <h2>Player</h2>
+                <div className = "StartGame-playerContainer">
+                    {this.state.players.map((player) => (
+                    <div
+                        key = {`playerId_${player._id}`}
+                    >
+                        {player.userInfo.name}
+                    </div>))}
+                </div>
             </div>
         </div>);
         let displayLogin = (<div>

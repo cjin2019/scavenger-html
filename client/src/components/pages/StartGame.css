@@ -1,6 +1,11 @@
-.StartGame-container{
+.StartGame-playerContainer{
+    padding: 1.5em;
+
     background-color: var(--medgrey);
     border-radius: var(--l);
     font-size: var(--l);
+}
+
+.StartGame-container {
     margin: 1.5em;
 }

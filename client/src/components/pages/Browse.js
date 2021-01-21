@@ -3,9 +3,10 @@ import ListHunts from "../modules/ListHunts.js";
 import NavBar from "../modules/NavBar.js";
 
 import { get, post } from "../../utilities";
-import "../../utilities.css";
 import { navigate } from "@reach/router";
+import { forceUserLogin } from "./PageFunctions.js";
 
+import "../../utilities.css";
 import "./FindHunts.css"
 
 /**
@@ -52,13 +53,14 @@ class Browse extends Component {
             </div>
         </div>);
 
-        let displayLogin = (<div>
-            <div>Go to login page first</div>
-            <button onClick = {() => navigate("/")}>{"<home/>"}</button>
-        </div>);
-        return (<div>
-                {this.props.userId ? display : displayLogin}
-                </div>);
+        // let displayLogin = (<div>
+        //     <div>Go to login page first</div>
+        //     <button onClick = {() => navigate("/")}>{"<home/>"}</button>
+        // </div>);
+        // return (<div>
+        //         {this.props.userId ? display : displayLogin}
+        //         </div>);
+        return forceUserLogin(this.props.userId, display);
     }
 }
 
