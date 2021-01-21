@@ -45,8 +45,8 @@
     body: {
         huntId: id of the hunt,
         creatorId: id of the creator of the game,
-        gameId: id of the game (if action === delete)
-        action: (for later) "add/delete"
+        gameId: id of the game (if action === delete/update)
+        action: (for later) "add/delete/update"
     }
 
     query: {

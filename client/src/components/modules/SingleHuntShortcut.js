@@ -21,7 +21,7 @@ class SingleHuntShortcut extends Component {
     }
 
     postNewGame = (body) => {
-        post("api/game", body).then((res) => {
+        post("api/game", body).then(() => {
             navigate("/newgame");
         });
     };

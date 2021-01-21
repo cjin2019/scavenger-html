@@ -55,7 +55,6 @@ function sendValidResponse(response){
 }
 
 /**
- * 
  * @param {string} playerId id of the player
  */
 function incrementNumCorrect(playerId, res){
@@ -64,6 +63,23 @@ function incrementNumCorrect(playerId, res){
       numCorrect: 1,
     }},
     { new: true,}).then((player)=> { res.send(player); console.log(player);});
+}
+
+/**
+ * @param {} res is the response 
+ * @param {string} huntId id of the hunt
+ * @param {string} creatorId id of the creator
+ * @param {huntitem[]} huntItems is a list of hunt items that are in the hunt
+ */
+function createGame(res, huntId, creatorId, huntItems){
+  const ids = huntItems.map((huntItem) => (huntItem._id));
+  const newGame = new Game({
+    huntId: huntId,
+    creatorId: creatorId,
+    orderHuntItemIds: ids,
+    startTime: null,
+  });
+  newGame.save().then((game) => {res.send({game});});
 }
 
 router.post("/login", auth.login);
@@ -130,16 +146,15 @@ router.post("/submission", (req, res) => {
 router.post("/game", (req, res) => {
   if(req.body.action && req.body.action === "delete"){
     Game.findByIdAndDelete(req.body.gameId).then(() => {res.send({});});
+  } else if (req.body.action && req.body.action === "update") {
+    Game.findByIdAndUpdate(req.body.gameId, {$set: {startTime: Date.now()}}, {new: true}).then((game) => {
+      res.send(game);
+      console.log(game);
+    });
   } else{
     Hunt.findById(req.body.huntId).then((hunt) => {
       HuntItem.find({huntId: hunt._id}).then((huntItems) => {
-        const ids = huntItems.map((huntItem) => (huntItem._id));
-        const newGame = new Game({
-          huntId: hunt._id,
-          creatorId: req.body.creatorId,
-          orderHuntItemIds: ids,
-        });
-        newGame.save().then((game) => {res.send({game});})
+        createGame(res, hunt._id, req.body.creatorId, huntItems);
       });
     });
   }
@@ -189,7 +204,7 @@ router.post("/player", (req, res) => {
       currentHuntItemIndex: -1, //hard code to -1 for now
       numCorrect: 0,
     });
-    newPlayer.save().then(() => {res.send({});});
+    newPlayer.save().then((player) => {res.send({player});});
   }
 });
 

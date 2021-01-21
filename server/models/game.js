@@ -4,6 +4,7 @@ const GameSchema = new mongoose.Schema({
     huntId: String,
     creatorId: String,
     orderHuntItemIds: [String],
+    startTime: Number,
 });
 
 // compile model from schema

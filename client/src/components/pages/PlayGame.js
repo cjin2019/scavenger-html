@@ -27,6 +27,7 @@ class PlayGame extends Component {
             game: {
                 huntId: "",
                 orderHuntItemIds: [],
+                startTime: Date.now(),
             },
             huntItems: [],
             currentSubmissionItem: {
@@ -51,7 +52,7 @@ class PlayGame extends Component {
             if(submissionItem.currentSubmission){
                 this.setState({
                     currentSubmissionItem: submissionItem,
-                })
+                });
             } else {
                 this.setState({
                     currentSubmissionItem: {
@@ -59,7 +60,7 @@ class PlayGame extends Component {
                         isCorrect: false,
                         numSubmissions: 0,
                     },
-                })
+                });
             }
             
         });
@@ -178,6 +179,8 @@ class PlayGame extends Component {
     render(){
         const playerIndex = this.state.player.currentHuntItemIndex;
         const numItems = this.state.huntItems.length;
+        const startTime = this.state.game.startTime;
+
         let displayItem = (this.state.huntItems.length === 0 || 
                             this.state.huntItems[playerIndex] === undefined) ? (<div></div>) :
                                                                  (<PlayHuntItem 
@@ -191,6 +194,7 @@ class PlayGame extends Component {
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
                             numItems = {numItems}
                             player = {this.state.player}
+                            startTime = {startTime}
                 />
                 {displayItem}
             </div>

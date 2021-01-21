@@ -25,19 +25,17 @@ class StartGame extends Component {
         }
     }
 
-    hardCodeUser = () => {
-        return {
-            _id: "creatorId_1",
-            name: "Hardcode name",
-        };
-    }
     start = () => {
         const player = this.state.player;
         if(confirm("When you start game, you MUST submit!")){
             post("api/player", {playerId: player._id, itemIndex: 0}).then(() => {
-                navigate("/playgame");
+                this.updateGame(player.gameId);
             });
         }
+    };
+
+    updateGame = (gameId) => {
+        post("api/game", {gameId: gameId, action: "update"}).then(() => {navigate("/playgame");});
     };
 
     getPlayer = (user) => {
