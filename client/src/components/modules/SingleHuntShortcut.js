@@ -20,28 +20,15 @@ class SingleHuntShortcut extends Component {
 
     }
 
-    postNewGame = (body) => {
-        post("api/game", body).then(() => {
-            navigate("/newgame");
-        });
-    };
-
     setRedirect = () => {
         let body = {
             huntId: this.props._id,
             creatorId: this.props.userId
         }
 
-        get("api/game", {creatorId: this.props.userId}).then((game) => { //in case game has not been deleted yet!
-            if(game._id){
-                post("api/game", {gameId: game._id, action: "delete"}).then(() => {
-                    this.postNewGame(body);
-                });
-            } else{
-                this.postNewGame(body);
-            }
+        post("api/createnewgame", body).then(() => {
+            navigate("/newgame");
         });
-        
     }
     
     render(){

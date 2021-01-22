@@ -107,6 +107,18 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+// for creating a new game
+router.post("/createnewgame", async (req, res) => {
+  const game = await Game.findOne({creatorId: req.body.creatorId});
+  if(game !== null){
+    await Game.findByIdAndDelete(game._id);
+  } 
+  const hunt = await Hunt.findById(req.body.huntId);
+  const huntItems = await HuntItem.find({huntId: req.body.huntId});
+  createGame(res, hunt._id, req.body.creatorId, huntItems);
+});
+////////////////////////////////////////
+
 router.get("/checkanswer", (req, res) => {
   console.log(req.query);
   HuntItem.findById(req.query.huntItemId).then((huntitem) => {
