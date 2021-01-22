@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Typist from "react-typist";
+import allTags from "../../constants.js";
 
 import "../../utilities.css";
 import "./CollectTagCanvas.css";
@@ -10,6 +11,7 @@ class CollectTagCanvas extends Component {
     }
 
     render(){
+        const randomTag = allTags[Math.floor(Math.random()*allTags.length)];
         return (
         <div className = "CollectTagCanvas-container">
             <div>
@@ -17,7 +19,7 @@ class CollectTagCanvas extends Component {
                 <Typist
                     avgTypingDelay = {500}
                 >
-                    <span>{"<html/>"}</span>
+                    <span>{randomTag}</span>
                 </Typist>
             </div>
             

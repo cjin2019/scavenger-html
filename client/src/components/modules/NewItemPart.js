@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import "../../utilities.css";
+import "./hunt_item_parts/AnswerInput.css";
+
 
 /**
  * NewItemPart is a component for displaying a part of the scavenger hunt item
@@ -31,6 +34,7 @@ import PropTypes from "prop-types";
                     placeholder = {this.props.itemType}
                     value = {this.props.content}
                     onChange = {this.handleChange}
+                    className = "AnswerInput-inputContainer"
                 />
              </>
              

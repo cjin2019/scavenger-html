@@ -1,5 +1,8 @@
 .NewHuntItem-container {
     background-color: var(--medgrey);
-    margin: 5% auto;
     font-size: var(--l);
+    border-radius: 1em;
+
+    margin: 1.5em 0em 1.5em;
+    padding: 1em;
 }

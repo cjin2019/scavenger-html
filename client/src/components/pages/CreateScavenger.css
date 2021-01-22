@@ -1,3 +1,6 @@
+.CreateScavenger-container{
+    margin: 1.5em;
+}
 .CreateScavenger-basicinfocontainer{
     font-size: var(--l);
 }

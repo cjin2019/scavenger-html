@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import NewItemPart from "./NewItemPart.js";
 
 import "./NewHuntItem.css";
+import "./hunt_item_parts/HuntItem.css";
+import "../../utilities.css";
 /**
  * NewHuntItem is a component that maintains the parts of the hunt item
  * and has NOT been added yet to created hunt yet
@@ -72,8 +74,9 @@ class NewHuntItem extends Component {
                     type = "submit"
                     value = "Submit"
                     onClick = {this.handleSubmit}
+                    className = "HuntItem-button"
                 >
-                    Submit
+                    {"<submit/>"}
                 </button>
                 
             </div>

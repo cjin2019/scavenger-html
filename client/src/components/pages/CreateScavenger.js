@@ -151,36 +151,39 @@ class CreateScavenger extends Component {
                 handleSubmit = {this.handleSubmit}
                 huntId = {this.state.huntId}
             />
-            <div className = "CreateScavenger-basicinfocontainer">
-                <div>
-                    <h3>Title</h3>
-                    <input
-                        type = "text"
-                        placeholder = "title"
-                        value = {this.state.title}
-                        onChange = {this.handleTitleChange}
-                    />
+            <div className = "CreateScavenger-container">
+                <div className = "CreateScavenger-basicinfocontainer">
+                    <div>
+                        <h3>Title</h3>
+                        <input
+                            type = "text"
+                            placeholder = "title"
+                            value = {this.state.title}
+                            onChange = {this.handleTitleChange}
+                        />
+                    </div>
+                    <div>
+                        <h3>Description</h3>
+                        <input
+                            type = "text"
+                            placeholder = "Description"
+                            value = {this.state.description}
+                            onChange = {this.handleDescriptionChange}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <h3>Description</h3>
-                    <input
-                        type = "text"
-                        placeholder = "Description"
-                        value = {this.state.description}
-                        onChange = {this.handleDescriptionChange}
+                { this.state.huntItems.map((huntItemObj) => (
+                    <SubmittedHuntItem 
+                        key = {`HuntItem_${huntItemObj._id}`}
+                        _id = {huntItemObj._id}
+                        content = {huntItemObj}
                     />
-                </div>
-            </div>
-            { this.state.huntItems.map((huntItemObj) => (
-                <SubmittedHuntItem 
-                    key = {`HuntItem_${huntItemObj._id}`}
-                    _id = {huntItemObj._id}
-                    content = {huntItemObj}
-                />
-            ))}
-            <NewHuntItem 
-                onSubmit = {this.addNewHuntItem}
+                ))}
+                <NewHuntItem 
+                    onSubmit = {this.addNewHuntItem}
             />
+            </div>
+            
         </div>);
 
         return forceUserLogin(this.props.userId, display);
