@@ -110,3 +110,11 @@
 
     send: a submission item following submssion item schema
 
+"api/checkanswer"
+
+    query: {
+        huntItemId: id of the the hunt item to check
+        currentSubmission: the user's submission for the item
+    }
+
+    send: {isCorrect: true if correct/ false otherwise}

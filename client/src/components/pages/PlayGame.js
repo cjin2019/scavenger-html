@@ -71,6 +71,7 @@ class PlayGame extends Component {
         });
     };
 
+    // this should return the question NOT the answer!
     getHuntItems = (huntItemIds) => {
         get("api/playhuntitems", {huntItemIds: huntItemIds}).then((huntItems) => {
 
@@ -119,17 +120,8 @@ class PlayGame extends Component {
         });
     }
 
-    //return true if correct
-    onSubmit = () => {
-        const index = this.state.player.currentHuntItemIndex;
-        const body = {
-            playerId: this.state.player._id,
-            gameId: this.state.game._id,
-            huntItemId: this.state.huntItems[index]._id,
-            currentSubmission: this.state.currentSubmissionItem.currentSubmission,
-            isCorrect: this.checkAnswer(),
-        }
-
+    //post the submission
+    postSubmission = (body) => {
         post("api/submission", body).then((submissionItem) => {
             this.setState({
                 currentSubmissionItem: submissionItem,
@@ -140,6 +132,22 @@ class PlayGame extends Component {
             }
 
         });
+    }
+
+    onSubmit = () => {
+        const index = this.state.player.currentHuntItemIndex;
+        this.checkAnswer().then((value) => {
+            const body = {
+                playerId: this.state.player._id,
+                gameId: this.state.game._id,
+                huntItemId: this.state.huntItems[index]._id,
+                currentSubmission: this.state.currentSubmissionItem.currentSubmission,
+                isCorrect: value.isCorrect,
+            }
+            this.postSubmission(body);
+        });
+
+        
     };
 
     getUserInfo = () => {
@@ -172,12 +180,10 @@ class PlayGame extends Component {
         });
     };
 
-    // returns a boolean if answer is correct
-    // for now in get request return huntitem answer
-    // later for security return 
-    checkAnswer = () => {
-        const correctAnswer = this.state.huntItems[this.state.player.currentHuntItemIndex].answer;
-        return this.state.currentSubmissionItem.currentSubmission === correctAnswer;
+    // send a request to server to check the answer
+    checkAnswer = async () => {
+        return get("api/checkanswer", {huntItemId: this.state.huntItems[this.state.player.currentHuntItemIndex]._id, 
+                                currentSubmission: this.state.currentSubmissionItem.currentSubmission});
     }
 
     render(){

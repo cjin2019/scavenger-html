@@ -1,0 +1,39 @@
+.CollectTagCanvas-container {
+    margin: 1em;
+    padding: 2.5em;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    font-size: var(--l);
+    background-color: var(--darkgrey);
+    border-radius: 1em;
+}
+
+.CollectTagCanvas-icon{
+    width: 100px;
+    height: 160px;
+    display: block;
+    /* div height to be the same as width*/
+
+    border: none;
+    outline: none;
+
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+
+    background-image: url("../../public/file_happy_face.svg");
+
+    animation: bounce-2 0.5s infinite;
+}
+
+/* https://css-tricks.com/making-css-animations-feel-natural/ */
+
+@keyframes bounce-2 {
+    0%   { transform: translateY(0); }
+    25%  { transform: translateY(-0.5em);}
+    50%  { transform: translateY(-0.5em); }
+    75%  { transform: translateY(0.5em) scaleY(0.95);}
+    100% { transform: translateY(0.5em) scaleY(0.75); }
+}

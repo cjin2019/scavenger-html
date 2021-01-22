@@ -107,6 +107,18 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.get("/checkanswer", (req, res) => {
+  console.log(req.query);
+  HuntItem.findById(req.query.huntItemId).then((huntitem) => {
+    let isCorrect = false; 
+    if(huntitem.answer === req.query.currentSubmission){
+      isCorrect = true;
+    }
+    console.log(isCorrect);
+    res.send({isCorrect: isCorrect});
+  });
+});
+
 // get user info
 router.get("/user", (req, res) => {
   User.findById(req.query.userId).then((user) => {
@@ -299,7 +311,6 @@ router.get("/playhuntitems", (req, res) => {
     const huntItemsResponse = huntitems.map((huntitem) => ({
       _id: huntitem._id,
       question: huntitem.question,
-      answer: huntitem.answer,
     }));
     res.send(huntItemsResponse);
   });

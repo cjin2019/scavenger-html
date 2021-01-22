@@ -20,7 +20,6 @@ class AnswerInput extends Component {
     }
 
     render(){
-        let displayCorrect = (this.props.currentSubmissionItem.isCorrect) ? (<div>CORRECT!</div>): (<div></div>);
         let inputContainerClassName = (this.props.currentSubmissionItem.isCorrect) ? ("AnswerInput-inputContainerCorrect") : ("AnswerInput-inputContainerUsedLimit");
         return (
             <div className = "HuntItem-container AnswerInput-container">
@@ -38,9 +37,6 @@ class AnswerInput extends Component {
                 >
                     {"<submit answer/>"}
                 </button>
-                <div>
-                    {displayCorrect}
-                </div>
             </div>
         );
     }

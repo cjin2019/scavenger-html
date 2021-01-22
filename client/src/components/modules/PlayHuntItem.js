@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PartDisplay from "./hunt_item_parts/PartDisplay.js";
 import AnswerInput from "./hunt_item_parts/AnswerInput.js";
+import CollectTagCanvas from "./CollectTagCanvas";
 
 import "./PlayHuntItem.css"
 /**
@@ -23,7 +24,6 @@ class PlayHuntItem extends Component {
     }
 
     render(){
-        const hardCodedNumSubmissionLimit = 2; 
         return (<div>
                     <div className = "PlayHuntItem-container">
                         <div>
@@ -39,6 +39,9 @@ class PlayHuntItem extends Component {
                                 numSubmissionLimit = {this.props.game.setting.numSubmissionLimit}
                             />
                             <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {this.props.game.setting.numSubmissionLimit}</div>
+                        </div>
+                        <div>
+                            {this.props.currentSubmissionItem.isCorrect ? (<CollectTagCanvas />) : (<div></div>)}
                         </div>
                     </div>
                 </div>);
