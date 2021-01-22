@@ -22,44 +22,30 @@ class StartGame extends Component {
 
         this.state = {
             players: [],
-            player: null,
+            player: "",
         }
     }
 
     start = () => {
-        const player = this.state.player;
         if(confirm("When you start game, you MUST submit!")){
-            post("api/player", {playerId: player._id, itemIndex: 0}).then(() => {
-                this.updateGame(player.gameId);
-            });
+            post("api/startgame", {userId: this.props.userId}).then(() => navigate("/playgame"));
         }
     };
 
-    updateGame = (gameId) => {
-        post("api/game", {gameId: gameId, action: "update"}).then(() => {navigate("/playgame");});
-    };
-
-    getPlayer = (user) => {
-        get("api/player", user).then((player) => {
-            this.setState({
-                player: player,
-                players: [...this.state.players, player],
-            });
-        });
-    };
-
-    getUserInfo = () => {
+    getPlayersInfo = () => {
         if(this.props.userId){
-            get("api/user", {userId: this.props.userId}).then((user) => {
-                this.getPlayer(user);
-            });
+            get("api/playerinfo", {userId: this.props.userId}).then((player) => {
+                console.log(player);
+                this.setState({
+                    player: player.name,
+                    players: [...this.state.players, player.name]
+                })
+            })
         }
-    };
-
+    }
     componentDidMount(){
-        this.props.getUser(this.getUserInfo);
+        this.props.getUser(this.getPlayersInfo);
         //send a get request to get the player
-        
         //later: send a get request to get game then get the other players
     }
 
@@ -69,11 +55,9 @@ class StartGame extends Component {
             <div className = "StartGame-container">
                 <h2>Player</h2>
                 <div className = "StartGame-playerContainer">
-                    {this.state.players.map((player) => (
-                    <div
-                        key = {`playerId_${player._id}`}
-                    >
-                        {player.userInfo.name}
+                    {this.state.players.map((playerName) => (
+                    <div>
+                        {playerName}
                     </div>))}
                 </div>
             </div>

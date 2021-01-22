@@ -126,7 +126,7 @@ router.post("/updatenewgame", async (req, res) => {
                           {$set: { setting : req.body.setting }}, {new: true});
     if(newGame !== null) {setting = newGame.setting;}
   }
-  res.send({setting: setting})
+  res.send({setting: setting});
 });
 
 // getting the new created game
@@ -150,7 +150,29 @@ router.post("/createnewplayer", async (req, res) => {
     currentHuntItemIndex: -1, //hard code to -1 for now
     numCorrect: 0,
   });
-  newPlayer.save().then((player) => {res.send({});});
+  const newPlayerObject = await newPlayer.save();
+  console.log("player:");
+  console.log(player);
+  console.log("new player:");
+  console.log(newPlayerObject);
+  res.send({player: newPlayerObject});
+});
+
+router.get("/playerinfo", async (req, res) => {
+  const player = await Player.findOne({"userInfo._id": req.query.userId});
+  // later get all the names of the players using sockets!
+  console.log(player);
+  res.send({name: player.userInfo.name});
+});
+
+router.post("/startgame", async (req, res) => {
+  const player = await Player.findOneAndUpdate({"userInfo._id": req.body.userId}, {$set: { currentHuntItemIndex : 0}});
+  const game = await Game.findById(player.gameId);
+  if(game.startTime === null){
+    await Game.findByIdAndUpdate(game._id, {$set: { startTime : Date.now() }}, {new: true});
+  }
+  res.send({});
+  // emit a message to all players playing the game that the game started!
 });
 
 ////////////////////////////////////////
