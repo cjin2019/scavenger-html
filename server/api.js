@@ -117,6 +117,42 @@ router.post("/createnewgame", async (req, res) => {
   const huntItems = await HuntItem.find({huntId: req.body.huntId});
   createGame(res, hunt._id, req.body.creatorId, huntItems);
 });
+
+router.post("/updatenewgame", async (req, res) => {
+  const game = await Game.findOne({creatorId: req.body.creatorId});
+  let setting = null;
+  if(game !== null){
+    const newGame = await Game.findByIdAndUpdate(game._id, 
+                          {$set: { setting : req.body.setting }}, {new: true});
+    if(newGame !== null) {setting = newGame.setting;}
+  }
+  res.send({setting: setting})
+});
+
+// getting the new created game
+router.get("/newgame", async (req, res) => {
+  const game = await Game.findOne({creatorId: req.query.creatorId});
+  const hunt = await Hunt.findById(game.huntId);
+  res.send({title: hunt.title, description: hunt.description, setting: game.setting});
+});
+
+// creating a new player
+router.post("/createnewplayer", async (req, res) => {
+  const user = await User.findById(req.body.userId);
+  const game = await Game.findOne({creatorId: req.body.userId});
+  const player = await Player.findOne({"userInfo._id": req.body.userId});
+  if(player !== null) {
+    await Player.findByIdAndDelete(player._id);
+  }
+  const newPlayer = new Player({
+    gameId: game._id,
+    userInfo: {_id: user._id, name: user.name},
+    currentHuntItemIndex: -1, //hard code to -1 for now
+    numCorrect: 0,
+  });
+  newPlayer.save().then((player) => {res.send({});});
+});
+
 ////////////////////////////////////////
 
 router.get("/checkanswer", (req, res) => {

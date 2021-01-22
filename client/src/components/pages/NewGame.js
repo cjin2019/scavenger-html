@@ -25,60 +25,34 @@ class NewGame extends Component {
         this.state = {
             title: "",
             description: "",
-            gameId: "",
-            game: {
-                setting: { timeLimitMilliseconds: 0,
-                    numSubmissionLimit: 0}
+            setting: {
+                timeLimitMilliseconds: 0,
+                numSubmissionLimit: 0
             },
-            user: undefined,
         }
     }
 
-    getHunt = (huntId) => {
-        get("api/hunt", {huntId: huntId}).then((hunt) => {
-            this.setState({
-                title: hunt.title,
-                description: hunt.description
-            });
-        });
-    }
-
-    getGame = (creatorId) => {
-        get("api/game", {creatorId: creatorId}).then((game) =>{
-            game.setting.timeLimitMilliseconds /= MINUTE_TO_MILLISECONDS;
-            this.setState({
-                gameId: game._id,
-                game: game,
-            });
-
-            this.getHunt(game.huntId);
-        });
-    }
-
-    getUserInfo = () => {
+    getGameInfo = () => {
         if(this.props.userId){
-            get("api/user", {userId: this.props.userId}).then((user) => {
+            get("api/newgame", {creatorId: this.props.userId}).then((res) => {
                 this.setState({
-                    user: user,
+                    title: res.title,
+                    description: res.description,
+                    setting: {
+                        timeLimitMilliseconds: res.setting.timeLimitMilliseconds / MINUTE_TO_MILLISECONDS,
+                        numSubmissionLimit: res.setting.numSubmissionLimit,
+                    },
                 });
-                this.getGame(this.props.userId);
             });
         }
-    };
+    }
 
     componentDidMount(){
-        this.props.getUser(this.getUserInfo);
+        this.props.getUser(this.getGameInfo);
     }
 
     handleGoHome = () => {
-        //send a post request to delete a game
-        const body = {
-            gameId: this.state.game._id,
-            action: "delete",
-        }
-        post("api/game", body).then(() => {
-            navigate("/userhome");
-        });
+        navigate("/userhome");
     }
 
     postNewPlayer = (body) => {
@@ -89,22 +63,8 @@ class NewGame extends Component {
 
     handleStart = () => {
         //send a post request to create a player
-        const body = {
-            user: this.state.user, 
-            gameId: this.state.game._id,
-            action: "add",
-        }
-
         if(confirm("Once you start game, you cannot leave the scavenger html until you complete!")){
-            get("api/player", {_id: body.user._id}).then((player) => {
-                if(player._id){
-                    post("api/deleteplayer", {playerId: player._id}).then(() => {
-                        this.postNewPlayer(body);
-                    });
-                } else{
-                    this.postNewPlayer(body);
-                }
-            });
+            post("api/createnewplayer", {userId: this.props.userId}).then(() => {navigate("/startgame")});
         }
     }
 
@@ -113,10 +73,10 @@ class NewGame extends Component {
      * @param {string} value to update with
      */
     updateSettingState = (key, value) => {
-        let currentGame = {...this.state.game}
-        currentGame.setting[key] = value;
+        let currentSetting = {...this.state.setting}
+        currentSetting[key] = value;
         this.setState({
-            game: currentGame
+            setting: currentSetting
         });
     }
     /**
@@ -133,17 +93,16 @@ class NewGame extends Component {
      * @returns true if saved and false otherwise
      */
     settingUpdate = (key) => {
-        const numberValue = this.filterInt(this.state.game.setting[key]);
+        const numberValue = this.filterInt(this.state.setting[key]);
         if(numberValue !== null){
             const body = {
-                gameId: this.state.game._id,
-                action: "update",
+                creatorId: this.props.userId,
                 setting: {
-                    timeLimitMilliseconds: this.state.game.setting.timeLimitMilliseconds * MINUTE_TO_MILLISECONDS,
-                    numSubmissionLimit: this.state.game.setting.numSubmissionLimit
+                    timeLimitMilliseconds: this.state.setting.timeLimitMilliseconds * MINUTE_TO_MILLISECONDS,
+                    numSubmissionLimit: this.state.setting.numSubmissionLimit
                 },
             }
-            post("api/game", body);
+            post("api/updatenewgame", body);
         } else{
             alert("Not a valid setting input!");
         }
@@ -167,7 +126,7 @@ class NewGame extends Component {
             numSubmissionLimit: "Max number of submissions per hunt item"
         }
 
-        return Object.entries(this.state.game.setting).map(([key, value]) => (
+        return Object.entries(this.state.setting).map(([key, value]) => (
             <div
                 key = {key}
             >
