@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import StartNavBar from "../modules/StartNavBar.js"
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { socket } from "../../client-socket.js";
 import { forceUserLogin } from "./PageFunctions.js";
 
 import "../../utilities.css";
@@ -35,18 +36,15 @@ class StartGame extends Component {
 
     getPlayersInfo = () => {
         if(this.props.userId){
-            // get("api/playerinfo", {userId: this.props.userId}).then((player) => {
-            //     console.log(player);
-            //     this.setState({
-            //         player: player.name,
-            //         players: [...this.state.players, player.name]
-            //     })
-            // })
             get("api/gameinfo", {userId: this.props.userId}).then((game) => {
                 this.setState({
-                    player: game.name,
-                    players: [...this.state.players, game.name],
+                    players: [...this.state.players,...game.names],
                     gameId: game.gameId,
+                });
+            });
+            socket.on("joinplayers", (players) => {
+                this.setState({
+                    players: players,
                 });
             });
         }
@@ -64,11 +62,11 @@ class StartGame extends Component {
                 gameId = {this.state.gameId}
             />
             <div className = "StartGame-container">
-                <h2>Player</h2>
+                <h2>Players</h2>
                 <div className = "StartGame-playerContainer">
                     {this.state.players.map((playerName) => (
                     <div
-                        key = {Math.random()*10000}
+                        key = {playerName}
                     >
                         {playerName}
                     </div>))}

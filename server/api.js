@@ -220,12 +220,11 @@ async function createNewCollectedTag(userId, huntItemId, res){
 
 /**
  * @param {string} userId the id of the user
- * @param {Object} gameQuery a valid filter object to query the game collection
+ * @param {Game} game a game object following the game schema
  * @param {*} res the object that allows server to send response back to the client
  */
-async function createNewPlayer(userId, gameQuery, res){
+async function createNewPlayer(userId, game, res){
   const user = await User.findById(userId);
-  const game = await Game.findOne(gameQuery);
   if(game === null){
     res.send({msg: "NO GAME"});
   } else {
@@ -299,18 +298,34 @@ router.get("/newgame", async (req, res) => {
 
 // creating a new player
 router.post("/createnewplayer", async (req, res) => {
-  await createNewPlayer(req.body.userId, {creatorId: req.body.userId}, res);
+  const game = await Game.findOne({creatorId: req.body.userId});
+  await createNewPlayer(req.body.userId, game, res);
 });
 
 // join game page
 router.post("/joinnewplayer", async (req, res) => {
-  await createNewPlayer(req.body.userId, {_id: req.body.gameId}, res);
+  const game = await Game.findById(req.body.gameId);
+  await createNewPlayer(req.body.userId, game, res);
+  const players = await Player.find({gameId: game._id});
+
+  const playerNames = players.map(player => player.userInfo.name);
+  const userIds = players.map(player => player.userInfo._id);
+
+  console.log(playerNames);
+  console.log(userIds);
+
+  userIds.forEach((userId) => {
+    console.log(userId);
+    socketManager.getSocketFromUserID(userId).emit("joinplayers", playerNames);
+  });
 });
 
 // start game page
 router.get("/gameinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
-  res.send({gameId: player.gameId, name: player.userInfo.name});
+  const allPlayers = await Player.find({gameId: player.gameId});
+  const playerNames = allPlayers.map(player => player.userInfo.name);
+  res.send({gameId: player.gameId, names: playerNames});
 });
 
 // should have stored player and game in the server?

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { socket } from "../../client-socket.js";
 import { forceUserLogin } from "./PageFunctions.js";
 import NavBar from "../modules/NavBar.js";
 
@@ -34,7 +35,7 @@ class JoinGame extends Component {
 
     onSubmit = () => {
         post("api/joinnewplayer", {userId: this.props.userId, gameId: this.state.gameCode}).then(() => {
-            console.log("worked!");
+            navigate("/startgame");
         });
     };
 
