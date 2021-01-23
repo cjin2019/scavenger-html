@@ -55,12 +55,6 @@ class NewGame extends Component {
         navigate("/userhome");
     }
 
-    postNewPlayer = (body) => {
-        post("api/player", body).then(() => {
-            navigate("/startgame");
-        });
-    };
-
     handleStart = () => {
         //send a post request to create a player
         if(confirm("Once you start game, you cannot leave the scavenger html until you complete!")){

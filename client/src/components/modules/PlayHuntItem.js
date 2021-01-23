@@ -3,18 +3,19 @@ import PartDisplay from "./hunt_item_parts/PartDisplay.js";
 import AnswerInput from "./hunt_item_parts/AnswerInput.js";
 import CollectTagCanvas from "./CollectTagCanvas";
 
+
 import "./PlayHuntItem.css"
 /**
  * PlayHuntItem is a component that is displayed on the play hunt that
  * shows the item question and submission for the user answer
  * 
  * Proptypes
- * @param {submissionitem} currentSubmissionItem is a submission item following the submission item schema
+ * @param {Object} currentSubmissionItem is a submission item with current submission, whether
+ *                         whether it's correct, and number of submssions
  * @param {({string})=>void} onSubmit is a function to execute when submitting
  * @param {({event}) => void } onChange is a function to execute when input is changing
- * @param {HuntItem} huntItem is a hunt item following the hunt item schema 
- * is correct
- * @param {game} game is a game following the game schema
+ * @param {Object} huntItem is a hunt item with the question
+ * @param {Object} game is a game with setting as defined in the game schema
  */
 class PlayHuntItem extends Component {
     constructor(props){

@@ -19,22 +19,20 @@ class PlayGame extends Component {
         super(props);
 
         this.state = {
-            player: {
-                gameId: "",
-                userInfo: null,
-                currentHuntItemIndex: 0,
-                numCorrect: 0,
-            },
             game: {
-                huntId: "",
-                orderHuntItemIds: [],
                 startTime: Date.now(),
                 setting: {
                     timeLimitMilliseconds: 1000*60*1,
                     numSubmissionLimit: 2,  
                 }
             },
-            huntItems: [],
+            player: {
+                numCorrect: 0,
+            },
+            huntItem: {
+                question: "",
+                index: 0,
+            },
             currentSubmissionItem: {
                 currentSubmission: "",
                 isCorrect: false,
@@ -44,74 +42,6 @@ class PlayGame extends Component {
     }
 
     // helper set up
-
-    getPreviousSubmission = () => {
-        const index = this.state.player.currentHuntItemIndex;
-        const query = {
-            playerId: this.state.player._id,
-            gameId: this.state.game._id,
-            huntItemId: this.state.huntItems[index]._id,
-        }
-        get("api/submission", query).then((submissionItem) =>{
-            //if submission exists
-            if(submissionItem.currentSubmission){
-                this.setState({
-                    currentSubmissionItem: submissionItem,
-                });
-            } else {
-                this.setState({
-                    currentSubmissionItem: {
-                        currentSubmission: "",
-                        isCorrect: false,
-                        numSubmissions: 0,
-                    },
-                });
-            }
-            
-        });
-    };
-
-    // this should return the question NOT the answer!
-    getHuntItems = (huntItemIds) => {
-        get("api/playhuntitems", {huntItemIds: huntItemIds}).then((huntItems) => {
-
-            this.setState({
-                huntItems: huntItems,
-            });
-
-            this.getPreviousSubmission();
-        });
-    };
-
-    getGame = (gameId) => {
-        get("api/game", {gameId: gameId}).then((game) => {
-            this.setState({
-                game: game,
-            });
-
-            this.getHuntItems(game.orderHuntItemIds);
-        });
-    };
-
-    getPlayer = (user) => {
-        get("api/player", user).then((player) => {
-            this.setState({
-                player: player,
-            });
-
-            this.getGame(player.gameId);
-        });
-    }
-
-    incrementNumCorrect = () => {
-        post("api/player", {playerId: this.state.player._id}).then((player) => {
-            console.log(player.numCorrect);
-            this.setState({
-                player: player,
-            });
-        });
-    }
-
     onChange = (event) => {
         let currentSubmissionItem = { ...this.state.currentSubmissionItem};
         currentSubmissionItem.currentSubmission = event.target.value;
@@ -120,92 +50,61 @@ class PlayGame extends Component {
         });
     }
 
-    //post the submission
-    postSubmission = (body) => {
-        post("api/submission", body).then((submissionItem) => {
-            this.setState({
-                currentSubmissionItem: submissionItem,
-            });
-
-            if(submissionItem.isCorrect){
-                this.incrementNumCorrect();
-            }
-
-        });
-    }
-
     onSubmit = () => {
-        const index = this.state.player.currentHuntItemIndex;
-        this.checkAnswer().then((value) => {
-            const body = {
-                playerId: this.state.player._id,
-                gameId: this.state.game._id,
-                huntItemId: this.state.huntItems[index]._id,
-                currentSubmission: this.state.currentSubmissionItem.currentSubmission,
-                isCorrect: value.isCorrect,
-            }
-            this.postSubmission(body);
+        post("api/updatesubmission", {userId: this.props.userId, currentSubmission: this.state.currentSubmissionItem.currentSubmission}).then((playitems) => {
+            this.setState({
+                currentSubmissionItem: playitems.submissionItem
+            })
         });
-
         
     };
 
-    getUserInfo = () => {
+    getInitialGameState = () => {
         if(this.props.userId){
-            get("api/user", {userId: this.props.userId}).then((user) => {
-                this.getPlayer(user);
+            get("api/initplaygame", {userId: this.props.userId}).then((playitems) => {
+                this.setState({
+                    game: playitems.game,
+                    huntItem: playitems.huntItem,
+                    currentSubmissionItem: playitems.currentSubmissionItem,
+                });
             });
         }
-    };
-
+    }
 
     componentDidMount(){
-        this.props.getUser(this.getUserInfo);
+        // this.props.getUser(this.getUserInfo);
+        this.props.getUser(this.getInitialGameState);
     }
 
     // assuming decrementing on all items but first
     // and incrementing on all items but last
     // inc is {+1, -1}
     moveToDifferentQuestion = (inc) => {
-
-        const body = {
-            playerId: this.state.player._id,
-            itemIndex: this.state.player.currentHuntItemIndex + inc,
-        }
-        post("api/player", body).then((player) => {
+        post("api/nextquestion", {userId: this.props.userId, inc: inc}).then((playitems) => {
             this.setState({
-                player: player,
+                huntItem: playitems.huntItem,
+                currentSubmissionItem: playitems.currentSubmissionItem,
             });
-            this.getPreviousSubmission();
         });
     };
 
-    // send a request to server to check the answer
-    checkAnswer = async () => {
-        return get("api/checkanswer", {huntItemId: this.state.huntItems[this.state.player.currentHuntItemIndex]._id, 
-                                currentSubmission: this.state.currentSubmissionItem.currentSubmission});
-    }
-
     render(){
-        const playerIndex = this.state.player.currentHuntItemIndex;
-        const numItems = this.state.huntItems.length;
-        const startTime = this.state.game.startTime;
-
-        let displayItem = (this.state.huntItems.length === 0 || 
-                            this.state.huntItems[playerIndex] === undefined) ? (<div></div>) :
-                                                                 (<PlayHuntItem 
-                                                                    huntItem = {this.state.huntItems[playerIndex]}
-                                                                    onChange = {this.onChange}
-                                                                    onSubmit = {this.onSubmit}
-                                                                    currentSubmissionItem = {this.state.currentSubmissionItem}
-                                                                    game = {this.state.game}
-                                                                 />); 
+        let displayItem = (<PlayHuntItem 
+                            huntItem = {this.state.huntItem}
+                            onChange = {this.onChange}
+                            onSubmit = {this.onSubmit}
+                            currentSubmissionItem = {this.state.currentSubmissionItem}
+                            game = {this.state.game}
+                            />); 
         let display = (
             <div>
                 <PlayNavBar onSubmit = {this.moveToDifferentQuestion}
-                            numItems = {numItems}
+                            numItems = {this.state.game.numItems}
+                            userId = {this.props.userId}
+                            index = {this.state.huntItem.index}
                             player = {this.state.player}
                             game = {this.state.game}
+
                 />
                 {displayItem}
             </div>

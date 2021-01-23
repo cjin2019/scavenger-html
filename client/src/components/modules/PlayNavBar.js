@@ -11,12 +11,14 @@ import "./NavBar.css";
  * allows the user to go back and forth between hunt items
  * 
  * Proptypes
+ * @param {Object} player is a player object containing only the numCorrect field
  * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
  * move on to the next question
- * @param {Player} player is a player following the player schema
+ * @param {string} userId is the id of the user
  * @param {number} numItems is the number of hunt items in the hunt
+ * @param {number} index is the index of the hunt item
  * @param {number} startTime is the current date and time 
- * @param {Game} game is a game object following the game schema
+ * @param {Object} game is a game object containing only the setting, startTime, and numItems fields
  */
 class PlayNavBar extends Component {
 
@@ -32,7 +34,7 @@ class PlayNavBar extends Component {
         const timeLimit = this.props.game.setting.timeLimitMilliseconds;
         const currentTimeTaken = Date.now() - this.props.game.startTime;
         const finalTime = (currentTimeTaken > timeLimit) ? timeLimit: currentTimeTaken;
-        post("api/player", {playerId: this.props.player._id, millisecondsToSubmit: finalTime}).then(() => {
+        post("api/playerinfo", {userId: this.props.userId, millisecondsToSubmit: finalTime}).then(() => {
             navigate("/scoreboard");
         });
     };
@@ -50,7 +52,7 @@ class PlayNavBar extends Component {
     };
 
     render() {
-        let itemIndex = this.props.player.currentHuntItemIndex;
+        let itemIndex = this.props.index;
         let displayBack = (itemIndex !==0) ? (<button onClick = {() => {this.props.onSubmit(-1);}} className = "Navbar-button">
                                                             {"<back/>"}
                                                         </button>) :
