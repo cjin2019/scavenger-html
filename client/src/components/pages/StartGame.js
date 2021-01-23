@@ -23,6 +23,7 @@ class StartGame extends Component {
         this.state = {
             players: [],
             player: "",
+            gameId: "",
         }
     }
 
@@ -34,13 +35,20 @@ class StartGame extends Component {
 
     getPlayersInfo = () => {
         if(this.props.userId){
-            get("api/playerinfo", {userId: this.props.userId}).then((player) => {
-                console.log(player);
+            // get("api/playerinfo", {userId: this.props.userId}).then((player) => {
+            //     console.log(player);
+            //     this.setState({
+            //         player: player.name,
+            //         players: [...this.state.players, player.name]
+            //     })
+            // })
+            get("api/gameinfo", {userId: this.props.userId}).then((game) => {
                 this.setState({
-                    player: player.name,
-                    players: [...this.state.players, player.name]
-                })
-            })
+                    player: game.name,
+                    players: [...this.state.players, game.name],
+                    gameId: game.gameId,
+                });
+            });
         }
     }
     componentDidMount(){
@@ -51,7 +59,10 @@ class StartGame extends Component {
 
     render(){
         let display = (<div>
-            <StartNavBar onSubmit = {this.start}/>
+            <StartNavBar 
+                onSubmit = {this.start}
+                gameId = {this.state.gameId}
+            />
             <div className = "StartGame-container">
                 <h2>Player</h2>
                 <div className = "StartGame-playerContainer">

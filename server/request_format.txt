@@ -29,6 +29,11 @@
         gameId: id of the game
     }
 
+"api/gameinfo"
+    query: {
+        userId: id of the user
+    }
+    send: { gameId: id of the game, names: [] name of the players}
 "api/playerinfo"
     query: {
         userId: id of the user

@@ -24,7 +24,6 @@ class StartNavBar extends Component {
     render() {
         return (
             <nav className = "NavBar-container">
-                <div className = "u-inlineBlock">NavBar!</div>
                 <div className = "u-inlineBlock">{this.props.gameId}</div>
                 <div className="u-inlineBlock">
                 <button

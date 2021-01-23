@@ -285,6 +285,11 @@ router.post("/createnewplayer", async (req, res) => {
   const newPlayerObject = await newPlayer.save();
   res.send({player: newPlayerObject});
 });
+// start game page
+router.get("/gameinfo", async (req, res) => {
+  const player = await Player.findOne({"userInfo._id": req.query.userId});
+  res.send({gameId: player.gameId, name: player.userInfo.name});
+});
 
 // should have stored player and game in the server?
 router.get("/playerinfo", async (req, res) => {
