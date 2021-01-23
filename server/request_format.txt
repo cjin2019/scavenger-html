@@ -42,7 +42,7 @@
         userId: id of the user 
         millisecondsToSubmit: Number,
     }
-    send: {name: name of the player}, an empty object if there is 
+    send: ordered {players: [{name: string, numCorrect: number, millisecondsToSubmit: number}]}, an empty object if there is 
     a post request
 
 "api/startgame"

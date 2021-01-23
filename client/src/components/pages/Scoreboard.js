@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
 import { navigate } from "@reach/router";
+import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import "./ButtonPage.css";
@@ -11,6 +12,7 @@ import { forceUserLogin } from "./PageFunctions";
  * 
  * Proptypes
  * @param {string} userId id of the user
+ * @param {(callback function) => void} getUser is a function to execute when new game is remounted
  */
 class Scoreboard extends Component {
     constructor(props){
@@ -30,16 +32,22 @@ class Scoreboard extends Component {
         });
     }
 
-    componentDidMount(){
-        // this.getUserInfo();
+    getPlayersInfo = () => {
         if(this.props.userId){
-            get("api/playerinfo", {userId: this.props.userId}).then((player) => {
-                console.log(player);
+            get("api/playerinfo", {userId: this.props.userId}).then((players) => {
                 this.setState({
-                    players:[...this.state.players, player],
+                    players:players.players,
                 })
             });
+            socket.on("scoreboard", (players) => {
+                this.setState({
+                    players:players,
+                });
+            });
         }
+    }
+    componentDidMount(){
+        this.props.getUser(this.getPlayersInfo);
     }
 
     render(){

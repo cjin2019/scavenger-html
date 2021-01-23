@@ -53,8 +53,9 @@ class PlayGame extends Component {
     onSubmit = () => {
         post("api/updatesubmission", {userId: this.props.userId, currentSubmission: this.state.currentSubmissionItem.currentSubmission}).then((playitems) => {
             this.setState({
-                currentSubmissionItem: playitems.submissionItem
-            })
+                currentSubmissionItem: playitems.submissionItem,
+                player: playitems.player,
+            });
         });
         
     };
@@ -103,7 +104,7 @@ class PlayGame extends Component {
                             numItems = {this.state.game.numItems}
                             userId = {this.props.userId}
                             index = {this.state.huntItem.index}
-                            player = {this.state.player}
+                            numCorrect = {this.state.player.numCorrect}
                             game = {this.state.game}
 
                 />

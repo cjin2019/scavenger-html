@@ -332,8 +332,22 @@ router.get("/gameinfo", async (req, res) => {
 // should have stored player and game in the server?
 router.get("/playerinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
+  const game = await Game.findById(player.gameId);
+  const allPlayers = await Player.find({gameId: game._id});
+  const userIds = allPlayers.map(player => player.userInfo._id);
+  const allPlayersInfo = allPlayers.map((player) => ({name: player.userInfo.name, 
+                                                      numCorrect: player.numCorrect, 
+                                                      millisecondsToSubmit: player.millisecondsToSubmit}))
+                                    .sort((player1, player2) => {
+                                      if(player1.numCorrect > player2.numCorrect) {return -1;}
+                                      else if (player1.numCorrect < player2.numCorrect) {return 1;}
+                                      else {return (player1.millisecondsToSubmit < player2.millisecondsToSubmit) ? -1: 1;}
+                                    });
   // later get all the names of the players using sockets!
-  res.send({name: player.userInfo.name, numCorrect: player.numCorrect, millisecondsToSubmit: player.millisecondsToSubmit});
+  res.send({players: allPlayersInfo});
+  userIds.forEach((userId) => {
+    socketManager.getSocketFromUserID(userId).emit("scoreboard", allPlayersInfo);
+  });
 });
 
 router.post("/playerinfo", (req, res) => {
@@ -402,9 +416,14 @@ router.post("/updatesubmission", async (req, res) => {
   if(gameLogic.gameState.huntItems[player.currentHuntItemIndex].answer === req.body.currentSubmission){
     isCorrect = true;
     player = await Player.findByIdAndUpdate(player._id, {$inc: {numCorrect: 1}}, {new: true});
+    console.log(player);
   }
   const submission = await updateSubmission(filter, req.body.currentSubmission, isCorrect);
-  res.send({player: player, submissionItem: submission});
+  const playerSend = {numCorrect: player.numCorrect};
+  const submissionSend = {currentSubmission: submission.currentSubmission, 
+                          isCorrect: submission.isCorrect,
+                          numSubmissions: submission.numSubmissions,};
+  res.send({player: playerSend, submissionItem: submissionSend});
 });
 
 // get the new tag or post if does not exist

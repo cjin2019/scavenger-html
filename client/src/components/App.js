@@ -119,6 +119,7 @@ class App extends Component {
           <Scoreboard 
             path = "/scoreboard"
             userId = {this.state.userId}
+            getUser = {this.getCurrentUser}
           />
           <JoinGame 
             path = "/join"

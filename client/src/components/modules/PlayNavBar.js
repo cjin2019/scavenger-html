@@ -11,7 +11,7 @@ import "./NavBar.css";
  * allows the user to go back and forth between hunt items
  * 
  * Proptypes
- * @param {Object} player is a player object containing only the numCorrect field
+ * @param {Object} numCorrect is the number correct that the player got
  * @param {(increment {+1, -1}) => void} onSubmit is a function to increment or decrement to
  * move on to the next question
  * @param {string} userId is the id of the user
@@ -68,7 +68,7 @@ class PlayNavBar extends Component {
         return (
             <nav className = "NavBar-container">
                 <div>
-                    <div>Current Score: {this.props.player.numCorrect}/{this.props.numItems}</div>
+                    <div>Current Score: {this.props.numCorrect}/{this.props.numItems}</div>
                 </div>
                 <div>
                     <div className = "Navbar-labelContainer">
