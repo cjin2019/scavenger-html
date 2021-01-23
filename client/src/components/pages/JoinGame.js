@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { get, post } from "../../utilities";
+import { navigate } from "@reach/router";
 import { forceUserLogin } from "./PageFunctions.js";
 import NavBar from "../modules/NavBar.js";
 
@@ -20,7 +21,22 @@ import "../modules/hunt_item_parts/AnswerInput.css";
 class JoinGame extends Component {
     constructor(props){
         super(props);
+        this.state = {
+            gameCode: "",
+        }
     }
+
+    onChange = (event) => {
+        this.setState({
+            gameCode: event.target.value,
+        });
+    };
+
+    onSubmit = () => {
+        post("api/joinnewplayer", {userId: this.props.userId, gameId: this.state.gameCode}).then(() => {
+            console.log("worked!");
+        });
+    };
 
     render(){
         let display = (<div>
@@ -31,15 +47,17 @@ class JoinGame extends Component {
                 getUser = {this.props.getUser}
             />
             <div className = "JoinGame-container">
-                <div>Join a Game!</div>
-                <div>
-                <input
+                <h2 className = "JoinGame-subContainer">Join a Game!</h2>
+                <div className = "JoinGame-subContainer">
+                    <input
                         type = "text"
+                        value = {this.state.gameCode}
                         placeholder = "game code"
+                        onChange = {this.onChange}
                         className = {"AnswerInput-inputContainer"}
                     />
                     <button
-                        onClick = {() => {console.log("submitted!");}}
+                        onClick = {this.onSubmit}
                         className = "HuntItem-button"
                     >
                         {"<join game/>"}

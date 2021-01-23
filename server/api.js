@@ -218,6 +218,33 @@ async function createNewCollectedTag(userId, huntItemId, res){
   res.send({tag: tag, alreadyCollected: false});
 }
 
+/**
+ * @param {string} userId the id of the user
+ * @param {Object} gameQuery a valid filter object to query the game collection
+ * @param {*} res the object that allows server to send response back to the client
+ */
+async function createNewPlayer(userId, gameQuery, res){
+  const user = await User.findById(userId);
+  const game = await Game.findOne(gameQuery);
+  if(game === null){
+    res.send({msg: "NO GAME"});
+  } else {
+    const player = await Player.findOne({"userInfo._id": userId});
+    if(player !== null) {
+      await Player.findByIdAndDelete(player._id);
+    }
+    const newPlayer = new Player({
+      gameId: game._id,
+      userInfo: {_id: user._id, name: user.name},
+      currentHuntItemIndex: -1, //hard code to -1 for now
+      numCorrect: 0,
+    });
+    const newPlayerObject = await newPlayer.save();
+    console.log(newPlayerObject);
+    res.send({});
+  }
+}
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -228,6 +255,8 @@ router.get("/whoami", (req, res) => {
 
   res.send(req.user);
 });
+
+
 
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
@@ -270,21 +299,14 @@ router.get("/newgame", async (req, res) => {
 
 // creating a new player
 router.post("/createnewplayer", async (req, res) => {
-  const user = await User.findById(req.body.userId);
-  const game = await Game.findOne({creatorId: req.body.userId});
-  const player = await Player.findOne({"userInfo._id": req.body.userId});
-  if(player !== null) {
-    await Player.findByIdAndDelete(player._id);
-  }
-  const newPlayer = new Player({
-    gameId: game._id,
-    userInfo: {_id: user._id, name: user.name},
-    currentHuntItemIndex: -1, //hard code to -1 for now
-    numCorrect: 0,
-  });
-  const newPlayerObject = await newPlayer.save();
-  res.send({player: newPlayerObject});
+  await createNewPlayer(req.body.userId, {creatorId: req.body.userId}, res);
 });
+
+// join game page
+router.post("/joinnewplayer", async (req, res) => {
+  await createNewPlayer(req.body.userId, {_id: req.body.gameId}, res);
+});
+
 // start game page
 router.get("/gameinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
