@@ -88,12 +88,13 @@
         alreadyCollected: the html tag is already collected
     }
 
-"api/profiletags"
+"api/profileinfo"
     body: {
         userId: id of the user,
     }
     send: {
-        tags: a list of html tag strings
+        name: name of the user
+        tagPoints: map of the tags and number collected
     }
 ----------------------------------------
 "api/user"

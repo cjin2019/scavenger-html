@@ -371,6 +371,22 @@ router.get("/playtag", async (req, res) => {
     res.send({tag: collectedTag.tag, alreadyCollected: true});
   }
 });
+
+// get profile infor
+router.get("/profileinfo", async (req, res) => {
+  const user = await User.findById(req.query.userId);
+  const collectedTags = await CollectedTag.find({userId: req.query.userId});
+  const tagNames = collectedTags.map(tag => tag.tag);
+  const freqTags = {};
+  tagNames.forEach(tagName => {
+    if(freqTags[tagName]) {freqTags[tagName]++}
+    else  {freqTags[tagName] = 1}
+  });
+  res.send({
+    name: user.name,
+    tags: freqTags
+  });
+});
 ////////////////////////////////////////
 
 // get user info

@@ -21,14 +21,16 @@ class Profile extends Component {
 
         this.state = {
             name: "",
+            tags: {}
         }
     }
 
     setName = () => {
         if(this.props.userId){
-            get("api/user", {userId: this.props.userId}).then((user) => {
+            get("api/profileinfo", {userId: this.props.userId}).then((user) => {
                 this.setState({
                     name: user.name,
+                    tags: user.tags,
                 });
             });
         }
@@ -48,7 +50,13 @@ class Profile extends Component {
             <div className = "Profile-container">
                 <h2 className = "Profile-name">{this.state.name}</h2>
                 <div className = "Profile-icon"></div>
-                <div>Tags: </div>
+                <div>{Object.entries(this.state.tags).map(([key, value]) => (
+                    <div
+                        key = {key}
+                    >
+                        {key +": " + value}
+                    </div>
+                ))}</div>
             </div>
         </div>)
 
