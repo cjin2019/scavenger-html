@@ -306,16 +306,19 @@ router.post("/createnewplayer", async (req, res) => {
 
 // join game page
 router.post("/joinnewplayer", async (req, res) => {
-  const game = await Game.findById(req.body.gameId);
-  await createNewPlayer(req.body.userId, game, res);
-  const players = await Player.find({gameId: game._id});
+  try {
+    const game = await Game.findById(req.body.gameId);
+    await createNewPlayer(req.body.userId, game, res);
+    const players = await Player.find({gameId: game._id});
+    const playerNames = players.map(player => player.userInfo.name);
+    const userIds = players.map(player => player.userInfo._id);
 
-  const playerNames = players.map(player => player.userInfo.name);
-  const userIds = players.map(player => player.userInfo._id);
-
-  userIds.forEach((userId) => {
-    socketManager.getSocketFromUserID(userId).emit("joinplayers", playerNames);
-  });
+    userIds.forEach((userId) => {
+      socketManager.getSocketFromUserID(userId).emit("joinplayers", playerNames);
+    }); 
+  } catch (error) {
+    res.send({msg: "INVALID CODE"});
+  }
 });
 
 // start game page
@@ -350,17 +353,11 @@ router.post("/startgame", async (req, res) => {
     await Player.updateMany({gameId: game._id}, {$set: { currentHuntItemIndex : 0}});
     const allPlayers = await Player.find({gameId: game._id});
     const userIds = allPlayers.map(player => player.userInfo._id);
-    // res.send({});
 
     userIds.forEach((userId) => {
-      // if(userId !== req.body.userId){
         socketManager.getSocketFromUserID(userId).emit("gamestart", {});
-      // }
     });
   } 
-  // res.send({});
-
-  // emit a message to all players playing the game that the game started!
 });
 
 // now for play game don't use socket yet

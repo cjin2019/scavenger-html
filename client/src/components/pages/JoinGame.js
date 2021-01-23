@@ -34,8 +34,12 @@ class JoinGame extends Component {
     };
 
     onSubmit = () => {
-        post("api/joinnewplayer", {userId: this.props.userId, gameId: this.state.gameCode}).then(() => {
-            navigate("/startgame");
+        post("api/joinnewplayer", {userId: this.props.userId, gameId: this.state.gameCode}).then((game) => {
+            if(game.msg){
+                alert("invalid code!");
+            } else{
+                navigate("/startgame");
+            }
         });
     };
 
