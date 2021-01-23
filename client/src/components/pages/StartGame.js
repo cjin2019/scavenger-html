@@ -56,7 +56,9 @@ class StartGame extends Component {
                 <h2>Player</h2>
                 <div className = "StartGame-playerContainer">
                     {this.state.players.map((playerName) => (
-                    <div>
+                    <div
+                        key = {Math.random()*10000}
+                    >
                         {playerName}
                     </div>))}
                 </div>

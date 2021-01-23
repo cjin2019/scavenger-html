@@ -16,6 +16,7 @@ import StartGame from "./pages/StartGame.js";
 import LandingPage from "./pages/LandingPage";
 import Browse from "./pages/Browse.js";
 import Scoreboard from "./pages/Scoreboard.js";
+import Profile from "./pages/Profile.js";
 
 /**
  * Define the "App" component as a class.
@@ -117,6 +118,13 @@ class App extends Component {
           <Scoreboard 
             path = "/scoreboard"
             userId = {this.state.userId}
+          />
+          <Profile 
+            path = "/profile"
+            userId = {this.state.userId}
+            handleLogin = {this.handleLogin}
+            handleLogout = {this.handleLogout}
+            getUser = {this.getCurrentUser}
           />
           <NotFound default />
         </Router>

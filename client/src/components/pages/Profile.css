@@ -1,0 +1,48 @@
+.Profile-container {
+    margin: 1em;
+    padding: 2.5em;
+
+    font-size: var(--l);
+    background-color: var(--medgrey);
+    border-radius: 1em;
+}
+
+.Profile-name{
+    /* it is optional, for making this div centered in parent*/
+    margin: 1.5em;
+    text-align: center;
+}
+.Profile-icon{
+    width: 100px;
+    height: 160px;
+
+    padding: 1em;
+    display: block;
+    /* div height to be the same as width*/
+
+    border: none;
+    outline: none;
+
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+
+    /* it is optional, for making this div centered in parent*/
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-image: url("../../public/file_happy_face.svg");
+
+    animation: rotate-jump 1s infinite;
+}
+
+/* https://css-tricks.com/making-css-animations-feel-natural/ */
+
+@keyframes rotate-jump {
+    0%  { transform: rotateZ(45deg) translate(1em, -2em)}
+    50% { transform: rotateZ(-45deg) translate(-1em, -2em)}
+    100% { transform: rotateZ(45deg) translate(1em, -2em)}
+}
