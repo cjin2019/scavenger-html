@@ -10,6 +10,17 @@
     border-radius: 1em;
 }
 
+/* https://css-tricks.com/snippets/css/typewriter-effect/ */
+.CollectTagCanvas-typewriter{
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .15em solid var(--blue--purple); /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    animation: typing 3.5s steps(30, end),
+                blink-caret .75s step-end infinite;
+}
+
 .CollectTagCanvas-icon{
     width: 100px;
     height: 160px;
@@ -37,3 +48,16 @@
     75%  { transform: translateY(0.5em) scaleY(0.95);}
     100% { transform: translateY(0.5em) scaleY(0.75); }
 }
+
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+  
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--blue--purple); }
+}
+  

@@ -23,5 +23,6 @@ const allTags = ["html",
 const commonTags = ["html", "head", "body", "title",
                     "h1", "h2", "h3", "h4", "h5", "h6",
                     "p", "em", "b", "i"];
-
-export default allTags
+module.exports = {
+    allTags,
+}

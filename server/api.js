@@ -16,6 +16,9 @@ const HuntItem = require("./models/huntitem");
 const Game = require("./models/game");
 const Player = require("./models/player");
 const SubmissionItem = require("./models/submissionitem");
+const CollectedTag = require("./models/collectedtag");
+
+const constants = require("./constants");
 
 // import authentication library
 const auth = require("./auth");
@@ -198,6 +201,23 @@ async function createSubmission(ids, currentSubmission, isCorrect){
   return newSubmission.save();
 }
 
+/**
+ * @param {string} userId the id of the user
+ * @param {string} huntItemId the id of the hunt item
+ * @param {*} res to send back the response to the client
+ */
+async function createNewCollectedTag(userId, huntItemId, res){
+  const numTags = constants.allTags.length;
+  const tag = constants.allTags[Math.floor(Math.random()*numTags)];
+  const newCollectedTag = new CollectedTag({
+    userId: userId,
+    huntItemId: huntItemId,
+    tag: tag,
+  });
+  await newCollectedTag.save();
+  res.send({tag: tag, alreadyCollected: false});
+}
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -266,15 +286,14 @@ router.post("/createnewplayer", async (req, res) => {
   res.send({player: newPlayerObject});
 });
 
+// should have stored player and game in the server?
 router.get("/playerinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
   // later get all the names of the players using sockets!
-  console.log(player);
   res.send({name: player.userInfo.name, numCorrect: player.numCorrect, millisecondsToSubmit: player.millisecondsToSubmit});
 });
 
 router.post("/playerinfo", (req, res) => {
-  console.log(req.body);
   Player.findOneAndUpdate({"userInfo._id": req.body.userId},
                           {$set: { millisecondsToSubmit: req.body.millisecondsToSubmit}},
                           {new: true}).then((player) =>{
@@ -339,6 +358,18 @@ router.post("/updatesubmission", async (req, res) => {
   }
   const submission = await updateSubmission(filter, req.body.currentSubmission, isCorrect);
   res.send({player: player, submissionItem: submission});
+});
+
+// get the new tag or post if does not exist
+router.get("/playtag", async (req, res) => {
+  const player = await Player.findOne({"userInfo._id": req.query.userId});
+  const huntItemId = gameLogic.gameState.huntItems[player.currentHuntItemIndex]._id;
+  let collectedTag = await CollectedTag.findOne({userId: req.query.userId, huntItemId: huntItemId});
+  if(collectedTag === null){
+    createNewCollectedTag(req.query.userId, huntItemId, res);
+  } else {
+    res.send({tag: collectedTag.tag, alreadyCollected: true});
+  }
 });
 ////////////////////////////////////////
 

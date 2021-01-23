@@ -78,13 +78,23 @@
         player: {numCorrect: }
         currentSubmissionItem: {currentSubmissionItem:, isCorrect: , numSubmissions:}
     }
-"api/checkanswer"
 
+"api/playtag"
     query: {
         userId: id of the user,
     }
+    send {
+        tag: the html tag submitted
+        alreadyCollected: the html tag is already collected
+    }
 
-    send: {isCorrect: true if correct/ false otherwise}
+"api/profiletags"
+    body: {
+        userId: id of the user,
+    }
+    send: {
+        tags: a list of html tag strings
+    }
 ----------------------------------------
 "api/user"
     query: {

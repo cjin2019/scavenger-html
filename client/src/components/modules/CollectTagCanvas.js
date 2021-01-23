@@ -1,28 +1,43 @@
 import React, { Component } from "react";
 import Typist from "react-typist";
-import allTags from "../../constants.js";
 
 import "../../utilities.css";
+import { get } from "../../utilities.js";
 import "./CollectTagCanvas.css";
 
+/**
+ * Shows the collected tag when got the huntitem correct
+ * 
+ * Proptypes
+ * @param {string} userId id of the user
+ */
 class CollectTagCanvas extends Component {
     constructor(props){
         super(props);
+
+        this.state = {
+            tag: "",
+            alreadyCollected: false,
+        }
     }
 
+    componentDidMount(){
+        get("api/playtag", {userId: this.props.userId}).then((res) => {
+            this.setState({
+                tag: res.tag,
+                alreadyCollected: res.alreadyCollected
+            });
+            console.log(this.state.tag);
+        });
+    }
     render(){
-        const randomTag = allTags[Math.floor(Math.random()*allTags.length)];
+        const tag = "<" + this.state.tag + ">";
+        const header = this.state.alreadyCollected ? "Tag Already Collected": "New Tag Collected!";
         return (
         <div className = "CollectTagCanvas-container">
             <div>
-                <h4>Tag Collected: </h4>
-                <Typist
-                    avgTypingDelay = {500}
-                >
-                    <span>{randomTag}</span>
-                </Typist>
+                <h4 className = "CollectTagCanvas-typewriter">{header +": " + tag}</h4>
             </div>
-            
             <div className = "CollectTagCanvas-icon"></div>
         </div>);   
     }

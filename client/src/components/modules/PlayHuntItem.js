@@ -16,6 +16,7 @@ import "./PlayHuntItem.css"
  * @param {({event}) => void } onChange is a function to execute when input is changing
  * @param {Object} huntItem is a hunt item with the question
  * @param {Object} game is a game with setting as defined in the game schema
+ * @param {string} userId is the id of the user
  */
 class PlayHuntItem extends Component {
     constructor(props){
@@ -42,7 +43,7 @@ class PlayHuntItem extends Component {
                             <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {this.props.game.setting.numSubmissionLimit}</div>
                         </div>
                         <div>
-                            {this.props.currentSubmissionItem.isCorrect ? (<CollectTagCanvas />) : (<div></div>)}
+                            {this.props.currentSubmissionItem.isCorrect ? (<CollectTagCanvas userId = {this.props.userId}/>) : (<div></div>)}
                         </div>
                     </div>
                 </div>);

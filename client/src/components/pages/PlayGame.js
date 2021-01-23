@@ -90,11 +90,12 @@ class PlayGame extends Component {
 
     render(){
         let displayItem = (<PlayHuntItem 
-                            huntItem = {this.state.huntItem}
-                            onChange = {this.onChange}
-                            onSubmit = {this.onSubmit}
-                            currentSubmissionItem = {this.state.currentSubmissionItem}
-                            game = {this.state.game}
+                                huntItem = {this.state.huntItem}
+                                onChange = {this.onChange}
+                                onSubmit = {this.onSubmit}
+                                currentSubmissionItem = {this.state.currentSubmissionItem}
+                                game = {this.state.game}
+                                userId = {this.props.userId}
                             />); 
         let display = (
             <div>
