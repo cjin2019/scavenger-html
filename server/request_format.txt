@@ -28,6 +28,63 @@
         userId: id of the user
         gameId: id of the game
     }
+
+"api/playerinfo"
+    query: {
+        userId: id of the user
+    }
+    body: {
+        userId: id of the user 
+        millisecondsToSubmit: Number,
+    }
+    send: {name: name of the player}, an empty object if there is 
+    a post request
+
+"api/startgame"
+    body: {
+        playerId: id of the player,
+    }
+
+"api/initplaygame"
+    query: {
+        userId: id of the user, 
+    }
+    
+    send {
+        game: {setting: , startTime: , numitems:, }
+        huntItem: {question: , index: },
+        player: {numCorrect: ,}
+        submissionItem: {currentSubmission: , isCorrect: , numSubmissions: }
+    }
+
+"api/nextquestion" 
+    body: {
+        userId: id of the user,
+        inc: +1/-1
+    }
+
+    send {
+        huntItem: {question: , index: }
+        currentSubmissionItem: {currentSubmission: , isCorrect: , numSubmissions:}
+    }
+
+"api/updatesubmission"
+    body: {
+        userId: id of the user,
+        currentSubmission: the submission of the user
+    }
+
+    send {
+        player: {numCorrect: }
+        currentSubmissionItem: {currentSubmissionItem:, isCorrect: , numSubmissions:}
+    }
+"api/checkanswer"
+
+    query: {
+        userId: id of the user,
+    }
+
+    send: {isCorrect: true if correct/ false otherwise}
 ----------------------------------------
 "api/user"
     query: {

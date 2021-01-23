@@ -26,24 +26,22 @@ const router = express.Router();
 //initialize socket
 const socketManager = require("./server-socket");
 
-const player = require("./models/player");
 const { mongo } = require("mongoose");
 
-
+const gameLogic = require("./logic");
 // writing helper function
 
 /**
  * @param {String} ids the list of ids to retrieve 
- * @returns pipeline for aggregate function
+ * @returns {HuntItem[]} an ordered list of huntitems
  */
 function getOrderedHuntItems(ids) {
-
-  let pipeline = [
+  const pipeline = [
     {$match: {"_id": {$in: ids}}},
     {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
     {$sort: {"__order": 1}}
    ];
-  return pipeline;
+   gameLogic.gameState.huntItems = HuntItem.aggregate(pipeline).exec();
 }
 
 /**
@@ -84,6 +82,120 @@ function createGame(res, huntId, creatorId, huntItems){
     },
   });
   newGame.save().then((game) => {res.send({game});});
+}
+
+/**
+ * @param {string} userId id of the user
+ * @param {} res to help send back the response
+ * return an object with fields player (following the player schema), submissionItem (following submissionItem schema)
+ */
+async function getNewPlayerGameState(userId, res){
+  Player.findOne({"userInfo._id": userId}).then((player) => {
+    Game.findById(player.gameId).then((game) => {
+      gameLogic.gameState.game = game;
+      const ids = game.orderHuntItemIds.map(idString => mongo.ObjectID(idString));
+      
+      const pipeline = [
+        {$match: {"_id": {$in: ids}}},
+        {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
+        {$sort: {"__order": 1}}
+       ];
+       HuntItem.aggregate(pipeline).then((huntItems) => {
+         gameLogic.gameState.huntItems = huntItems;
+         const query = {
+            playerId: player._id,
+            huntItemId: gameLogic.gameState.huntItems[player.currentHuntItemIndex]._id,
+            gameId: gameLogic.gameState.game._id,
+          };
+         SubmissionItem.findOne(query).then((submissionItem) => {
+          console.log("reached");
+          sendPlayerSubmission(player, submissionItem, res);
+         });
+       });
+    });
+  });
+}
+
+/**
+ * 
+ * @param {Player} player player object retrieved from model
+ * @param {SubmissionItem} submission submission object retrieved from the mode
+ * @param {} res to help send back the response
+ */
+function sendPlayerSubmission (player, submissionItem, res){
+  const huntItems = gameLogic.gameState.huntItems;
+  const game = gameLogic.gameState.game;
+  const index = player.currentHuntItemIndex;
+  console.log(game);
+  let playitems = {
+    player: { numCorrect: player.numCorrect },
+    game: {
+      startTime: game.startTime,
+      setting: game.setting,
+      numItems: huntItems.length
+    },
+    huntItem: {
+      question: huntItems[index].question,
+      index: index
+    },
+    currentSubmissionItem: {
+      currentSubmission: "",
+      isCorrect: false,
+      numSubmissions: 0
+    }
+  }
+  if(submissionItem !==null){
+    playitems.currentSubmissionItem = {currentSubmission: submissionItem.currentSubmission,
+                                      isCorrect: submissionItem.isCorrect,
+                                      numSubmissions: submissionItem.numSubmissions}
+  }
+  console.log(playitems);
+  res.send(playitems);
+}
+/**
+ * 
+ * @param {Object} filter with fields playerId, huntItemId, gameId
+ * @param {string} currentSubmission the new submission
+ * @param {boolean} isCorrect whether the submission is correct
+ * 
+ * @returns a current submission item object
+ */
+async function updateSubmission(filter, currentSubmission, isCorrect){
+  const update = { $set: {currentSubmission: currentSubmission,
+                          isCorrect: isCorrect},
+                    $inc:  {numSubmissions: 1}};
+  let submissionItem = await SubmissionItem.findOne(filter);
+  if(submissionItem === null){
+    submissionItem = await createSubmission(filter, currentSubmission, isCorrect);
+  } else {
+    submissionItem = await SubmissionItem.findOneAndUpdate(filter, update, {new: true});
+  }
+  console.log("In update submission: ");
+  console.log(submissionItem);
+  return { 
+    currentSubmission: submissionItem.currentSubmission,
+    isCorrect: submissionItem.isCorrect,
+    numSubmissions: submissionItem.numSubmissions
+  };
+}
+
+/**
+ * 
+ * @param {Object} ids with playerId, gameId, and huntItemId as object
+ * @param {string} currentSubmission the submission content
+ * @param {boolean} isCorrect whether the submission is correct
+ */
+async function createSubmission(ids, currentSubmission, isCorrect){
+  const newSubmission = new SubmissionItem({
+    playerId: ids.playerId,
+    gameId: ids.gameId,
+    huntItemId: ids.huntItemId,
+    currentSubmission: currentSubmission,
+    isCorrect: isCorrect,
+    numSubmissions: 1,
+  });
+
+  return newSubmission.save();
 }
 
 router.post("/login", auth.login);
@@ -151,10 +263,6 @@ router.post("/createnewplayer", async (req, res) => {
     numCorrect: 0,
   });
   const newPlayerObject = await newPlayer.save();
-  console.log("player:");
-  console.log(player);
-  console.log("new player:");
-  console.log(newPlayerObject);
   res.send({player: newPlayerObject});
 });
 
@@ -162,7 +270,18 @@ router.get("/playerinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
   // later get all the names of the players using sockets!
   console.log(player);
-  res.send({name: player.userInfo.name});
+  res.send({name: player.userInfo.name, numCorrect: player.numCorrect, millisecondsToSubmit: player.millisecondsToSubmit});
+});
+
+router.post("/playerinfo", (req, res) => {
+  console.log(req.body);
+  Player.findOneAndUpdate({"userInfo._id": req.body.userId},
+                          {$set: { millisecondsToSubmit: req.body.millisecondsToSubmit}},
+                          {new: true}).then((player) =>{
+      res.send({});
+      console.log(player);
+  });
+
 });
 
 router.post("/startgame", async (req, res) => {
@@ -175,19 +294,53 @@ router.post("/startgame", async (req, res) => {
   // emit a message to all players playing the game that the game started!
 });
 
-////////////////////////////////////////
-
-router.get("/checkanswer", (req, res) => {
-  console.log(req.query);
-  HuntItem.findById(req.query.huntItemId).then((huntitem) => {
-    let isCorrect = false; 
-    if(huntitem.answer === req.query.currentSubmission){
-      isCorrect = true;
-    }
-    console.log(isCorrect);
-    res.send({isCorrect: isCorrect});
-  });
+// now for play game don't use socket yet
+router.get("/initplaygame", (req, res) => {
+  getNewPlayerGameState(req.query.userId, res);
 });
+
+router.post("/nextquestion", async (req, res) => {
+  // for now don't store player in logic
+  const player = await Player.findOneAndUpdate({"userInfo._id": req.body.userId}, 
+                        {$inc: {currentHuntItemIndex: req.body.inc,}},
+                        { new: true,});
+  const game = gameLogic.gameState.game;
+  const huntItem = gameLogic.gameState.huntItems[player.currentHuntItemIndex];
+  const submissionItem = await SubmissionItem.findOne({playerId: player._id, gameId: game._id, 
+                                                      huntItemId: huntItem._id});
+  let playitems = {
+    huntItem: { question:  huntItem.question, index: player.currentHuntItemIndex},
+    currentSubmissionItem: {
+      currentSubmission: "",
+      isCorrect: false,
+      numSubmissions: 0
+    }
+  };
+
+  if(submissionItem !== null ){
+    playitems.currentSubmissionItem = {currentSubmission: submissionItem.currentSubmission,
+                                        isCorrect: submissionItem.isCorrect,
+                                        numSubmissions: submissionItem.numSubmissions};
+  }
+  res.send(playitems);
+});
+
+router.post("/updatesubmission", async (req, res) => {
+  let player = await Player.findOne({"userInfo._id": req.body.userId});
+  const filter = {
+    playerId: player._id,
+    huntItemId: gameLogic.gameState.huntItems[player.currentHuntItemIndex]._id,
+    gameId: gameLogic.gameState.game._id,
+  };
+  let isCorrect = false; 
+  if(gameLogic.gameState.huntItems[player.currentHuntItemIndex].answer === req.body.currentSubmission){
+    isCorrect = true;
+    player = await Player.findByIdAndUpdate(player._id, {$inc: {numCorrect: 1}}, {new: true});
+  }
+  const submission = await updateSubmission(filter, req.body.currentSubmission, isCorrect);
+  res.send({player: player, submissionItem: submission});
+});
+////////////////////////////////////////
 
 // get user info
 router.get("/user", (req, res) => {
