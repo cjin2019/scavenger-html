@@ -30,7 +30,7 @@ class StartGame extends Component {
 
     start = () => {
         if(confirm("When you start game, you MUST submit!")){
-            post("api/startgame", {userId: this.props.userId}).then(() => navigate("/playgame"));
+            post("api/startgame", {userId: this.props.userId});
         }
     };
 
@@ -47,6 +47,7 @@ class StartGame extends Component {
                     players: players,
                 });
             });
+            socket.on("gamestart", () => {navigate("/playgame");});
         }
     }
     componentDidMount(){

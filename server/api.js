@@ -94,6 +94,8 @@ function createGame(res, huntId, creatorId, huntItems){
  */
 async function getNewPlayerGameState(userId, res){
   Player.findOne({"userInfo._id": userId}).then((player) => {
+    console.log("Player inside this function");
+    console.log(player);
     Game.findById(player.gameId).then((game) => {
       gameLogic.gameState.game = game;
       const ids = game.orderHuntItemIds.map(idString => mongo.ObjectID(idString));
@@ -311,11 +313,7 @@ router.post("/joinnewplayer", async (req, res) => {
   const playerNames = players.map(player => player.userInfo.name);
   const userIds = players.map(player => player.userInfo._id);
 
-  console.log(playerNames);
-  console.log(userIds);
-
   userIds.forEach((userId) => {
-    console.log(userId);
     socketManager.getSocketFromUserID(userId).emit("joinplayers", playerNames);
   });
 });
@@ -340,18 +338,28 @@ router.post("/playerinfo", (req, res) => {
                           {$set: { millisecondsToSubmit: req.body.millisecondsToSubmit}},
                           {new: true}).then((player) =>{
       res.send({});
-      console.log(player);
   });
 
 });
 
 router.post("/startgame", async (req, res) => {
-  const player = await Player.findOneAndUpdate({"userInfo._id": req.body.userId}, {$set: { currentHuntItemIndex : 0}});
+  const player = await Player.findOne({"userInfo._id": req.body.userId});
   const game = await Game.findById(player.gameId);
   if(game.startTime === null){
     await Game.findByIdAndUpdate(game._id, {$set: { startTime : Date.now() }}, {new: true});
-  }
-  res.send({});
+    await Player.updateMany({gameId: game._id}, {$set: { currentHuntItemIndex : 0}});
+    const allPlayers = await Player.find({gameId: game._id});
+    const userIds = allPlayers.map(player => player.userInfo._id);
+    // res.send({});
+
+    userIds.forEach((userId) => {
+      // if(userId !== req.body.userId){
+        socketManager.getSocketFromUserID(userId).emit("gamestart", {});
+      // }
+    });
+  } 
+  // res.send({});
+
   // emit a message to all players playing the game that the game started!
 });
 
