@@ -4,6 +4,9 @@ import { forceUserLogin } from "./PageFunctions.js";
 import NavBar from "../modules/NavBar.js";
 
 import "../../utilities.css";
+import "./JoinGame.css";
+import "../modules/hunt_item_parts/HuntItem.css";
+import "../modules/hunt_item_parts/AnswerInput.css";
 
 /**
  * This is the profile page that shows the number of tags collected
@@ -27,6 +30,22 @@ class JoinGame extends Component {
                 userId = {this.props.userId}
                 getUser = {this.props.getUser}
             />
+            <div className = "JoinGame-container">
+                <div>Join a Game!</div>
+                <div>
+                <input
+                        type = "text"
+                        placeholder = "game code"
+                        className = {"AnswerInput-inputContainer"}
+                    />
+                    <button
+                        onClick = {() => {console.log("submitted!");}}
+                        className = "HuntItem-button"
+                    >
+                        {"<join game/>"}
+                    </button>
+                </div>
+            </div>
         </div>);
 
         return forceUserLogin(this.props.userId, display);
