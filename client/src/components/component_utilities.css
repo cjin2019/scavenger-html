@@ -1,0 +1,10 @@
+.cu-inputTextContainer {
+    font-family: var(--font);
+    font-size: var(--m);
+    width: 20em;
+    height: 2em;
+
+    color: var(--white);
+    background-color: var(--black);
+    border-radius: 0.25em;
+}

@@ -1,8 +1,8 @@
 import React, { Component} from "react";
 import "../../utilities.css";
 import "./SettingInput.css";
+import "../component_utilities.css";
 import "./hunt_item_parts/HuntItem.css";
-import "./hunt_item_parts/AnswerInput.css";
 
 /**
  * SettingInput is a component to configure the settings of a game
@@ -29,7 +29,7 @@ class SettingInput extends Component {
                 placeholder = {this.props.settingKey}
                 value = {this.props.settingValue}
                 onChange = {this.onChange}
-                className = "AnswerInput-inputContainer"
+                className = "cu-inputTextContainer"
             />
             <button 
                 onClick = {() => this.props.settingUpdate(this.props.settingKey)}

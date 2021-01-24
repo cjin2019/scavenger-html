@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./HuntItem.css";
 import "./AnswerInput.css";
+import "../../component_utilities.css";
 
 /**
  * AnswerInput is an item part that allows users to submit
@@ -30,7 +31,7 @@ class AnswerInput extends Component {
                     value = {this.props.currentSubmissionItem.currentSubmission}
                     onChange = {this.props.onChange}
                     disabled = {noMoreSubmission}
-                    className = {`AnswerInput-inputContainer ${inputContainerClassName}`}
+                    className = {`cu-inputTextContainer ${inputContainerClassName}`}
                 />
                 { noMoreSubmission ? (<div></div>) : 
                 (<button

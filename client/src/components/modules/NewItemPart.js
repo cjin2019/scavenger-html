@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "../../utilities.css";
-import "./hunt_item_parts/AnswerInput.css";
+import "../component_utilities.css";
 
 
 /**
@@ -34,7 +34,7 @@ import "./hunt_item_parts/AnswerInput.css";
                     placeholder = {this.props.itemType}
                     value = {this.props.content}
                     onChange = {this.handleChange}
-                    className = "AnswerInput-inputContainer"
+                    className = "cu-inputTextContainer"
                 />
              </>
              

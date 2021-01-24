@@ -8,7 +8,7 @@ import NavBar from "../modules/NavBar.js";
 import "../../utilities.css";
 import "./JoinGame.css";
 import "../modules/hunt_item_parts/HuntItem.css";
-import "../modules/hunt_item_parts/AnswerInput.css";
+import "../component_utilities.css";
 
 /**
  * This is the profile page that shows the number of tags collected
@@ -59,7 +59,7 @@ class JoinGame extends Component {
                         value = {this.state.gameCode}
                         placeholder = "game code"
                         onChange = {this.onChange}
-                        className = {"AnswerInput-inputContainer"}
+                        className = {"cu-inputTextContainer"}
                     />
                     <button
                         onClick = {this.onSubmit}
