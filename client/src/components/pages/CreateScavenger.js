@@ -27,85 +27,54 @@ class CreateScavenger extends Component {
 
         this.state = {
             title: "",
-            huntId: null,
             description: "",
             huntItems: [],
         };
 
     }
 
-    loadSavedHuntItems = (huntId) => {
-        get("api/savedhuntitem", {huntId: huntId}).then((huntItems) => {
-            this.setState({
-                huntItems: [...this.state.huntItems, ...huntItems],
-            });
-        });
-    };
-
-    initializeTemplate = (hunt, creatorId) => {
-        if(confirm("You have an unsubmitted hunt. Do you want to complete this hunt?")){
-            this.setState({
-                huntId: hunt._id,
-            });
-            this.loadSavedHuntItems(hunt._id);
-        } else {
-            post("api/hunt", {huntId: hunt._id, 
-                            action: "delete"}).then(() => {
-                                this.createHunt(creatorId);
-                            });
-        }
-    };
-
-    createHunt = (creatorId) => {
-        post("api/hunt", {creatorId: creatorId, 
-                          action: "add",
-                          isFinalized: false,
-                        }).then((hunt) => {
-            this.setState({
-                huntId: hunt._id,
-            });
+    /**
+     * 
+     * @param {Object} template and object with the hunt and huntItems field 
+     */
+    setIntialState = (template) => {
+        this.setState({
+            title: template.hunt.title,
+            description: template.hunt.description,
+            huntItems: template.huntItems
         });
     }
 
-    loadSavedHunt = (creatorId) => {
-        get("api/hunt", {creatorId: creatorId, 
-                         isFinalized: false,
-                        }).then((unsubmittedHunts) => {
-            if(unsubmittedHunts.length === 0){
-                this.createHunt(creatorId);
-            } else{
-                this.initializeTemplate(unsubmittedHunts[0], creatorId);
-            }
-        });
-    };
-
-    loadUserCreateTemplate = () => {
+    loadSavedHunt = () => {
         if(this.props.userId){
-            get("api/user", {userId: this.props.userId}).then((user) => 
-                {this.loadSavedHunt(user._id);}
-            );
+            get("api/hunttemplate", {creatorId: this.props.userId}).then((msg) => {
+                let reuse = false;
+                if(msg.huntExists){
+                    if(confirm("You have an unsubmitted hunt. Do you want to complete this hunt?")){
+                        reuse = true;
+                    }
+                }
+                post("api/createhunttemplate", {creatorId: this.props.userId, reuse: reuse}).then((template) => {
+                    this.setIntialState(template);
+                });
+            })
         }
     };
 
     componentDidMount(){
-        this.props.getUser(this.loadUserCreateTemplate);
+        this.props.getUser(this.loadSavedHunt);
     }
 
-
-    // this gets called when the user pushes "Add", so their
-    // question for the scavenger gets added to the screen
-    // dummy function for now but later will want to change the format of 
-    // the question
     addNewHuntItem = (huntItemObj) => {
         let body = {
-            huntId: this.state.huntId,
+            creatorId: this.props.userId,
             question: huntItemObj.question,
             answer: huntItemObj.answer,
         }
         if(huntItemObj.question === "" || huntItemObj.answer === ""){
             alert("You cannot an empty question and/or answer field");
         } else {
-            post("api/savedhuntitem", body).then((huntItem) => {
+            post("api/newhuntitem", body).then((huntItem) => {
                 this.setState({
                     huntItems: [...this.state.huntItems, huntItem],
                 });
@@ -113,24 +82,20 @@ class CreateScavenger extends Component {
         }
     }
 
-    /**
-     * 
-     * @param {*} event the event 
-     */
-    handleSubmit = (event) => {
-        if(this.state.huntItems.length > 0){
+    handleSubmit = () => {
+        console.log(this.state);
+        console.log(this.state.title !== "" && this.state.description !== "");
+        if(this.state.huntItems.length > 0 && this.state.title !== "" && this.state.description !== ""){
             const body = {
-                creatorId: this.props.userId,
-                add: "update",
                 title: this.state.title,
                 description: this.state.description,
-                huntId: this.state.huntId,
+                creatorId: this.props.userId,
              };
-             post("/api/hunt", body).then(() => {
+             post("/api/createhunt", body).then(() => {
                 navigate("/userhome");
             });
         } else {
-            alert("You must submit at least one hunt item");
+            alert("You must submit at least one hunt item and have a nonempty title and description!");
         }
         
         
@@ -153,7 +118,7 @@ class CreateScavenger extends Component {
         <div>
             <CreateNavBar 
                 handleSubmit = {this.handleSubmit}
-                huntId = {this.state.huntId}
+                userId = {this.props.userId}
             />
             <div className = "CreateScavenger-container">
                 <div className = "CreateScavenger-basicinfocontainer">
@@ -180,8 +145,7 @@ class CreateScavenger extends Component {
                 </div>
                 { this.state.huntItems.map((huntItemObj) => (
                     <SubmittedHuntItem 
-                        key = {`HuntItem_${huntItemObj._id}`}
-                        _id = {huntItemObj._id}
+                        key = {`HuntItem_${Math.random()*1000000}`}
                         content = {huntItemObj}
                     />
                 ))}

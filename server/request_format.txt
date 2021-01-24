@@ -95,6 +95,40 @@
         name: name of the user
         tagPoints: map of the tags and number collected
     }
+
+"api/hunttemplate"
+    query: {
+        creatorId: id of the user 
+    }
+    send {huntExists: true if it does false otherwise}
+
+"api/createhunttemplate"
+    body: {
+        creatorId: id of the user,
+        reuse: true if want to reuse / must exist, false otherwise
+    }
+    send {hunt: {title: title of the hunt, description: description of the hunt}, 
+        huntItems: a list of huntitems {question: , answer: }}
+
+"api/createhunt"
+    body: {
+        creatorId: id of the user
+        title: title of the hunt,
+        description: description of the hunt,
+    }
+    send an empty object
+
+"api/deletehunt"
+    body: {
+        creatorId: id of the user,
+    }
+
+"api/newhuntitem"
+    body: {
+        question: question of the item,
+        answer: answer of the item
+    }
+    send huntItem {question: , answer: }
 ----------------------------------------
 "api/user"
     query: {
@@ -125,15 +159,3 @@
     }
 
     send : Hunt (following the Hunt schema)
-
-"api/savedhuntitem"
-    query: {
-        huntId: id of the the hunt
-    }
-
-    body: {
-        huntId: id of the hunt,
-        question: question,
-        answer: answer
-    }
-    body: huntItem 

@@ -453,6 +453,62 @@ router.get("/profileinfo", async (req, res) => {
     tags: freqTags
   });
 });
+
+// create scavenger api requests
+router.get("/hunttemplate", async (req, res) => {
+  const hunt = await Hunt.findOne({
+    creatorId: req.query.creatorId,
+    isFinalized: false,
+  });
+  res.send({huntExists: hunt !==null});
+});
+
+router.post("/createhunttemplate", async (req, res) => {
+  const hunt = await Hunt.findOne({
+    creatorId: req.body.creatorId,
+    isFinalized: false,
+  });
+  const hasSubmitted = hunt !== null;
+  let newHunt = null;
+  let huntItems = [];
+  if(!req.body.reuse){
+    if(hasSubmitted){
+      await Hunt.findByIdAndDelete(hunt._id);
+    }
+    newHunt  = await (new Hunt({ creatorId: req.body.creatorId, isFinalized: false, title: "", description: ""})).save();
+  } else {
+    newHunt = hunt;
+    huntItems = await HuntItem.find({huntId: hunt._id});
+  }
+  huntItemsDisplay = huntItems.map((huntItem) => ({question: huntItem.question, answer: huntItem.answer}));
+  newHuntDisplay = {title: newHunt.title, description: newHunt.description};
+  res.send({hunt: newHuntDisplay, huntItems: huntItemsDisplay}); 
+});
+
+router.post("/createhunt", async (req, res) => {
+  const hunt = await Hunt.findOneAndUpdate({creatorId: req.body.creatorId, isFinalized: false}, 
+                                           {$set: {title: req.body.title,
+                                                  description: req.body.description,
+                                                  isFinalized: true}});
+  res.send({});
+});
+
+router.post("/deletehunt", async (req, res) => {
+  await Hunt.findOneAndDelete({creatorId: req.body.creatorId, isFinalized: false});
+  res.send({});
+});
+
+router.post("/newhuntitem", async (req, res) => {
+  console.log(req.body);
+  const hunt = await Hunt.findOne({creatorId: req.body.creatorId, isFinalized: false});
+  console.log(hunt);
+  const newHuntItem = await (new HuntItem({
+    huntId: hunt._id,
+    question: req.body.question,
+    answer: req.body.answer,
+  })).save();
+  res.send({question: newHuntItem.question, answer: newHuntItem.answer});
+});
 ////////////////////////////////////////
 
 // get user info
@@ -463,23 +519,6 @@ router.get("/user", (req, res) => {
       _id: user._id,
     });
   });
-});
-
-router.get("/savedhuntitem", (req, res) => {
-  let query = {"huntId": req.query.huntId};
-  HuntItem.find(query).then((huntitems) => {
-    res.send(huntitems);
-  });
-});
-
-router.post("/savedhuntitem", (req, res) => {
-  const newHuntItem = new HuntItem({
-    huntId: req.body.huntId, 
-    question: req.body.question,
-    answer: req.body.answer
-  });
-
-  newHuntItem.save().then((huntitem) => {res.send(huntitem);});
 });
 
 router.get("/hunt", (req, res) => {

@@ -5,8 +5,6 @@ import "./SubmittedHuntItem.css";
  * SubmittedHuntItem is a component that keeps track of 
  * of hunt items that are already added to the new hunt
  * 
- * @param {string} huntId is optional to keep track of which scavenger it goes with
- * @param {string} _id is the id of the huntItem
  * @param {string} content is an object keyed on question and answer
  */
 class SubmittedHuntItem extends Component {

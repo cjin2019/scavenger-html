@@ -1,5 +1,8 @@
 .SubmittedHuntItem-container {
     background-color: var(--medgrey);
+    border-radius: 1.5em;
+    margin: 1em 0em 1em;
+
     font-size: var(--l);
     padding: 1.5em;
 }
