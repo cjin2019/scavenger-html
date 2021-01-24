@@ -18,16 +18,15 @@
 
 .SingleHuntShortcut-titleButton {
     margin-right: 0.25em;
-    width: 75%;
+    width: 60%;
     height: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+    display: flex;
+    align-items: center;
 }
 
 .SingleHuntShortcut-title {
-    margin-left: 0.25em;
-    margin-right: 00.25em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
 .SingleHuntShortcut-description{
