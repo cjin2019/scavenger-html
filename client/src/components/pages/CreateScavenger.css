@@ -3,4 +3,21 @@
 }
 .CreateScavenger-basicinfocontainer{
     font-size: var(--l);
+    background-color: var(--medgrey);
+    border-radius: 1.5em;
+
+    padding: 1.5em;
+}
+.CreateScavenger-basicInfo {
+    font-size: var(--m);
+    font: var(--font);
+    color: var(--white);
+
+    width: 50%;
+
+    background-color: var(--black);
+}
+
+.CreateScavenger-description {
+    height: 5em;
 }

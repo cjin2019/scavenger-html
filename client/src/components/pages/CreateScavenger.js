@@ -160,15 +160,17 @@ class CreateScavenger extends Component {
                             placeholder = "title"
                             value = {this.state.title}
                             onChange = {this.handleTitleChange}
+                            className = "CreateScavenger-basicInfo"
                         />
                     </div>
                     <div>
                         <h3>Description</h3>
-                        <input
-                            type = "text"
+                        <textarea
+                            type = "textarea"
                             placeholder = "Description"
                             value = {this.state.description}
                             onChange = {this.handleDescriptionChange}
+                            className = "CreateScavenger-basicInfo CreateScavenger-description"
                         />
                     </div>
                 </div>

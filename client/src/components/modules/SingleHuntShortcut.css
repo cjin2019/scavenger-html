@@ -18,7 +18,7 @@
 
 .SingleHuntShortcut-titleButton {
     margin-right: 0.25em;
-    width: 50%;
+    width: 75%;
     height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
