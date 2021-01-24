@@ -154,7 +154,6 @@ function sendPlayerSubmission (player, submissionItem, res){
                                       isCorrect: submissionItem.isCorrect,
                                       numSubmissions: submissionItem.numSubmissions}
   }
-  console.log(playitems);
   res.send(playitems);
 }
 /**
@@ -286,9 +285,10 @@ router.post("/updatenewgame", async (req, res) => {
   if(game !== null){
     const newGame = await Game.findByIdAndUpdate(game._id, 
                           {$set: { setting : req.body.setting }}, {new: true});
-    if(newGame !== null) {setting = newGame.setting;}
+    await createNewPlayer(req.body.creatorId, newGame, res);
+  } else{
+    res.send({});
   }
-  res.send({setting: setting});
 });
 
 // getting the new created game
@@ -296,12 +296,6 @@ router.get("/newgame", async (req, res) => {
   const game = await Game.findOne({creatorId: req.query.creatorId});
   const hunt = await Hunt.findById(game.huntId);
   res.send({title: hunt.title, description: hunt.description, setting: game.setting});
-});
-
-// creating a new player
-router.post("/createnewplayer", async (req, res) => {
-  const game = await Game.findOne({creatorId: req.body.userId});
-  await createNewPlayer(req.body.userId, game, res);
 });
 
 // join game page

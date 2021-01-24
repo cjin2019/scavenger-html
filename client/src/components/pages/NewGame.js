@@ -58,7 +58,7 @@ class NewGame extends Component {
     handleStart = () => {
         //send a post request to create a player
         if(confirm("Once you start game, you cannot leave the scavenger html until you complete!")){
-            post("api/createnewplayer", {userId: this.props.userId}).then(() => {navigate("/startgame")});
+            this.startGame();
         }
     }
 
@@ -82,13 +82,12 @@ class NewGame extends Component {
         this.updateSettingState(key, event.target.value);
     }
 
-    /**
-     * @param {string} key the setting to update
-     * @returns true if saved and false otherwise
-     */
-    settingUpdate = (key) => {
-        const numberValue = this.filterInt(this.state.setting[key]);
-        if(numberValue !== null){
+    startGame = () => {
+        let validInput = true;
+        Object.values(this.state.setting).forEach((value) => {
+            if(this.filterInt(value) === null) {validInput = false;}
+        });
+        if(validInput){
             const body = {
                 creatorId: this.props.userId,
                 setting: {
@@ -96,7 +95,7 @@ class NewGame extends Component {
                     numSubmissionLimit: this.state.setting.numSubmissionLimit
                 },
             }
-            post("api/updatenewgame", body);
+            post("api/updatenewgame", body).then(()=> {navigate("/startgame")});
         } else{
             alert("Not a valid setting input!");
         }
@@ -129,7 +128,6 @@ class NewGame extends Component {
                     settingKey = {key}
                     settingValue = {value}
                     onChange = {this.onChange}
-                    settingUpdate = {this.settingUpdate}
                 />
             </div>
         ));

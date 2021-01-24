@@ -27,7 +27,6 @@ class CollectTagCanvas extends Component {
                 tag: res.tag,
                 alreadyCollected: res.alreadyCollected
             });
-            console.log(this.state.tag);
         });
     }
     render(){

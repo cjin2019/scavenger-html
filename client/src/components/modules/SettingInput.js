@@ -11,7 +11,6 @@ import "./hunt_item_parts/HuntItem.css";
  * @param {string} settingKey the setting part that we want to change
  * @param {string} settingValue the value in the input
  * @param {(event, string) => void} onChange is the function to execute when value is changed
- * @param {(string) => void} settingUpdate the function that executes when we want to update the setting
  * 
  */
 class SettingInput extends Component {
@@ -31,10 +30,6 @@ class SettingInput extends Component {
                 onChange = {this.onChange}
                 className = "cu-inputTextContainer"
             />
-            <button 
-                onClick = {() => this.props.settingUpdate(this.props.settingKey)}
-                className = "HuntItem-button"
-            >{"<submit/>"}</button>
         </div>);
     }
 }

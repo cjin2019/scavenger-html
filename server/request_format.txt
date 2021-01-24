@@ -14,7 +14,7 @@
         } 
     }
 
-    send: new setting following the object in the game schema 
+    send: an empty object
 
 "api/newgame"
     query: {
@@ -22,12 +22,6 @@
     }
 
     send: {title: title of the hunt, description: description of the hunt}
-
-"api/createnewplayer"
-    body: {
-        userId: id of the user
-        gameId: id of the game
-    }
 
 "api/gameinfo"
     query: {
