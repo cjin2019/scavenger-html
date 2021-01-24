@@ -21,6 +21,7 @@ class AnswerInput extends Component {
 
     render(){
         let inputContainerClassName = (this.props.currentSubmissionItem.isCorrect) ? ("AnswerInput-inputContainerCorrect") : ("AnswerInput-inputContainerUsedLimit");
+        const noMoreSubmission = this.props.currentSubmissionItem.isCorrect || this.props.currentSubmissionItem.numSubmissions >= this.props.numSubmissionLimit;
         return (
             <div className = "HuntItem-container AnswerInput-container">
                 <input
@@ -28,15 +29,17 @@ class AnswerInput extends Component {
                     placeholder = ""
                     value = {this.props.currentSubmissionItem.currentSubmission}
                     onChange = {this.props.onChange}
-                    disabled = {this.props.currentSubmissionItem.isCorrect || this.props.currentSubmissionItem.numSubmissions >= this.props.numSubmissionLimit}
+                    disabled = {noMoreSubmission}
                     className = {`AnswerInput-inputContainer ${inputContainerClassName}`}
                 />
-                <button
+                { noMoreSubmission ? (<div></div>) : 
+                (<button
                     onClick = {this.props.onSubmit}
+                    disabled = {noMoreSubmission}
                     className = "HuntItem-button"
                 >
                     {"<submit answer/>"}
-                </button>
+                </button>)}
             </div>
         );
     }
