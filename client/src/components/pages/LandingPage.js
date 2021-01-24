@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
 import "../../utilities.css";
+import "./LandingPage.css";
 
 // TODO: Change to your own! process.env.REACT_APP_GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_ID = "649018652594-90vdqirplrmshf7ua84tpegb7dvsf7u7.apps.googleusercontent.com";
@@ -18,28 +19,36 @@ class LandingPage extends Component {
     }
 
     render(){
-        return (<div>
-            <h1>Welcome to Scavenger html! Push the login button to start
-            </h1>
-            {this.props.userId ? (
-                <div>
+        return (<div className = "LandingPage-container">
+            <div>
+                <h1 className = "LandingPage-typewriter">
+                    Welcome to Scavenger html! Push the login button to start
+                </h1>
+            </div>
+            <div>
+                {this.props.userId ? (
                     <GoogleLogout
                         clientId={GOOGLE_CLIENT_ID}
                         buttonText="Logout"
+                        render={renderProps => (
+                            <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "LandingPage-button">{"<logout/>"}</button>
+                        )}
                         onLogoutSuccess={this.props.handleLogout}
                         onFailure={(err) => console.log(err)}
                     />
-                </div>
-                
-                ) : (
-                <GoogleLogin
-                    clientId={GOOGLE_CLIENT_ID}
-                    buttonText="Login"
-                    onSuccess={this.props.handleLogin}
-                    onFailure={(err) => console.log(err)}
-                />
-            )}
-        </div>)
+                    ) : (
+                    <GoogleLogin
+                        clientId={GOOGLE_CLIENT_ID}
+                        buttonText="Login"
+                        render={renderProps => (
+                            <button onClick={renderProps.onClick} disabled={renderProps.disabled} className = "LandingPage-button">{"<login/>"}</button>
+                        )}
+                        onSuccess={this.props.handleLogin}
+                        onFailure={(err) => console.log(err)}
+                    />
+                )}
+            </div>
+        </div>);
     }
 }
 

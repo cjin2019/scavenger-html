@@ -26,10 +26,11 @@ class PlayHuntItem extends Component {
     }
 
     render(){
+        let index = this.props.huntItem.index + 1;
         return (<div>
                     <div className = "PlayHuntItem-container">
                         <div>
-                            <h4>Question</h4>
+                            <h4>{"Question " + index}</h4>
                             <PartDisplay content = {this.props.huntItem.question}/>
                         </div>
                         <div>
