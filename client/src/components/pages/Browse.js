@@ -53,13 +53,6 @@ class Browse extends Component {
             </div>
         </div>);
 
-        // let displayLogin = (<div>
-        //     <div>Go to login page first</div>
-        //     <button onClick = {() => navigate("/")}>{"<home/>"}</button>
-        // </div>);
-        // return (<div>
-        //         {this.props.userId ? display : displayLogin}
-        //         </div>);
         return forceUserLogin(this.props.userId, display);
     }
 }
