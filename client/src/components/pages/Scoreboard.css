@@ -1,0 +1,60 @@
+.Scoreboard-container{
+    margin: 7.5em;
+    font-size: var(--l);
+    background-color: var(--darkgrey);
+    border: 2.5px solid var(--grey);
+    border-radius: 1.5em;
+}
+
+.Scoreboard-titleContainer {
+    padding: 0.5em;
+    text-align: center;
+}
+
+.Scoreboard-labelsContainer {
+    font-weight: bold;
+
+    padding: 0.5em;
+    background-color: var(--medgrey);
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.Scoreboard-playerContainer,
+.Scoreboard-playerContainer:nth-child(2n) {
+    background-color: var(--medgrey);
+    padding: 0.5em;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Scoreboard-playerContainer:nth-child(2n+1){
+    background-color: var(--darkgrey);
+}
+
+.Scoreboard-buttonContainer {
+    justify-content: center;
+}
+
+.Scoreboard-button,
+.Scoreboard-button:visited{
+    background-color: var(--black);
+    border: 1.5px solid var(--white);
+
+    padding: 0.5em;
+    margin: 0.5em;
+
+    border-radius: 0.5em;
+
+    outline: none;
+    color: var(--white);
+
+    font-family: var(--font);
+    font-size: var(--l);
+    opacity: 1.0;
+}
+
+.Scoreboard-button:hover {
+    border: 5px solid var(--white);
+}

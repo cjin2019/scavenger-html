@@ -4,7 +4,7 @@ import { navigate } from "@reach/router";
 import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
-import "./ButtonPage.css";
+import "./Scoreboard.css";
 import { forceUserLogin } from "./PageFunctions";
 
 /**
@@ -19,17 +19,12 @@ class Scoreboard extends Component {
         super(props);
 
         this.state = {
-            player: {
-                userInfo: {name: ""},
-            },
             players: [],
         }
     }
 
     handleSubmit = () => {
-        post("api/deleteplayer", {playerId: this.state.player._id}).then(() =>{
-            navigate("/userhome");
-        });
+        navigate("/userhome");
     }
 
     getPlayersInfo = () => {
@@ -51,20 +46,33 @@ class Scoreboard extends Component {
     }
 
     render(){
-        let display = (<div><h1>Scoreboard</h1>
-        {this.state.players.map((player) => (
-            <div
-                key = {`playerId_${Math.random()*10000}`}
-            >
-                {player.name}, {player.numCorrect}, {player.millisecondsToSubmit}
+        let display = (<div className = "Scoreboard-container">
+            <h1 className = "Scoreboard-titleContainer">Scoreboard</h1>
+            <div className = "Scoreboard-labelsContainer">
+                <div>Name</div>
+                <div>Num Items Correct</div>
+                <div>Time (s)</div>
             </div>
-        ))}
-        <button 
-            onClick = {this.handleSubmit}
-            className = "ButtonPage-button"
-        >
-            {"<go home/>"}
-        </button>
+            <div>
+                {this.state.players.map((player) => (
+                    <div
+                        key = {player.name}
+                        className = "Scoreboard-playerContainer"
+                    >
+                        <div>{player.name}</div>
+                        <div>{player.numCorrect}</div>
+                        <div>{player.millisecondsToSubmit/1000}</div>
+                    </div>
+                ))}
+            </div>
+            <div className = "Scoreboard-buttonContainer">
+                <button 
+                    onClick = {this.handleSubmit}
+                    className = "Scoreboard-button"
+                >
+                    {"<go home/>"}
+                </button>
+            </div>
         </div>);
 
         return forceUserLogin(this.props.userId, display);
