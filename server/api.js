@@ -334,8 +334,11 @@ router.get("/playerinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
   const game = await Game.findById(player.gameId);
   const allPlayers = await Player.find({gameId: game._id});
-  const userIds = allPlayers.map(player => player.userInfo._id);
-  const allPlayersInfo = allPlayers.map((player) => ({name: player.userInfo.name, 
+  let isDone = true;
+  allPlayers.forEach((player) => {if(player.millisecondsToSubmit === undefined){isDone = false;}});
+  if(isDone){
+    const userIds = allPlayers.map(player => player.userInfo._id);
+    const allPlayersInfo = allPlayers.map((player) => ({name: player.userInfo.name, 
                                                       numCorrect: player.numCorrect, 
                                                       millisecondsToSubmit: player.millisecondsToSubmit}))
                                     .sort((player1, player2) => {
@@ -343,11 +346,14 @@ router.get("/playerinfo", async (req, res) => {
                                       else if (player1.numCorrect < player2.numCorrect) {return 1;}
                                       else {return (player1.millisecondsToSubmit < player2.millisecondsToSubmit) ? -1: 1;}
                                     });
-  // later get all the names of the players using sockets!
-  res.send({players: allPlayersInfo});
-  userIds.forEach((userId) => {
-    socketManager.getSocketFromUserID(userId).emit("scoreboard", allPlayersInfo);
-  });
+    // later get all the names of the players using sockets!
+    res.send({players: allPlayersInfo});
+    userIds.forEach((userId) => {
+      socketManager.getSocketFromUserID(userId).emit("scoreboard", allPlayersInfo);
+    });
+  } else{
+    res.send({msg: "NOT DONE"});
+  }
 });
 
 router.post("/playerinfo", (req, res) => {

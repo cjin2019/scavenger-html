@@ -42,7 +42,7 @@
         userId: id of the user 
         millisecondsToSubmit: Number,
     }
-    send: ordered {players: [{name: string, numCorrect: number, millisecondsToSubmit: number}]}, an empty object if there is 
+    send: ordered {players: [{name: string, numCorrect: number, millisecondsToSubmit: number}]}/ {msg: } if not all players are done, an empty object if there is 
     a post request
 
 "api/startgame"

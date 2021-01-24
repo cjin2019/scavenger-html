@@ -20,6 +20,7 @@ class Scoreboard extends Component {
 
         this.state = {
             players: [],
+            isDone: false,
         }
     }
 
@@ -29,14 +30,18 @@ class Scoreboard extends Component {
 
     getPlayersInfo = () => {
         if(this.props.userId){
-            get("api/playerinfo", {userId: this.props.userId}).then((players) => {
-                this.setState({
-                    players:players.players,
-                })
+            get("api/playerinfo", {userId: this.props.userId}).then((res) => {
+                if(res.players){
+                    this.setState({
+                        players: res.players,
+                        isDone: true,
+                    });
+                }
             });
             socket.on("scoreboard", (players) => {
                 this.setState({
                     players:players,
+                    isDone: true,
                 });
             });
         }
@@ -46,7 +51,7 @@ class Scoreboard extends Component {
     }
 
     render(){
-        let display = (<div className = "Scoreboard-container">
+        let displayDone = (<div className = "Scoreboard-container">
             <h1 className = "Scoreboard-titleContainer">Scoreboard</h1>
             <div className = "Scoreboard-labelsContainer">
                 <div>Name</div>
@@ -75,6 +80,7 @@ class Scoreboard extends Component {
             </div>
         </div>);
 
+        let display = this.state.isDone ? displayDone : (<div><h1>Waiting...</h1></div>);
         return forceUserLogin(this.props.userId, display);
     }
 }
