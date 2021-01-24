@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "../../utilities.css";
+import "./NewItemPart.css";
 import "../component_utilities.css";
 
 
@@ -29,12 +30,12 @@ import "../component_utilities.css";
      render() {
          return (
              <>
-                <input
+                <textarea
                     type = "text"
                     placeholder = {this.props.itemType}
                     value = {this.props.content}
                     onChange = {this.handleChange}
-                    className = "cu-inputTextContainer"
+                    className = "cu-inputTextContainer NewItemPart-inputContainer"
                 />
              </>
              
