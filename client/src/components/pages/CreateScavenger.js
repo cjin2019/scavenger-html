@@ -102,11 +102,15 @@ class CreateScavenger extends Component {
             question: huntItemObj.question,
             answer: huntItemObj.answer,
         }
-        post("api/savedhuntitem", body).then((huntItem) => {
-            this.setState({
-                huntItems: [...this.state.huntItems, huntItem],
+        if(huntItemObj.question === "" || huntItemObj.answer === ""){
+            alert("You cannot an empty question and/or answer field");
+        } else {
+            post("api/savedhuntitem", body).then((huntItem) => {
+                this.setState({
+                    huntItems: [...this.state.huntItems, huntItem],
+                });
             });
-        });
+        }
     }
 
     /**
