@@ -5,3 +5,8 @@
 .FindHunts-title {
     margin: 1.5em;
 }
+
+.FindHunts-instruction {
+    font: var(--font);
+    font-size: var(--l);
+}

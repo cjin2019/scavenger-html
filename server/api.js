@@ -465,120 +465,6 @@ router.get("/user", (req, res) => {
   });
 });
 
-router.get("/submission", (req, res) => {
-  const query = {
-    playerId: req.query.playerId,
-    huntItemId: req.query.huntItemId,
-    gameId: req.query.gameId,
-  }
-  SubmissionItem.findOne(query).then((submissionItem) => {
-    //if no submission yet, send a msg: NO SUBMISSION
-    if(submissionItem === null){
-      res.send({msg: "NO SUBMISSION"});
-    } else{
-      res.send(submissionItem);
-    }
-  });
-});
-
-router.post("/submission", (req, res) => {
-  const filter = {
-    playerId: req.body.playerId,
-    huntItemId: req.body.huntItemId,
-    gameId: req.body.gameId,
-  };
-  const update = { $set: {currentSubmission: req.body.currentSubmission,
-                          isCorrect: req.body.isCorrect},
-                   $inc:  {numSubmissions: 1}};
-  SubmissionItem.findOneAndUpdate(filter, update, {upsert: true, returnOriginal: false}).then((submissionItem) => {
-    res.send(submissionItem);
-  });
-});
-
-router.post("/game", (req, res) => {
-  if(req.body.action && req.body.action === "delete"){
-    Game.findByIdAndDelete(req.body.gameId).then(() => {res.send({});});
-  } else if (req.body.action && req.body.action === "update") {
-    if (req.body.setting) {
-      Game.findByIdAndUpdate(req.body.gameId, {$set: { setting : req.body.setting }}, {new: true}).then((game) => {res.send(game); console.log(game);});
-    }
-    else {
-      Game.findByIdAndUpdate(req.body.gameId, {$set: { startTime : Date.now() }}, {new: true}).then((game) => {res.send(game); console.log(game);});
-    }
-  } else{
-    Hunt.findById(req.body.huntId).then((hunt) => {
-      HuntItem.find({huntId: hunt._id}).then((huntItems) => {
-        createGame(res, hunt._id, req.body.creatorId, huntItems);
-      });
-    });
-  }
-});
-
-router.get("/game", (req, res) => {
-  if(req.query.creatorId){
-    Game.findOne({creatorId: req.query.creatorId}).then((game) => {
-      res.send(sendValidResponse(game));
-      console.log(game);
-    });
-  } else {
-    Game.findById(req.query.gameId).then((game) => {
-      res.send(sendValidResponse(game));
-      console.log(game);
-    });
-  }
-  
-});
-
-router.post("/deleteplayer", (req, res) => {
-  if(req.body.userId){
-    Player.findOneAndDelete({"userInfo._id": req.body.userId}).then((response) => {
-      console.log(response);
-      res.send({msg: "DELETED PLAYER"});
-    });
-  } else{
-    Player.findByIdAndDelete(req.body.playerId).then(() => {
-      res.send({msg: "DELETED PLAYER"});
-    });
-  }
-});
-
-router.post("/player", (req, res) => {
-  if(req.body.playerId){
-    if(req.body.itemIndex !== undefined){
-      Player.findByIdAndUpdate(req.body.playerId, 
-                                {$set: {
-                                  currentHuntItemIndex: req.body.itemIndex,
-                                }},
-                                { new: true,}).then((player)=> { res.send(player);});
-    } else if(req.body.millisecondsToSubmit){
-      Player.findByIdAndUpdate(req.body.playerId, 
-                                {$set: {
-                                  millisecondsToSubmit: req.body.millisecondsToSubmit,
-                                }},
-                                { new: true,}).then((player)=> { res.send(player); console.log(player);});
-    } 
-    else{
-      incrementNumCorrect(req.body.playerId, res);
-    }
-  } else {
-    const newPlayer = new Player({
-      gameId: req.body.gameId,
-      userInfo: req.body.user,
-      currentHuntItemIndex: -1, //hard code to -1 for now
-      numCorrect: 0,
-    });
-    newPlayer.save().then((player) => {res.send({player});});
-  }
-});
-
-router.get("/player", (req, res) => {
-  const query = {"userInfo._id": req.query._id};
-  Player.findOne(query).then((player) => {
-    res.send(sendValidResponse(player));
-  });
-});
-
-
 router.get("/savedhuntitem", (req, res) => {
   let query = {"huntId": req.query.huntId};
   HuntItem.find(query).then((huntitems) => {
@@ -638,18 +524,6 @@ router.post("/hunt", (req, res) => {
       res.send({msg: "UPDATED HUNT TO VIEWED BY OTHER USERS"});
     });
   }
-});
-
-router.get("/playhuntitems", (req, res) => {
-  const ids = req.query.huntItemIds.split(",").map((idString) =>(mongo.ObjectID(idString)));
-  const pipeline = getOrderedHuntItems(ids);
-  HuntItem.aggregate(pipeline).then((huntitems) => {
-    const huntItemsResponse = huntitems.map((huntitem) => ({
-      _id: huntitem._id,
-      question: huntitem.question,
-    }));
-    res.send(huntItemsResponse);
-  });
 });
 
 // anything else falls to this "not found" case

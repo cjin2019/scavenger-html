@@ -5,6 +5,7 @@ const HuntSchema = new mongoose.Schema({
     title: String,
     description: String,
     isFinalized: Boolean,
+    isTutorial: Boolean,
 });
 
 // compile model from schema

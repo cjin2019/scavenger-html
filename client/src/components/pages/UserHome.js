@@ -62,7 +62,12 @@ class UserHome extends Component {
         let display = (<div className = "FindHunts-container">
             <h1 className = "FindHunts-title">Your created scavenger hunts</h1>
             {this.state.hunts.length === 0 ? 
-            (<div>You have no created hunts go to browse to play a hunt or to create to create one</div>) : 
+            (<div className = "FindHunts-instruction">You have no created hunts go to 
+                <span className = "u-bold">{" <browse/> "}</span> 
+                to play one of the hunts labeled as tutorial or to 
+                <span className = "u-bold">{" <create/> "}</span>
+                to create one
+            </div>) : 
             (<ListHunts 
                 hunts = {this.state.hunts}
                 userId = {this.props.userId}
