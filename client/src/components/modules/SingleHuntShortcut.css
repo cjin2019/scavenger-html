@@ -15,6 +15,20 @@
     padding: 0.5em;
 }
 
+.SingleHuntShortcut-titleButton {
+    margin-right: 0.25em;
+    width: 35%;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.SingleHuntShortcut-title {
+    margin-left: 0.25em;
+    margin-right: 00.25em;
+}
+
 .SingleHuntShortcut-description{
     font-size: var(--m);
 }
@@ -26,14 +40,10 @@
 .SingleHuntShortcut-outerContainer > .SingleHuntShortcut-container :hover{
     transform: scale(1.0);
 }
-
 .SingleHuntShortcut-playbutton{
     width: 40px;
     height: 40px;
     display: block;
-    /* div height to be the same as width*/
-    padding-top: 100%;
-    margin-top: 50%;
 
     /* make it a circle */
     border-radius: 50%;
@@ -47,6 +57,8 @@
     background-repeat: no-repeat;
 
     background-image: url("../../public/play_circle_filled_white_24px.svg");
+    /* top: 0; */
+    bottom: 0;
 }
 
 .SingleHuntShortcut-playbutton:hover {
