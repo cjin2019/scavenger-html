@@ -1,5 +1,5 @@
 const allTags = ["html", 
-                "base", "head", "link", "meta", "style", "title",
+                 "base", "head", "link", "meta", "style", "title",
                 "body",
                 "address", "article", "aside", "footer", 
                 "h1", "h2", "h3", "h4", "h5", "h6",
@@ -20,9 +20,18 @@ const allTags = ["html",
                 "details", "dialog", "menu", "summary",
                 "slot", "template"];
 
+const tagsRanked = ["html", "head", "body", "title", 
+                    "h1", "h2", "h3", "h4", "h5", "h6",
+                    "p", "em", "b", "i",
+                    "img", "a", "link",
+                    "button", "input", "form", "label", "textarea",
+                    "style", "script", "canvas", 
+                    ];
+
 const commonTags = ["html", "head", "body", "title",
                     "h1", "h2", "h3", "h4", "h5", "h6",
                     "p", "em", "b", "i"];
 module.exports = {
     allTags,
+    tagsRanked,
 }

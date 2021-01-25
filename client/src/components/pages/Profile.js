@@ -23,8 +23,9 @@ class Profile extends Component {
 
         this.state = {
             name: "",
-            tags: {},
+            tags: [],
             color: "#373434",
+            points: 0,
             editMode: false,
         }
     }
@@ -32,10 +33,12 @@ class Profile extends Component {
     setName = () => {
         if(this.props.userId){
             get("api/profileinfo", {userId: this.props.userId}).then((user) => {
+                console.log(user);
                 this.setState({
                     name: user.name,
                     tags: user.tags,
                     color: user.color,
+                    points: user.points,
                 });
             });
         }
@@ -84,13 +87,26 @@ class Profile extends Component {
                     >
                     </input>): (<div></div>)}
                 </div>
-                <div>{Object.entries(this.state.tags).map(([key, value]) => (
-                    <div
-                        key = {key}
-                    >
-                        {key +": " + value}
+                <div>
+
+                </div>
+                <div>
+                    <div className = "Profile-awardContainer">
+                        <span className = "u-bold">{"Number of points: "}</span>
+                        <span className = "Profile-awardText">{this.state.points}</span>
                     </div>
-                ))}</div>
+                    <div className = "Profile-awardContainer">
+                        <div>Tags Collected:</div>
+                        {this.state.tags.map((tag) => (
+                        <div
+                            key = {tag}
+                            className = "Profile-tagContainer Profile-awardText"
+                        >
+                            {"<" + tag + "/>"}
+                        </div>
+                        ))}
+                    </div>
+                </div>
             </div>)
         
         let display = (<div>

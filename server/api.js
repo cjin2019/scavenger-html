@@ -333,6 +333,17 @@ function removePlayerUserIds(players){
     millisecondsToSubmit: player.millisecondsToSubmit}));
 }
 
+// for now keep it a 10 point system
+
+/**
+ * @param {Number} points the number of points the user earned
+ * @returns {string[]} an array of tags
+ */
+function getTags(points){
+  const numTags = Math.min(constants.tagsRanked.length, Math.floor(points/10));
+  return constants.tagsRanked.slice(0, numTags+1);
+}
+
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
 router.get("/whoami", (req, res) => {
@@ -533,18 +544,20 @@ router.get("/playaward", async (req, res) => {
 // get profile info
 router.get("/profileinfo", async (req, res) => {
   const user = await User.findById(req.query.userId);
-  let avatar = await Avatar.findOne({userId: user._id});
-  const collectedTags = await CollectedTag.find({userId: req.query.userId});
-  const tagNames = collectedTags.map(tag => tag.tag);
-  const freqTags = {};
-  tagNames.forEach(tagName => {
-    if(freqTags[tagName]) {freqTags[tagName]++}
-    else  {freqTags[tagName] = 1}
-  });
+  const avatar = await Avatar.findOne({userId: user._id});
+  const tags = getTags(avatar.points);
+  // const collectedTags = await CollectedTag.find({userId: req.query.userId});
+  // const tagNames = collectedTags.map(tag => tag.tag);
+  // const freqTags = {};
+  // tagNames.forEach(tagName => {
+  //   if(freqTags[tagName]) {freqTags[tagName]++}
+  //   else  {freqTags[tagName] = 1}
+  // });
   res.send({
     name: user.name,
-    tags: freqTags,
+    tags: tags,
     color: avatar.color,
+    points: avatar.points,
   });
 });
 

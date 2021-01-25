@@ -22,6 +22,27 @@
     animation: rotate-jump 1s infinite;
 }
 
+.Profile-awardContainer {
+    background-color: var(--darkgrey);
+    margin: 0.5em;
+    padding: 1em;
+    border-radius: 0.5em;
+}
+
+.Profile-awardText {
+    color: var(--gold--yellow);
+}
+.Profile-tagContainer {
+    font-weight: normal;
+
+    display: inline-block;
+    margin: 0.25em;
+    padding: 0.25em;
+    border-radius: 0.25em;
+    border: 0.125em solid var(--gold--yellow);
+}
+
+
 /* https://css-tricks.com/making-css-animations-feel-natural/ */
 
 @keyframes rotate-jump {

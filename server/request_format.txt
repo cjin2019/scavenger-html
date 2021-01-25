@@ -95,6 +95,7 @@
         name: name of the user,
         tagPoints: map of the tags and number collected,
         color: the color of the avatar
+        points: the number of points earned
     }
 
 "api/hunttemplate"
