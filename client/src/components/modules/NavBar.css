@@ -14,6 +14,13 @@
     align-items: center;
 }
 
+.Navbar-huntButtonContainer {
+    margin: 0.125em;
+
+    background-color: var(--medgrey);
+    border-radius: 0.25em;
+}
+
 .Navbar-labelContainer {
     background-color: var(--medgrey);
     padding: 0.5em;
@@ -45,6 +52,10 @@
 
 .Navbar-button,
 .Navbar-button:visited{
+    margin: 0.25em;
+    padding: 0.25em;
+    border-radius: 0.125em;
+
     background-color: var(--darkgrey);
     border: none;
     outline: none;
