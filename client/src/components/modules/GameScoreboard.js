@@ -4,6 +4,12 @@ import "../../utilities.css";
 import "./GameScoreboard.css";
 import { socket } from "../../client-socket.js";
 
+/**
+ * GameScoreboard component that shows the scoreboard when on play
+ * 
+ * Proptype
+ * @param {string} userId id of the user
+ */
 class GameScoreboard extends Component {
     constructor(props){
         super(props);
@@ -14,11 +20,13 @@ class GameScoreboard extends Component {
     }
 
     componentDidMount(){
-        socket.on("currentscoreboard", (players) => {
-            this.setState({
-                topPlayers: players,
-            })
-        });
+        if(this.props.userId){
+            socket.on("currentscoreboard", (players) => {
+                this.setState({
+                    topPlayers: players,
+                })
+            });
+        }
     }
     renderScoreboard(){
         return (<div className = "GameScoreboard-labelPlayerContainer">
@@ -28,7 +36,10 @@ class GameScoreboard extends Component {
             </div>
             {this.state.topPlayers.map((player) => 
                 (
-                <div className = "GameScoreboard-playerContainer">
+                <div 
+                    key = {player.name}
+                    className = "GameScoreboard-playerContainer"
+                >
                     <div>{player.name}</div>
                     <div>{player.numCorrect}</div>
                  </div>)

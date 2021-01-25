@@ -25,7 +25,7 @@ class SettingInput extends Component {
         return (<div className = "SettingInput-container">
             <input
                 type = "text"
-                placeholder = {this.props.settingKey}
+                placeholder = {"setting"}
                 value = {this.props.settingValue}
                 onChange = {this.onChange}
                 className = "cu-inputTextContainer"

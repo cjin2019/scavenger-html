@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Avatar from "./Avatar.js";
 
 import "../../utilities.css";
 import { get } from "../../utilities.js";
@@ -51,8 +52,10 @@ class CollectTagCanvas extends Component {
             <div>
                 <h4 className = "CollectTagCanvas-typewriter">{header +": " + tag}</h4>
             </div>
-            <div className = "CollectTagCanvas-iconContainer">{this.renderAvatar()}</div>
-            {/* <div className = "CollectTagCanvas-icon"></div> */}
+            <Avatar 
+                color = {this.state.color}
+                classAvatar = {"CollectTagCanvas-iconAnimation"}
+            />
         </div>);   
     }
 }
