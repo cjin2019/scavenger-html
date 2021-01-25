@@ -293,16 +293,33 @@ async function updatePointsForTopThree(players, huntId){
     let hasEarnedPointsForHunt = true;
     if(award === null && players[i].numCorrect > 0){
       hasEarnedPointsForHunt = false; 
+      const points = 2*numPlayers+1 - 2*(i+1);
       award = await (new Award({
         userId: players[i]._id,
         huntId: huntId,
-        points: 2*numPlayers+1 - 2*(i+1) // hardcoded to 5, 3, 1
+        points: points, // hardcoded to 5, 3, 1
       })).save();
+      await Avatar.findOneAndUpdate({userId: players[i]._id}, {$inc: {points: points}});
     } 
     if(players[i].numCorrect > 0){
       socketManager.getSocketFromUserID(players[i]._id).emit("top3award", {points: award.points, earnedAlready: hasEarnedPointsForHunt});
     }
   }
+}
+
+/**
+ * creates an avatar if doesn't have one
+ * @param {string} userId id of the user
+ */
+async function createAvatar(userId, points){
+  let avatar = await Avatar.findOne({userId: userId});
+  if(avatar === null){
+    avatar = await (new Avatar({
+      userId: userId,
+      color: "#04e004",
+      points: points,
+    })).save();
+  } 
 }
 
 /**
@@ -501,27 +518,22 @@ router.post("/updatesubmission", async (req, res) => {
 });
 
 // get the new tag or post if does not exist
-router.get("/playtag", async (req, res) => {
+router.get("/playaward", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
+  const avatar = await Avatar.findOne({userId: req.query.userId});
   const huntItemId = gameLogic.gameState.huntItems[player.currentHuntItemIndex]._id;
   let collectedTag = await CollectedTag.findOne({userId: req.query.userId, huntItemId: huntItemId});
   if(collectedTag === null){
     createNewCollectedTag(req.query.userId, huntItemId, res);
   } else {
-    res.send({tag: collectedTag.tag, alreadyCollected: true});
+    res.send({tag: collectedTag.tag, alreadyCollected: true, color: avatar.color});
   }
 });
 
-// get profile infor
+// get profile info
 router.get("/profileinfo", async (req, res) => {
   const user = await User.findById(req.query.userId);
   let avatar = await Avatar.findOne({userId: user._id});
-  if(avatar === null){
-    avatar = await (new Avatar({
-      userId: user._id,
-      color: "#04e004",
-    })).save();
-  }
   const collectedTags = await CollectedTag.find({userId: req.query.userId});
   const tagNames = collectedTags.map(tag => tag.tag);
   const freqTags = {};
@@ -603,6 +615,8 @@ router.get("/user", (req, res) => {
       name: user.name,
       _id: user._id,
     });
+
+    createAvatar(user._id);
   });
 });
 

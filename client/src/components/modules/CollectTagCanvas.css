@@ -21,21 +21,13 @@
                 blink-caret .75s step-end infinite;
 }
 
-.CollectTagCanvas-icon{
-    width: 100px;
+.CollectTagCanvas-iconContainer {
     height: 160px;
-    display: block;
-    /* div height to be the same as width*/
-
-    border: none;
-    outline: none;
-
-    background-position-y: center;
-    background-position-x: center;
-    background-repeat: no-repeat;
-
-    background-image: url("../../public/file_happy_face.svg");
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.CollectTagCanvas-iconAnimation{
     animation: bounce-2 0.5s infinite;
 }
 

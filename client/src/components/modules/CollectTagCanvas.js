@@ -17,17 +17,31 @@ class CollectTagCanvas extends Component {
         this.state = {
             tag: "",
             alreadyCollected: false,
+            color: "#04e004"
         }
     }
 
     componentDidMount(){
-        get("api/playtag", {userId: this.props.userId}).then((res) => {
+        get("api/playaward", {userId: this.props.userId}).then((res) => {
             this.setState({
                 tag: res.tag,
                 alreadyCollected: res.alreadyCollected
             });
         });
     }
+
+    renderAvatar = () => {
+        return (<svg width="100" height="160" fill="none" xmlns="http://www.w3.org/2000/svg" className = "CollectTagCanvas-iconAnimation">
+        <rect x="5" y="5" width="90" height="120" stroke = {this.state.color} strokeWidth="8"/>
+        <polyline points="20 55 30 45 40 55"
+            stroke={this.state.color} fill="transparent" strokeWidth="5"/>
+        <polyline points="60 55 70 45 80 55"
+            stroke={this.state.color} fill="transparent" strokeWidth="5"/>
+        <polyline points="40 60 50 65 60 60"
+            stroke={this.state.color} fill="transparent" strokeWidth="5"/>
+    </svg>);
+    };
+
     render(){
         const tag = "<" + this.state.tag + ">";
         const header = this.state.alreadyCollected ? "Tag Already Collected": "New Tag Collected!";
@@ -36,7 +50,8 @@ class CollectTagCanvas extends Component {
             <div>
                 <h4 className = "CollectTagCanvas-typewriter">{header +": " + tag}</h4>
             </div>
-            <div className = "CollectTagCanvas-icon"></div>
+            <div className = "CollectTagCanvas-iconContainer">{this.renderAvatar()}</div>
+            {/* <div className = "CollectTagCanvas-icon"></div> */}
         </div>);   
     }
 }
