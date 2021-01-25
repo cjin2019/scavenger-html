@@ -92,8 +92,9 @@
         userId: id of the user,
     }
     send: {
-        name: name of the user
-        tagPoints: map of the tags and number collected
+        name: name of the user,
+        tagPoints: map of the tags and number collected,
+        color: the color of the avatar
     }
 
 "api/hunttemplate"
@@ -130,12 +131,11 @@
     }
     send huntItem {question: , answer: }
 
-"api/currentScore" 
+"api/avatarcolor"
     body: {
-        userId: id of the user
+        userId: id of the user,
+        color: the new color,
     }
-    send the top 3 scorers 
-    [{name: , numCorrect: , time: }]
 ----------------------------------------
 "api/user"
     query: {

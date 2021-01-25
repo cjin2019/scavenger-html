@@ -17,6 +17,7 @@ const Game = require("./models/game");
 const Player = require("./models/player");
 const SubmissionItem = require("./models/submissionitem");
 const CollectedTag = require("./models/collectedtag");
+const Avatar = require("./models/avatar");
 
 const constants = require("./constants");
 
@@ -475,6 +476,13 @@ router.get("/playtag", async (req, res) => {
 // get profile infor
 router.get("/profileinfo", async (req, res) => {
   const user = await User.findById(req.query.userId);
+  let avatar = await Avatar.findOne({userId: user._id});
+  if(avatar === null){
+    avatar = await (new Avatar({
+      userId: user._id,
+      color: "#04e004",
+    })).save();
+  }
   const collectedTags = await CollectedTag.find({userId: req.query.userId});
   const tagNames = collectedTags.map(tag => tag.tag);
   const freqTags = {};
@@ -484,7 +492,8 @@ router.get("/profileinfo", async (req, res) => {
   });
   res.send({
     name: user.name,
-    tags: freqTags
+    tags: freqTags,
+    color: avatar.color,
   });
 });
 
@@ -542,10 +551,9 @@ router.post("/newhuntitem", async (req, res) => {
   res.send({question: newHuntItem.question, answer: newHuntItem.answer});
 });
 
-router.get("/currentscore", async (req, res) => {
-  const player = await Player.findOne({"userInfo._id": req.query.userId});
-  const allPlayers = await Player.find({gameId: player.gameId});
-
+router.post("/avatarcolor", async (req, res) => {
+  await Avatar.findOneAndUpdate({userId: req.body.userId}, {$set: {color: req.body.color}});
+  res.send({});
 });
 ////////////////////////////////////////
 

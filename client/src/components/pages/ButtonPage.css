@@ -6,7 +6,7 @@
 .ButtonPage-button,
 .ButtonPage-button:visited{
     background-color: var(--darkgrey);
-    padding: 1em;
+    padding: 0.5em;
 
     border-radius: 0.5em;
     border: none;
@@ -15,7 +15,7 @@
     color: var(--white);
 
     font-family: var(--font);
-    font-size: var(--l);
+    font-size: var(--m);
     opacity: 1.0;
 }
 
