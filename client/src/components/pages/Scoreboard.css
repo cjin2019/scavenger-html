@@ -1,14 +1,31 @@
-.Scoreboard-container{
+.Scoreboard-container {
     margin: 7.5em;
+}
+
+.Scoreboard-subContainer {
     font-size: var(--l);
     background-color: var(--darkgrey);
-    border: 2.5px solid var(--grey);
+    border: 0.125em solid var(--grey);
     border-radius: 1.5em;
+}
+
+.Scoreboard-flexContainer {
+    margin: 0.125em;
+}
+
+.Scoreboard-earnedContainer{
+    margin: 1.5em 0em 1.5em;
+    padding: 1em;
+
+    display: flex;
 }
 
 .Scoreboard-titleContainer {
     padding: 0.5em;
     text-align: center;
+
+    font-size: var(--xl);
+    font-weight: bold;
 }
 
 .Scoreboard-labelsContainer {

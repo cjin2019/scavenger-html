@@ -60,15 +60,17 @@ class UserHome extends Component {
     render(){
 
         let display = (<div className = "FindHunts-container">
-            <h1>Read the instructions below!</h1>
             {this.state.hunts.length === 0 ? 
-            (<div className = "FindHunts-instruction">You have no created hunts go to 
-                <span className = "u-bold">{" <browse/> "}</span> 
-                to play one of the hunts labeled as tutorial, to 
-                <span className = "u-bold">{" <create/> "}</span>
-                to create a new hunt, or 
-                <span className = "u-bold">{" <join/> "}</span>
-                to join an existing game through a join code!
+            (<div>
+                <h1>Read the instructions below!</h1>
+                <div className = "FindHunts-instruction">You have no created hunts go to 
+                    <span className = "u-bold">{" <browse/> "}</span> 
+                    to play one of the hunts labeled as tutorial, to 
+                    <span className = "u-bold">{" <create/> "}</span>
+                    to create a new hunt, or 
+                    <span className = "u-bold">{" <join/> "}</span>
+                    to join an existing game through a join code!
+                </div>
             </div>) : 
             (<div>
                 <h1 className = "FindHunts-title">Your created scavenger hunts</h1>

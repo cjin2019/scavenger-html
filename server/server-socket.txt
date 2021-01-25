@@ -6,3 +6,5 @@ currentscoreboard => returns a list {name.player.userInfo.name,
                                     numCorrect: player.numCorrect,
                                     millisecondsLastCorrect: player.millisecondsLastCorrect}
 gamestart -> sends an empty object
+
+top3award -> sends {points: , earnedAlready: true if the player has won points for this hunt} if the player has a positive score 

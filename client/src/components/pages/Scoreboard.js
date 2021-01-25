@@ -21,6 +21,10 @@ class Scoreboard extends Component {
         this.state = {
             players: [],
             isDone: false,
+            earnedPoints: {
+                points: 0,
+                earnedAlready: false,
+            },
         }
     }
 
@@ -44,41 +48,59 @@ class Scoreboard extends Component {
                     isDone: true,
                 });
             });
+            socket.on("top3award", (award) => {this.setState({earnedPoints: award})});
         }
     }
     componentDidMount(){
         this.props.getUser(this.getPlayersInfo);
     }
 
+    renderEarnedPoints = () => {
+        const text = this.state.earnedPoints.earnedAlready ? "Has Earned Points Already: " : "Earned Points: "
+        return this.state.earnedPoints.points > 0? 
+                    (<div className = "Scoreboard-earnedContainer Scoreboard-subContainer">
+                        <div className = "Scoreboard-flexContainer">{text}</div>
+                        <div className = "Scoreboard-flexContainer">{this.state.earnedPoints.points + " (pts)"}</div>
+                    </div>):
+                    (<div></div>);
+    }
+
+    renderScoreboardPlayers = () =>{
+        return (<div>
+            {this.state.players.map((player) => (
+            <div
+                key = {player.name}
+                className = "Scoreboard-playerContainer"
+            >
+                <div>{player.name}</div>
+                <div>{player.numCorrect}</div>
+                <div>{player.millisecondsToSubmit/1000}</div>
+            </div>
+        ))}</div>);
+    }
     render(){
-        let displayDone = (<div className = "Scoreboard-container">
-            <h1 className = "Scoreboard-titleContainer">Scoreboard</h1>
-            <div className = "Scoreboard-labelsContainer">
-                <div>Name</div>
-                <div>Num Items Correct</div>
-                <div>Time (s)</div>
-            </div>
-            <div>
-                {this.state.players.map((player) => (
-                    <div
-                        key = {player.name}
-                        className = "Scoreboard-playerContainer"
+        let displayDone = (
+        <div className = "Scoreboard-container">
+            {this.renderEarnedPoints()}
+            <div className = "Scoreboard-subContainer">
+                <div className = "Scoreboard-titleContainer">Scoreboard</div>
+                <div className = "Scoreboard-labelsContainer">
+                    <div>Name</div>
+                    <div>Number of Items Correct</div>
+                    <div>Time (s)</div>
+                </div>
+                {this.renderScoreboardPlayers()}
+                <div className = "Scoreboard-buttonContainer">
+                    <button 
+                        onClick = {this.handleSubmit}
+                        className = "Scoreboard-button"
                     >
-                        <div>{player.name}</div>
-                        <div>{player.numCorrect}</div>
-                        <div>{player.millisecondsToSubmit/1000}</div>
-                    </div>
-                ))}
+                        {"<go home/>"}
+                    </button>
+                </div>
             </div>
-            <div className = "Scoreboard-buttonContainer">
-                <button 
-                    onClick = {this.handleSubmit}
-                    className = "Scoreboard-button"
-                >
-                    {"<go home/>"}
-                </button>
-            </div>
-        </div>);
+        </div>
+        );
 
         let display = this.state.isDone ? displayDone : (<div><h1>Waiting...</h1></div>);
         return forceUserLogin(this.props.userId, display);

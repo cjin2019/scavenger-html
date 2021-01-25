@@ -18,6 +18,7 @@ const Player = require("./models/player");
 const SubmissionItem = require("./models/submissionitem");
 const CollectedTag = require("./models/collectedtag");
 const Avatar = require("./models/avatar");
+const Award = require("./models/award");
 
 const constants = require("./constants");
 
@@ -262,6 +263,7 @@ async function sendCurrentScoreboard(){
     socketManager.getSocketFromUserID(userId).emit("currentscoreboard", playersFirst3);
   });
 }
+
 /**
  * @param {Player} player1 
  * @param {Player} player2 
@@ -277,6 +279,41 @@ function compareCurrentScoreboard(player1, player2){
     else if(player1.millisecondsLastCorrect > player2.millisecondsLastCorrect) {return 1;}
     else {return 0;}
   }
+}
+
+/**
+ * @param {Object} players with the field _id and numCorrect
+ * @param {string} huntId id of the hunt
+ */
+async function updatePointsForTopThree(players, huntId){
+  const numPlayers = Math.min(players.length, 3);
+
+  for (let i = 0; i < Math.min(players.length, 3); i++) {
+    let award = await Award.findOne({userId: players[i]._id, huntId: huntId});
+    let hasEarnedPointsForHunt = true;
+    if(award === null && players[i].numCorrect > 0){
+      hasEarnedPointsForHunt = false; 
+      award = await (new Award({
+        userId: players[i]._id,
+        huntId: huntId,
+        points: 2*numPlayers+1 - 2*(i+1) // hardcoded to 5, 3, 1
+      })).save();
+    } 
+    if(players[i].numCorrect > 0){
+      socketManager.getSocketFromUserID(players[i]._id).emit("top3award", {points: award.points, earnedAlready: hasEarnedPointsForHunt});
+    }
+  }
+}
+
+/**
+ * @param {Object} players with field _id, name, millisecondsToSubmit, numCorrect
+ * @returns a list of players without the _id
+ */
+function removePlayerUserIds(players){
+  return players.map((player) => ({
+    name: player.name, 
+    numCorrect: player.numCorrect, 
+    millisecondsToSubmit: player.millisecondsToSubmit}));
 }
 
 router.post("/login", auth.login);
@@ -315,7 +352,6 @@ router.post("/createnewgame", async (req, res) => {
 
 router.post("/updatenewgame", async (req, res) => {
   const game = await Game.findOne({creatorId: req.body.creatorId});
-  let setting = null;
   if(game !== null){
     const newGame = await Game.findByIdAndUpdate(game._id, 
                           {$set: { setting : req.body.setting }}, {new: true});
@@ -366,7 +402,8 @@ router.get("/playerinfo", async (req, res) => {
   allPlayers.forEach((player) => {if(player.millisecondsToSubmit === undefined){isDone = false;}});
   if(isDone){
     const userIds = allPlayers.map(player => player.userInfo._id);
-    const allPlayersInfo = allPlayers.map((player) => ({name: player.userInfo.name, 
+    const allPlayersSort = allPlayers.map((player) => ({ _id: player.userInfo._id,
+                                                      name: player.userInfo.name, 
                                                       numCorrect: player.numCorrect, 
                                                       millisecondsToSubmit: player.millisecondsToSubmit}))
                                     .sort((player1, player2) => {
@@ -374,11 +411,13 @@ router.get("/playerinfo", async (req, res) => {
                                       else if (player1.numCorrect < player2.numCorrect) {return 1;}
                                       else {return (player1.millisecondsToSubmit < player2.millisecondsToSubmit) ? -1: 1;}
                                     });
+    const allPlayersInfo = removePlayerUserIds(allPlayersSort);
     // later get all the names of the players using sockets!
     res.send({players: allPlayersInfo});
     userIds.forEach((userId) => {
       socketManager.getSocketFromUserID(userId).emit("scoreboard", allPlayersInfo);
     });
+    await updatePointsForTopThree(allPlayersSort, gameLogic.gameState.game.huntId);
   } else{
     res.send({msg: "NOT DONE"});
   }
