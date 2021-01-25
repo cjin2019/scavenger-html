@@ -1,0 +1,37 @@
+.GameScoreboard-container {
+    border: 0.1em solid var(--white);
+    border-radius: 0.25em;
+    background-color: var(--darkgrey);
+}
+
+.GameScoreboard-titleContainer {
+    font-weight: bold;
+    text-align: center;
+    font-size: var(--l);
+
+    padding: 0.25em;
+}
+
+.GameScoreboard-labelPlayerContainer {
+    border-top: 0.1em solid var(--white);
+}
+.GameScoreboard-labelsContainer {
+    font-weight: bold;
+    background-color: var(--medgrey);
+    padding: 0.25em;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.GameScoreboard-playerContainer,
+.GameScoreboard-playerContainer:nth-child(2n+1) {
+    background-color: var(--medgrey);
+    padding: 0.25em;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.GameScoreboard-playerContainer:nth-child(2n){
+    background-color: var(--darkgrey);
+}

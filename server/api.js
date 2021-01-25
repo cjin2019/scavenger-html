@@ -92,10 +92,8 @@ function createGame(res, huntId, creatorId, huntItems){
  * @param {} res to help send back the response
  * return an object with fields player (following the player schema), submissionItem (following submissionItem schema)
  */
-async function getNewPlayerGameState(userId, res){
+function getNewPlayerGameState(userId, res){
   Player.findOne({"userInfo._id": userId}).then((player) => {
-    console.log("Player inside this function");
-    console.log(player);
     Game.findById(player.gameId).then((game) => {
       gameLogic.gameState.game = game;
       const ids = game.orderHuntItemIds.map(idString => mongo.ObjectID(idString));
@@ -113,8 +111,9 @@ async function getNewPlayerGameState(userId, res){
             gameId: gameLogic.gameState.game._id,
           };
          SubmissionItem.findOne(query).then((submissionItem) => {
-          console.log("reached");
           sendPlayerSubmission(player, submissionItem, res);
+
+          sendCurrentScoreboard();
          });
        });
     });
@@ -237,11 +236,45 @@ async function createNewPlayer(userId, game, res){
       gameId: game._id,
       userInfo: {_id: user._id, name: user.name},
       currentHuntItemIndex: -1, //hard code to -1 for now
+      millisecondsLastCorrect: game.setting.timeLimitMilliseconds + 10000,
       numCorrect: 0,
     });
     const newPlayerObject = await newPlayer.save();
     console.log(newPlayerObject);
     res.send({});
+  }
+}
+
+/**
+ * Sends to the socket currentscoreboard the list of players with the field name and numCorrect: 
+ */
+async function sendCurrentScoreboard(){
+  console.log(gameLogic.gameState);
+  const allPlayers = await Player.find({gameId: gameLogic.gameState.game._id});
+  const allPlayersDisplay = allPlayers.map(player => 
+                                          ({name: player.userInfo.name, numCorrect: player.numCorrect,
+                                            millisecondsLastCorrect: player.millisecondsLastCorrect}))
+                                      .sort(compareCurrentScoreboard);
+  const playersFirst3 = allPlayersDisplay.slice(0, Math.min(3, allPlayersDisplay.length));
+  const userIds = allPlayers.map(player => player.userInfo._id);
+  userIds.forEach(userId => {
+    socketManager.getSocketFromUserID(userId).emit("currentscoreboard", playersFirst3);
+  });
+}
+/**
+ * @param {Player} player1 
+ * @param {Player} player2 
+ * return -1 if player1 precedes player2
+ * return 0 if player1 = player2
+ * return 1 if player1 succedes player2
+ */
+function compareCurrentScoreboard(player1, player2){
+  if(player1.numCorrect > player2.numCorrect) { return -1;}
+  else if(player1.numCorrect < player2.numCorrect) {return 1;}
+  else {
+    if(player1.millisecondsLastCorrect < player2.millisecondsLastCorrect) {return -1;}
+    else if(player1.millisecondsLastCorrect > player2.millisecondsLastCorrect) {return 1;}
+    else {return 0;}
   }
 }
 
@@ -415,8 +448,8 @@ router.post("/updatesubmission", async (req, res) => {
   let isCorrect = false; 
   if(gameLogic.gameState.huntItems[player.currentHuntItemIndex].answer === req.body.currentSubmission){
     isCorrect = true;
-    player = await Player.findByIdAndUpdate(player._id, {$inc: {numCorrect: 1}}, {new: true});
-    console.log(player);
+    player = await Player.findByIdAndUpdate(player._id, {$inc: {numCorrect: 1}, $set: {millisecondsLastCorrect: req.body.millisecondsLastCorrect}}, 
+                                            {new: true});
   }
   const submission = await updateSubmission(filter, req.body.currentSubmission, isCorrect);
   const playerSend = {numCorrect: player.numCorrect};
@@ -424,6 +457,7 @@ router.post("/updatesubmission", async (req, res) => {
                           isCorrect: submission.isCorrect,
                           numSubmissions: submission.numSubmissions,};
   res.send({player: playerSend, submissionItem: submissionSend});
+  await sendCurrentScoreboard();
 });
 
 // get the new tag or post if does not exist
@@ -499,15 +533,19 @@ router.post("/deletehunt", async (req, res) => {
 });
 
 router.post("/newhuntitem", async (req, res) => {
-  console.log(req.body);
   const hunt = await Hunt.findOne({creatorId: req.body.creatorId, isFinalized: false});
-  console.log(hunt);
   const newHuntItem = await (new HuntItem({
     huntId: hunt._id,
     question: req.body.question,
     answer: req.body.answer,
   })).save();
   res.send({question: newHuntItem.question, answer: newHuntItem.answer});
+});
+
+router.get("/currentscore", async (req, res) => {
+  const player = await Player.findOne({"userInfo._id": req.query.userId});
+  const allPlayers = await Player.find({gameId: player.gameId});
+
 });
 ////////////////////////////////////////
 

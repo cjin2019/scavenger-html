@@ -49,7 +49,9 @@ class Profile extends Component {
             />
             <div className = "Profile-container">
                 <h2 className = "Profile-name">{this.state.name}</h2>
-                <div className = "Profile-icon"></div>
+                <div>
+                    <div className = "Profile-icon"></div>
+                </div>
                 <div>{Object.entries(this.state.tags).map(([key, value]) => (
                     <div
                         key = {key}

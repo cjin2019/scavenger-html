@@ -1,0 +1,8 @@
+joinplayers -> returns a list of strings of the names of the players
+scoreboard -> returns a list of {name: player.userInfo.name, 
+                                                      numCorrect: player.numCorrect, 
+                                                      millisecondsToSubmit: player.millisecondsToSubmit}
+currentscoreboard => returns a list {name.player.userInfo.name,
+                                    numCorrect: player.numCorrect,
+                                    millisecondsLastCorrect: player.millisecondsLastCorrect}
+gamestart -> sends an empty object

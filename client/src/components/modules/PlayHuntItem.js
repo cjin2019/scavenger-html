@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PartDisplay from "./hunt_item_parts/PartDisplay.js";
 import AnswerInput from "./hunt_item_parts/AnswerInput.js";
 import CollectTagCanvas from "./CollectTagCanvas";
+import GameScoreboard from "./GameScoreboard.js";
 
 
 import "./PlayHuntItem.css"
@@ -29,20 +30,26 @@ class PlayHuntItem extends Component {
         let index = this.props.huntItem.index + 1;
         return (<div>
                     <div className = "PlayHuntItem-container">
-                        <div>
-                            <h4>{"Question " + index}</h4>
-                            <PartDisplay content = {this.props.huntItem.question}/>
+                        <div className = "PlayHuntItem-itemScoreboardContainer">
+                            <div>
+                                <div>
+                                    <h4>{"Question " + index}</h4>
+                                    <PartDisplay content = {this.props.huntItem.question}/>
+                                </div>
+                                <div>
+                                    <h4>Answer Submission</h4>
+                                    <AnswerInput 
+                                        onSubmit = {this.props.onSubmit}
+                                        onChange = {this.props.onChange}
+                                        currentSubmissionItem = {this.props.currentSubmissionItem}
+                                        numSubmissionLimit = {this.props.game.setting.numSubmissionLimit}
+                                    />
+                                    <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {this.props.game.setting.numSubmissionLimit}</div>
+                                </div>
+                            </div>
+                            <div><GameScoreboard /></div>
                         </div>
-                        <div>
-                            <h4>Answer Submission</h4>
-                            <AnswerInput 
-                                onSubmit = {this.props.onSubmit}
-                                onChange = {this.props.onChange}
-                                currentSubmissionItem = {this.props.currentSubmissionItem}
-                                numSubmissionLimit = {this.props.game.setting.numSubmissionLimit}
-                            />
-                            <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {this.props.game.setting.numSubmissionLimit}</div>
-                        </div>
+
                         <div>
                             {this.props.currentSubmissionItem.isCorrect ? (<CollectTagCanvas userId = {this.props.userId}/>) : (<div></div>)}
                         </div>

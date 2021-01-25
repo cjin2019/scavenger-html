@@ -129,6 +129,13 @@
         answer: answer of the item
     }
     send huntItem {question: , answer: }
+
+"api/currentScore" 
+    body: {
+        userId: id of the user
+    }
+    send the top 3 scorers 
+    [{name: , numCorrect: , time: }]
 ----------------------------------------
 "api/user"
     query: {

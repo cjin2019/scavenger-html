@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Typist from "react-typist";
 
 import "../../utilities.css";
 import { get } from "../../utilities.js";

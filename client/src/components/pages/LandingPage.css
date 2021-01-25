@@ -29,7 +29,7 @@
     font-size: var(--l);
     background-color: var(--black);
 
-    animation: pulse 12s;
+    animation: pulse 15s;
 }
 
 .LandingPage-button:hover{

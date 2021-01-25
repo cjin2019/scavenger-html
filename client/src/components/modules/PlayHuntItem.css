@@ -5,3 +5,8 @@
     margin: 1.5em;
     padding: 1em;
 }
+
+.PlayHuntItem-itemScoreboardContainer {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}

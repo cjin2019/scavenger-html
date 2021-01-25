@@ -8,6 +8,7 @@ const PlayerSchema = new mongoose.Schema({
     },
     currentHuntItemIndex: Number,
     numCorrect: Number,
+    millisecondsLastCorrect: Number,
     millisecondsToSubmit: Number, 
 });
 
