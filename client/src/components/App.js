@@ -18,6 +18,7 @@ import Browse from "./pages/Browse.js";
 import Scoreboard from "./pages/Scoreboard.js";
 import Profile from "./pages/Profile.js";
 import JoinGame from "./pages/JoinGame.js";
+import Help from "./pages/Help.js";
 
 /**
  * Define the "App" component as a class.
@@ -134,6 +135,11 @@ class App extends Component {
             handleLogin = {this.handleLogin}
             handleLogout = {this.handleLogout}
             getUser = {this.getCurrentUser}
+          />
+          <Help 
+            path = "/help"
+            handleLogin = {this.handleLogin}
+            handleLogout = {this.handleLogout}
           />
           <NotFound default />
         </Router>

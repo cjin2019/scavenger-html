@@ -14,8 +14,8 @@
     align-items: center;
 }
 
-.Navbar-huntButtonContainer {
-    margin: 0.125em;
+.Navbar-subButtonContainer {
+    margin: 0em 0.125em 0em;
 
     background-color: var(--medgrey);
     border-radius: 0.25em;
@@ -27,9 +27,9 @@
     border-radius: 0.25em;
 }
 
-.Navbar-profile{
-    width: 30px;
-    height: 30px;
+.Navbar-icon{
+    width: 45px;
+    height: 45px;
     /* display: block; */
 
     /* make it a circle */
@@ -43,7 +43,15 @@
     background-position-x: center;
     background-repeat: no-repeat;
 
+    margin: 0.25em;
+}
+
+.Navbar-profile {
     background-image: url("../../public/account_circle_24px.svg");
+}
+
+.Navbar-help {
+    background-image: url("../../public/help_outline_24px.svg");
 }
 
 .Navbar-icon:hover {
@@ -52,7 +60,7 @@
 
 .Navbar-button,
 .Navbar-button:visited{
-    margin: 0.25em;
+    margin: 0.25em 0.25em 0.25em;
     padding: 0.25em;
     border-radius: 0.125em;
 
