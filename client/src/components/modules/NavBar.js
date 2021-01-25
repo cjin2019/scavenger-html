@@ -32,11 +32,11 @@ class NavBar extends Component {
                 <div>
                     <button onClick = {() => {navigate("/userhome")}} className = "Navbar-button">   {"<home/>"}</button>
                 </div>
-                <div>
+                <div className = "Navbar-rightContainer">
                     <button onClick = {() => {navigate("/create")}} className = "Navbar-button">{"<create/>"}</button>
                     <button onClick = {() => {navigate("/browse")}} className = "Navbar-button">{"<browse/>"}</button>
                     <button onClick = {() => {navigate("/join")}} className = "Navbar-button">{"<join/>"}</button>
-                    <button onClick = {() => {navigate("/profile")}} className = "Navbar-button">{"<profile/>"}</button>
+                    <button onClick = {() => {navigate("/profile")}} className = "Navbar-profile Navbar-icon"></button>
                     {this.props.userId ? (
                     <GoogleLogout
                         clientId={GOOGLE_CLIENT_ID}

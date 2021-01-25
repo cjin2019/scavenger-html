@@ -9,11 +9,40 @@
     align-items: center;
 }
 
+.Navbar-rightContainer {
+    display: flex;
+    align-items: center;
+}
+
 .Navbar-labelContainer {
     background-color: var(--medgrey);
     padding: 0.5em;
     border-radius: 0.25em;
 }
+
+.Navbar-profile{
+    width: 30px;
+    height: 30px;
+    /* display: block; */
+
+    /* make it a circle */
+    border-radius: 50%;
+    border: 2.5px solid var(--white);
+    outline: none;
+
+    background-color: var(--darkgrey);
+
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+
+    background-image: url("../../public/account_circle_24px.svg");
+}
+
+.Navbar-icon:hover {
+    opacity: 0.70;
+}
+
 .Navbar-button,
 .Navbar-button:visited{
     background-color: var(--darkgrey);
