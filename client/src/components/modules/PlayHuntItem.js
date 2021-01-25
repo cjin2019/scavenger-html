@@ -47,11 +47,14 @@ class PlayHuntItem extends Component {
                                     <div>Attempts: {this.props.currentSubmissionItem.numSubmissions} / {this.props.game.setting.numSubmissionLimit}</div>
                                 </div>
                             </div>
-                            <div><GameScoreboard userId = {this.props.userId}/></div>
+                            <div>
+                                <GameScoreboard userId = {this.props.userId}/>
+                                {this.props.currentSubmissionItem.isCorrect ? (<CollectTagCanvas userId = {this.props.userId}/>) : (<div></div>)}
+                            </div>
                         </div>
 
                         <div>
-                            {this.props.currentSubmissionItem.isCorrect ? (<CollectTagCanvas userId = {this.props.userId}/>) : (<div></div>)}
+                            
                         </div>
                     </div>
                 </div>);

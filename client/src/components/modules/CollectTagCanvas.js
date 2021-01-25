@@ -49,9 +49,9 @@ class CollectTagCanvas extends Component {
         const header = this.state.alreadyCollected ? "Tag Already Collected": "New Tag Collected!";
         return (
         <div className = "CollectTagCanvas-container">
-            <div>
+            {/* <div>
                 <h4 className = "CollectTagCanvas-typewriter">{header +": " + tag}</h4>
-            </div>
+            </div> */}
             <Avatar 
                 color = {this.state.color}
                 classAvatar = {"CollectTagCanvas-iconAnimation"}
