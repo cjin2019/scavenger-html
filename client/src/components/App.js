@@ -140,6 +140,8 @@ class App extends Component {
             path = "/help"
             handleLogin = {this.handleLogin}
             handleLogout = {this.handleLogout}
+            userId = {this.state.userId}
+            getUser = {this.getCurrentUser}
           />
           <NotFound default />
         </Router>
