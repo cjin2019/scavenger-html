@@ -23,8 +23,7 @@ class Profile extends Component {
         this.state = {
             name: "",
             tags: {},
-            color: "#1c3da8",
-            // color: "#04e004",
+            color: "#373434",
             editMode: false,
         }
     }

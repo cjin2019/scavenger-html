@@ -17,7 +17,7 @@ class CollectTagCanvas extends Component {
         this.state = {
             tag: "",
             alreadyCollected: false,
-            color: "#04e004"
+            color: "#373434"
         }
     }
 
@@ -25,7 +25,8 @@ class CollectTagCanvas extends Component {
         get("api/playaward", {userId: this.props.userId}).then((res) => {
             this.setState({
                 tag: res.tag,
-                alreadyCollected: res.alreadyCollected
+                alreadyCollected: res.alreadyCollected,
+                color: res.color,
             });
         });
     }
