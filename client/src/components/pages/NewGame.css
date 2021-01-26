@@ -31,3 +31,11 @@
 .NewGame-settingContainer {
     margin: 1.5em;
 }
+
+.NewGame-link{
+    color: var(--light--blue);
+}
+
+.NewGame-link:active{
+    color: var(--white);
+}

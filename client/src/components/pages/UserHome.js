@@ -10,6 +10,7 @@ import "./FindHunts.css"
 import "./Help.css";
 import "../modules/NavBar.css";
 import sound from "../../public/correct_audio.mp3";
+import soundWrong from "../../public/wrong_audio.mp3";
 
 /**
  * UserHome is a page that displays (for now all hunts)
@@ -24,6 +25,7 @@ import sound from "../../public/correct_audio.mp3";
  */
 
 const likeAudio = new Audio(sound);
+const wrongAudio = new Audio(soundWrong);
 
 class UserHome extends Component {
     constructor(props){
@@ -68,6 +70,10 @@ class UserHome extends Component {
         likeAudio.play();
     }
 
+    playIncorrect = () => {
+        wrongAudio.play();
+    }
+
     render(){
 
         let display = (<div className = "FindHunts-container">
@@ -107,7 +113,8 @@ class UserHome extends Component {
                     getUser = {this.props.getUser}
                 />
                 {display}
-                <button onClick = {this.playSound}>Credit to zapsplat.com for sound effects</button>
+                <button onClick = {this.playSound}>Credit to Zapsplat.com for sound effects</button>
+                <button onClick = {this.playIncorrect}>Wrong: Credit to Zapsplat.com for incorrect</button>
                 </div>);
     }
 }
