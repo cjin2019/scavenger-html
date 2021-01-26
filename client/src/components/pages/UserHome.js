@@ -9,6 +9,7 @@ import "../../utilities.css";
 import "./FindHunts.css"
 import "./Help.css";
 import "../modules/NavBar.css";
+import sound from "../../public/correct_audio.mp3";
 
 /**
  * UserHome is a page that displays (for now all hunts)
@@ -21,6 +22,10 @@ import "../modules/NavBar.css";
  * @param {(callback function) => void} getUser is a function to execute when reloading and making sure
  * user is not undefined
  */
+
+// const audioFile = "../../public/zapsplat_multimedia_game_tone_harp_warm_positive_correct_win_001_50712.mp3";
+// const likeAudio = new Audio(audioFile);
+
 class UserHome extends Component {
     constructor(props){
         super(props);
@@ -34,6 +39,7 @@ class UserHome extends Component {
         };
     }
 
+    
     getInitialHomeValues = () => {
         if(this.props.userId){
             get("/api/user", {userId: this.props.userId}).then((user) => {
@@ -57,6 +63,11 @@ class UserHome extends Component {
             this.getInitialHomeValues();
         });
 
+    }
+
+    playSound = () => {
+        const likeAudio = new Audio(sound);
+        likeAudio.play();
     }
 
     render(){
@@ -98,6 +109,7 @@ class UserHome extends Component {
                     getUser = {this.props.getUser}
                 />
                 {display}
+                <button onClick = {this.playSound}>Credit to zapsplat.com for sound effects</button>
                 </div>);
     }
 }

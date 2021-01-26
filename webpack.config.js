@@ -56,6 +56,10 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.mp3$/,
+        loader: 'file-loader',
+      },
     ],
   },
   resolve: {
