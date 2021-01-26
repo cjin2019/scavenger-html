@@ -9,8 +9,6 @@ import "../../utilities.css";
 import "./FindHunts.css"
 import "./Help.css";
 import "../modules/NavBar.css";
-import sound from "../../public/correct_audio.mp3";
-import soundWrong from "../../public/wrong_audio.mp3";
 
 /**
  * UserHome is a page that displays (for now all hunts)
@@ -23,9 +21,6 @@ import soundWrong from "../../public/wrong_audio.mp3";
  * @param {(callback function) => void} getUser is a function to execute when reloading and making sure
  * user is not undefined
  */
-
-const likeAudio = new Audio(sound);
-const wrongAudio = new Audio(soundWrong);
 
 class UserHome extends Component {
     constructor(props){
@@ -64,14 +59,6 @@ class UserHome extends Component {
             this.getInitialHomeValues();
         });
 
-    }
-
-    playSound = () => {
-        likeAudio.play();
-    }
-
-    playIncorrect = () => {
-        wrongAudio.play();
     }
 
     render(){
@@ -113,8 +100,6 @@ class UserHome extends Component {
                     getUser = {this.props.getUser}
                 />
                 {display}
-                <button onClick = {this.playSound}>Credit to Zapsplat.com for sound effects</button>
-                <button onClick = {this.playIncorrect}>Wrong: Credit to Zapsplat.com for incorrect</button>
                 </div>);
     }
 }

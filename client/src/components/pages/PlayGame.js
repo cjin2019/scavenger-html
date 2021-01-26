@@ -2,11 +2,15 @@ import React, { Component } from "react";
 import PlayHuntItem from "../modules/PlayHuntItem.js";
 import PlayNavBar from "../modules/PlayNavBar.js";
 import { get, post } from "../../utilities";
-import { navigate } from "@reach/router";
 import { forceUserLogin } from "./PageFunctions.js";
 
 import "../../utilities.css";
 
+import soundCorrect from "../../public/correct_audio.mp3";
+import soundWrong from "../../public/wrong_audio.mp3";
+
+const correctAudio = new Audio(soundCorrect);
+const wrongAudio = new Audio(soundWrong);
 /**
  * This is the game page that displays starting the game and
  * playing the game
@@ -58,6 +62,12 @@ class PlayGame extends Component {
                 currentSubmissionItem: playitems.submissionItem,
                 player: playitems.player,
             });
+
+            if(this.state.currentSubmissionItem.isCorrect){
+                correctAudio.play();
+            } else {
+                wrongAudio.play();
+            }
         });
         
     };

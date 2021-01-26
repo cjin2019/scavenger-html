@@ -4,7 +4,6 @@ import AnswerInput from "./hunt_item_parts/AnswerInput.js";
 import CollectTagCanvas from "./CollectTagCanvas";
 import GameScoreboard from "./GameScoreboard.js";
 
-
 import "./PlayHuntItem.css"
 /**
  * PlayHuntItem is a component that is displayed on the play hunt that
