@@ -1,0 +1,35 @@
+.Help-container {
+
+    margin: 1.5em 7.5em 1.5em;
+    border-radius: 3em;
+    font-size: var(--l);
+}
+
+.Help-sectionContainer {
+    margin: 1.5em 0em 1.5em;
+    padding: 1.5em;
+    background-color: var(--medgrey);
+    border-radius: 1.5em;
+}
+
+.Help-buttonSection {
+    font: var(--font);
+    font-size: var(--l);
+
+    color: var(--white);
+    background-color: var(--darkgrey);
+
+    border: 0.125em solid var(--white);
+    border-radius: 1em;
+    padding: 0.125em;
+
+    margin: 0.125em;
+}
+
+.Help-buttonSection:hover {
+    border: 0.25em solid var(--white);
+}
+
+.Help-textSection {
+    margin: 0.125em;
+}

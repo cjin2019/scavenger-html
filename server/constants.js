@@ -31,7 +31,11 @@ const tagsRanked = ["html", "head", "body", "title",
 const commonTags = ["html", "head", "body", "title",
                     "h1", "h2", "h3", "h4", "h5", "h6",
                     "p", "em", "b", "i"];
+
+const tutorialId = "600f808811d37fe2d4b40277";
+
 module.exports = {
     allTags,
     tagsRanked,
+    tutorialId,
 }

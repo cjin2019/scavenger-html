@@ -150,20 +150,9 @@
 
 "api/hunt"
     query : {
-        (creatorId: creatorId  (optional), 
+        (creatorId: creatorId  /ALL_USERS 
          isFinalized: true, 
         )
-        huntId: id of the hunt (optional)
     }
 
-    body : {
-        huntId: id of the hunt (if action = "delete/update")
-        action: "add", "delete" , "update",
-        creatorId: id of the creator (if action = "add/update")
-        title: (if action = "update")
-        description: (if action = "update")
-        isFinalized: true (if action = "update")
-                    false (if action = "add")
-    }
-
-    send : Hunt (following the Hunt schema)
+    send : a list of hunts and a list of tutorials (following the Hunt schema)

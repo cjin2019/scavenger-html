@@ -24,14 +24,16 @@ class Browse extends Component {
 
         this.state = {
             hunts: [],
+            tutorials: [],
         }
     }
 
     
     componentDidMount(){
-        get("/api/hunt", {creatorId: "ALL_USERS", isFinalized: true}).then((hunts) => {
+        get("/api/hunt", {creatorId: "ALL_USERS", isFinalized: true}).then((res) => {
             this.setState({
-                hunts: hunts, 
+                hunts: res.hunts, 
+                tutorials: res.tutorials,
             });
         });
     }
@@ -44,6 +46,13 @@ class Browse extends Component {
                     handleLogout={this.props.handleLogout}
                     userId = {this.props.userId}
             />
+            <div className = "FindHunts-container">
+                <h1 className = "FindHunts-title">Tutorials</h1>
+                <ListHunts 
+                    hunts = {this.state.tutorials}
+                    userId = {this.props.userId}
+                />
+            </div>
             <div className = "FindHunts-container">
                 <h1 className = "FindHunts-title">All scavenger hunts</h1>
                 <ListHunts 

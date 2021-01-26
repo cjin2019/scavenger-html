@@ -286,18 +286,18 @@ function compareCurrentScoreboard(player1, player2){
  * @param {string} huntId id of the hunt
  */
 async function updatePointsForTopThree(players, huntId){
-  const numPlayers = Math.min(players.length, 3);
-
-  for (let i = 0; i < Math.min(players.length, 3); i++) {
+  const numPlayers = players.length;
+  const numLoops = (huntId === constants.tutorialId) ? players.length : Math.min(players.length, 3);
+  for (let i = 0; i < numLoops; i++) {
     let award = await Award.findOne({userId: players[i]._id, huntId: huntId});
     let hasEarnedPointsForHunt = true;
     if(award === null && players[i].numCorrect > 0){
       hasEarnedPointsForHunt = false; 
-      const points = 2*numPlayers+1 - 2*(i+1);
+      const points = (huntId === constants.tutorialId) ? 1: 2*numPlayers+1 - 2*(i+1);
       award = await (new Award({
         userId: players[i]._id,
         huntId: huntId,
-        points: points, // hardcoded to 5, 3, 1
+        points: points, 
       })).save();
       await Avatar.findOneAndUpdate({userId: players[i]._id}, {$inc: {points: points}});
     } 
@@ -546,13 +546,6 @@ router.get("/profileinfo", async (req, res) => {
   const user = await User.findById(req.query.userId);
   const avatar = await Avatar.findOne({userId: user._id});
   const tags = getTags(avatar.points);
-  // const collectedTags = await CollectedTag.find({userId: req.query.userId});
-  // const tagNames = collectedTags.map(tag => tag.tag);
-  // const freqTags = {};
-  // tagNames.forEach(tagName => {
-  //   if(freqTags[tagName]) {freqTags[tagName]++}
-  //   else  {freqTags[tagName] = 1}
-  // });
   res.send({
     name: user.name,
     tags: tags,
@@ -633,47 +626,21 @@ router.get("/user", (req, res) => {
   });
 });
 
-router.get("/hunt", (req, res) => {
-  if(req.query.creatorId){
-    const query = (req.query.creatorId === "ALL_USERS") ? 
-    { isFinalized:  req.query.isFinalized === "true",
-    } : {
-      creatorId: req.query.creatorId,
-      isFinalized: req.query.isFinalized === "true",
-    };
-    Hunt.find(query).then((hunts) => {
-      res.send(hunts);
-    });
+router.get("/hunt", async (req, res) => {
+  const query = (req.query.creatorId === "ALL_USERS") ? 
+  { isFinalized:  req.query.isFinalized === "true",
+    _id: { $nin: [constants.tutorialId] },
+  } : {
+    creatorId: req.query.creatorId,
+    isFinalized: req.query.isFinalized === "true",
+  };
+  let allHunts = await Hunt.find(query);
+  let tutorialHunts = await Hunt.findById(constants.tutorialId);
+  if(req.query.creatorId !== "ALL_USERS"){
+    res.send(allHunts);
   } else {
-    Hunt.findById(req.query.huntId).then((hunt) => {
-      res.send(hunt);
-    })
-  }
-});
-
-router.post("/hunt", (req, res) => {
-  if(req.body.action === "add"){
-    newHunt = new Hunt({
-      creatorId: req.body.creatorId,
-      title: "",
-      description: "",
-      isFinalized: false,
-    });
-    newHunt.save().then((hunt) => {
-      res.send(hunt);
-    });
-  } else if (req.body.action === "delete") {
-    Hunt.findByIdAndDelete(req.body.huntId).then(() => {
-      res.send({msg: "DELETED HUNT FROM DATABASE"});
-    });
-  } else {
-    const update = { $set: {"title": req.body.title,
-                            "description": req.body.description,
-                            "isFinalized": true, 
-                          } };
-    Hunt.findByIdAndUpdate(req.body.huntId, update).then(() => {
-      res.send({msg: "UPDATED HUNT TO VIEWED BY OTHER USERS"});
-    });
+    console.log(tutorialHunts);
+    res.send({hunts: allHunts, tutorials: [tutorialHunts]});
   }
 });
 
