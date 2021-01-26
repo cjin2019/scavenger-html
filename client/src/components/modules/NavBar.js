@@ -34,9 +34,9 @@ class NavBar extends Component {
                 </div>
                 <div className = "Navbar-rightContainer">
                     <div className = "Navbar-subButtonContainer">
-                        <button onClick = {() => {navigate("/create")}} className = "Navbar-button">{"<create/>"}</button>
                         <button onClick = {() => {navigate("/browse")}} className = "Navbar-button">{"<browse/>"}</button>
                         <button onClick = {() => {navigate("/join")}} className = "Navbar-button">{"<join/>"}</button>
+                        <button onClick = {() => {navigate("/create")}} className = "Navbar-button">{"<create/>"}</button>
                     </div>
                     <div className = "Navbar-subButtonContainer">
                         <button onClick = {() => {navigate("/profile")}} className = "Navbar-icon Navbar-profile"></button>

@@ -7,6 +7,8 @@ import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import "./FindHunts.css"
+import "./Help.css";
+import "../modules/NavBar.css";
 
 /**
  * UserHome is a page that displays (for now all hunts)
@@ -63,13 +65,18 @@ class UserHome extends Component {
             {this.state.hunts.length === 0 ? 
             (<div>
                 <h1>Read the instructions below!</h1>
-                <div className = "FindHunts-instruction">You have no created hunts go to 
-                    <span className = "u-bold">{" <browse/> "}</span> 
-                    to play one of the hunts labeled as tutorial, to 
-                    <span className = "u-bold">{" <create/> "}</span>
-                    to create a new hunt, or 
-                    <span className = "u-bold">{" <join/> "}</span>
-                    to join an existing game through a join code!
+                <div className = "FindHunts-instruction">
+                    <p>Welcome to Scavenger html! If you are a first time user, 
+                    go to the <button onClick = {() => {navigate("/help")}} className = "Navbar-icon Navbar-help"></button>
+                    </p>
+                    <p> 
+                    Otherwise, click 
+                    <button className = "Help-buttonSection" onClick = {() => navigate("/browse")}>{"<browse/>"}</button>
+                    to play one of the hunts, 
+                    <button className = "Help-buttonSection" onClick = {() => navigate("/join")}>{"<join/>"}</button>
+                    to join an existing game through a join code, or
+                    <button className = "Help-buttonSection" onClick = {() => navigate("/create")}>{"<create/>"}</button>
+                    to create a new hunt. </p>
                 </div>
             </div>) : 
             (<div>
