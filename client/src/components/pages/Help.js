@@ -42,8 +42,8 @@ class Help extends Component {
                             in the section below. 
                         </p>
                         <p> 
-                            If you are a first time user, try one of the scavenger hunt 
-                            tutorials in the 
+                            If you are a first time user, try the scavenger hunt 
+                            tutorial in the 
                             <button className = "Help-buttonSection"
                                     onClick = {() => {navigate("/browse")}}
                             >

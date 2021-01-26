@@ -51,7 +51,7 @@ function createGame(res, huntId, creatorId, huntItems){
     orderHuntItemIds: ids,
     startTime: null,
     setting: {
-      timeLimitMilliseconds: 1000*60*1,
+      timeLimitMilliseconds: 1000*60*20,
       numSubmissionLimit: 2,
     },
   });

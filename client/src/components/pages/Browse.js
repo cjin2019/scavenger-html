@@ -47,7 +47,7 @@ class Browse extends Component {
                     userId = {this.props.userId}
             />
             <div className = "FindHunts-container">
-                <h1 className = "FindHunts-title">Tutorials</h1>
+                <h1 className = "FindHunts-title">Tutorial</h1>
                 <ListHunts 
                     hunts = {this.state.tutorials}
                     userId = {this.props.userId}

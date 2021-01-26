@@ -1,9 +1,12 @@
 .FindHunts-container {
     margin: 1.5em 9em 1.5em 9em;
+    padding: 2.5em;
+    border: 0.25em solid var(--white);
+    border-radius: 1.5em;
 }
 
 .FindHunts-title {
-    margin: 1.5em;
+    margin: 0.5em;
 }
 
 .FindHunts-instruction {
