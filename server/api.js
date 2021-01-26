@@ -380,9 +380,11 @@ router.post("/joinnewplayer", async (req, res) => {
 // start game page
 router.get("/gameinfo", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
+  const game = await Game.findById(player.gameId);
+  const gameId = (constants.tutorialId === game.huntId) ? "" : player.gameId;
   const allPlayers = await Player.find({gameId: player.gameId});
   const playerNames = allPlayers.map(player => player.userInfo.name);
-  res.send({gameId: player.gameId, names: playerNames});
+  res.send({gameId: gameId, names: playerNames});
 });
 
 // should have stored player and game in the server?
