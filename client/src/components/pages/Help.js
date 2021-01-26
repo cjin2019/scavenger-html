@@ -5,6 +5,7 @@ import { navigate } from "@reach/router";
 
 import "../../utilities.css";
 import "./Help.css";
+import "../modules/NavBar.css";
 /**
  * Help Page to tell users what this website is about and how to use it
  * 
@@ -59,11 +60,10 @@ class Help extends Component {
                             The top 3 players of a hunt game earn points. A player among the top 3 earns
                             <b> 2 * (number of players - rank) + 1</b> points. For every 10 points players earn,
                             an html tag is added to their 
-                            <button className = "Help-buttonSection" 
+                            <button className = "Navbar-icon Navbar-profile" 
                                 onClick = {() => {navigate("/profile")}}
                             >
-                                {"<profile/>"}
-                            </button>. An <b> {" <html/> "}</b> tag is already added by default. 
+                            </button>profile page. An <b> {" <html/> "}</b> tag is already added by default. 
                         </p>
                     </div>
                 </div>

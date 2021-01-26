@@ -67,8 +67,9 @@ class UserHome extends Component {
                 <h1>Read the instructions below!</h1>
                 <div className = "FindHunts-instruction">
                     <p>Welcome to Scavenger html! If you are a first time user, 
-                    go to the <button onClick = {() => {navigate("/help")}} className = "Navbar-icon Navbar-help"></button>
-                    </p>
+                    go to the<button onClick = {() => {navigate("/help")}} className = "Navbar-icon Navbar-help"></button>
+                    help page. 
+                    </p> 
                     <p> 
                     Otherwise, click 
                     <button className = "Help-buttonSection" onClick = {() => navigate("/browse")}>{"<browse/>"}</button>
