@@ -83,8 +83,6 @@ class CreateScavenger extends Component {
     }
 
     handleSubmit = () => {
-        console.log(this.state);
-        console.log(this.state.title !== "" && this.state.description !== "");
         if(this.state.huntItems.length > 0 && this.state.title !== "" && this.state.description !== ""){
             const body = {
                 title: this.state.title,

@@ -41,7 +41,6 @@ class PlayNavBar extends Component {
 
 
     countdownRenderer = ({ hours, minutes, seconds, completed }) => {
-        // console.log(hours+", " + minutes +", " + seconds);
         if (completed) {
           // Render a completed state
           return <span>00:00:00</span>;

@@ -45,7 +45,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("Mounted app");
     this.getCurrentUser(() => {console.log("hardcoded call back");});
   }
 

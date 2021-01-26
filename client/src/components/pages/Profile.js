@@ -33,7 +33,6 @@ class Profile extends Component {
     setName = () => {
         if(this.props.userId){
             get("api/profileinfo", {userId: this.props.userId}).then((user) => {
-                console.log(user);
                 this.setState({
                     name: user.name,
                     tags: user.tags,

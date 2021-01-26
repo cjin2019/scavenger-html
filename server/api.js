@@ -101,7 +101,6 @@ function sendPlayerSubmission (player, submissionItem, res){
   const huntItems = gameLogic.gameState.huntItems;
   const game = gameLogic.gameState.game;
   const index = player.currentHuntItemIndex;
-  console.log(game);
   let playitems = {
     player: { numCorrect: player.numCorrect },
     game: {
@@ -144,8 +143,6 @@ async function updateSubmission(filter, currentSubmission, isCorrect){
   } else {
     submissionItem = await SubmissionItem.findOneAndUpdate(filter, update, {new: true});
   }
-  console.log("In update submission: ");
-  console.log(submissionItem);
   return { 
     currentSubmission: submissionItem.currentSubmission,
     isCorrect: submissionItem.isCorrect,
@@ -211,7 +208,6 @@ async function createNewPlayer(userId, game, res){
       numCorrect: 0,
     });
     const newPlayerObject = await newPlayer.save();
-    console.log(newPlayerObject);
     res.send({});
   }
 }
@@ -220,7 +216,6 @@ async function createNewPlayer(userId, game, res){
  * Sends to the socket currentscoreboard the list of players with the field name and numCorrect: 
  */
 async function sendCurrentScoreboard(){
-  console.log(gameLogic.gameState);
   const allPlayers = await Player.find({gameId: gameLogic.gameState.game._id});
   const allPlayersDisplay = allPlayers.map(player => 
                                           ({name: player.userInfo.name, numCorrect: player.numCorrect,
@@ -499,10 +494,7 @@ router.post("/updatesubmission", async (req, res) => {
 
 // get the new tag or post if does not exist
 router.get("/playaward", async (req, res) => {
-  const player = await Player.findOne({"userInfo._id": req.query.userId});
   const avatar = await Avatar.findOne({userId: req.query.userId});
-  const huntItemId = gameLogic.gameState.huntItems[player.currentHuntItemIndex]._id;
-  console.log(avatar);
   res.send({alreadyCollected: true, color: avatar.color});
 });
 
@@ -604,7 +596,6 @@ router.get("/hunt", async (req, res) => {
   if(req.query.creatorId !== "ALL_USERS"){
     res.send(allHunts);
   } else {
-    console.log(tutorialHunts);
     res.send({hunts: allHunts, tutorials: [tutorialHunts]});
   }
 });

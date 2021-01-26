@@ -158,12 +158,6 @@ class NewGame extends Component {
                         {"<start/>"}
                     </button>
                 </div>
-                <a 
-                    href = "https://www.zapsplat.com/"
-                    className = "NewGame-link"
-                >
-                    Sound Credits: Zapsplat
-                </a>
             </div>
         );
 

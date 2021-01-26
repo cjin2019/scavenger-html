@@ -67,6 +67,12 @@ class Help extends Component {
                         </p>
                     </div>
                 </div>
+                <div className = "Help-sectionContainer">
+                    <h2>Credits</h2>
+                    <div>
+                        All sound effects are from <a href = "https://www.zapsplat.com/" className = "Help-link">Zapsplat.com</a>
+                    </div>
+                </div>
             </div>
         </div>)
         return forceUserLogin(this.props.userId, display);

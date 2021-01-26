@@ -35,3 +35,7 @@
 .Help-textSection {
     margin: 0.125em;
 }
+
+.Help-link:link{
+    color: var(--light--blue);
+}
