@@ -65,6 +65,19 @@ class Scoreboard extends Component {
                     (<div></div>);
     }
 
+    /**
+     * Returns a string in min:sec.millisecond
+     * @param {Number} milliseconds 
+     * @returns {String} with the time
+     */
+    outputTime = (milliseconds) => {
+        const millisecondPart = "" + (milliseconds % 1000);
+        const secondPart = "" + (Math.floor(milliseconds/1000) % 60);
+        const minutePart = Math.floor(milliseconds/(1000*60)) % 60;
+        
+        return minutePart + ":" + secondPart.padStart(2, "0") + "." + millisecondPart.padStart(3, "0");
+    }
+
     renderScoreboardPlayers = () =>{
         return (<div>
             {this.state.players.map((player) => (
@@ -74,7 +87,7 @@ class Scoreboard extends Component {
             >
                 <div>{player.name}</div>
                 <div>{player.numCorrect}</div>
-                <div>{player.millisecondsToSubmit/1000}</div>
+                <div>{this.outputTime(player.millisecondsToSubmit)}</div>
             </div>
         ))}</div>);
     }
@@ -87,7 +100,7 @@ class Scoreboard extends Component {
                 <div className = "Scoreboard-labelsContainer">
                     <div>Name</div>
                     <div>Number of Items Correct</div>
-                    <div>Time (s)</div>
+                    <div>Time (min:s.ms)</div>
                 </div>
                 {this.renderScoreboardPlayers()}
                 <div className = "Scoreboard-buttonContainer">
