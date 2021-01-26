@@ -23,8 +23,7 @@ import sound from "../../public/correct_audio.mp3";
  * user is not undefined
  */
 
-// const audioFile = "../../public/zapsplat_multimedia_game_tone_harp_warm_positive_correct_win_001_50712.mp3";
-// const likeAudio = new Audio(audioFile);
+const likeAudio = new Audio(sound);
 
 class UserHome extends Component {
     constructor(props){
@@ -66,7 +65,6 @@ class UserHome extends Component {
     }
 
     playSound = () => {
-        const likeAudio = new Audio(sound);
         likeAudio.play();
     }
 
