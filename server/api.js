@@ -438,6 +438,7 @@ router.post("/startgame", async (req, res) => {
     userIds.forEach((userId) => {
         socketManager.getSocketFromUserID(userId).emit("gamestart", {});
     });
+    res.send({});
   } 
 });
 
