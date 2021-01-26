@@ -144,7 +144,7 @@ class NewGame extends Component {
                         {this.renderSettings()}
                     </div>
                 </div>
-                <div className = "ButtonPage-buttonContainer">
+                <div className = "NewGame-buttonContainer">
                     <button
                         onClick = {this.handleGoHome}
                         className = "ButtonPage-button"

@@ -533,12 +533,8 @@ router.get("/playaward", async (req, res) => {
   const player = await Player.findOne({"userInfo._id": req.query.userId});
   const avatar = await Avatar.findOne({userId: req.query.userId});
   const huntItemId = gameLogic.gameState.huntItems[player.currentHuntItemIndex]._id;
-  let collectedTag = await CollectedTag.findOne({userId: req.query.userId, huntItemId: huntItemId});
-  if(collectedTag === null){
-    createNewCollectedTag(req.query.userId, huntItemId, res);
-  } else {
-    res.send({tag: collectedTag.tag, alreadyCollected: true, color: avatar.color});
-  }
+  console.log(avatar);
+  res.send({alreadyCollected: true, color: avatar.color});
 });
 
 // get profile info

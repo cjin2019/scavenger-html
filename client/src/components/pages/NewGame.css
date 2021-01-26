@@ -2,13 +2,13 @@
     background-color: var(--medgrey);
     border-radius: var(--l);
     font-size: var(--l);
-    margin: 3em;
+    margin: 6em;
     padding: 1.5em;
 }
 
 .NewGame-buttonContainer {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .NewGame-button,
