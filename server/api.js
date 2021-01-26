@@ -36,37 +36,6 @@ const { mongo } = require("mongoose");
 const gameLogic = require("./logic");
 // writing helper function
 
-/**
- * @param {String} ids the list of ids to retrieve 
- * @returns {HuntItem[]} an ordered list of huntitems
- */
-function getOrderedHuntItems(ids) {
-  const pipeline = [
-    {$match: {"_id": {$in: ids}}},
-    {$addFields: {"__order": {$indexOfArray: [ids, "$_id" ]}}},
-    {$sort: {"__order": 1}}
-   ];
-   gameLogic.gameState.huntItems = HuntItem.aggregate(pipeline).exec();
-}
-
-/**
- * @param {JSON/null} response 
- * @returns {JSON}
- */
-function sendValidResponse(response){
-  return response === null ? {} : response;
-}
-
-/**
- * @param {string} playerId id of the player
- */
-function incrementNumCorrect(playerId, res){
-  Player.findByIdAndUpdate(playerId, 
-    {$inc: {
-      numCorrect: 1,
-    }},
-    { new: true,}).then((player)=> { res.send(player); console.log(player);});
-}
 
 /**
  * @param {} res is the response 
@@ -618,7 +587,7 @@ router.get("/user", (req, res) => {
       _id: user._id,
     });
 
-    createAvatar(user._id);
+    createAvatar(user._id, 0);
   });
 });
 
