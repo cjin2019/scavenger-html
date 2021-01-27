@@ -63,7 +63,7 @@ class UserHome extends Component {
 
         let display = (<div>
             {(this.state.recent.length === 0 && this.state.create.length === 0)? 
-            (<div>
+            (<div className = "FindHunts-container">
                 <h1>Read the instructions below!</h1>
                 <div className = "FindHunts-instruction">
                     <p>Welcome to Scavenger html!<span>If you are a first time user, 
