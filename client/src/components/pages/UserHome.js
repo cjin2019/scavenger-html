@@ -35,17 +35,17 @@ class UserHome extends Component {
     
     getInitialHomeValues = () => {
         if(this.props.userId){
-            // get("/api/hunt", {creatorId: this.props.userId, isFinalized: true}).then((hunts) => {
-            //     this.setState({
-            //         hunts: hunts, 
-            //     });
-            // });
-            get("api/filterhunts", {userId: this.props.userId}).then((hunts) => {
-                this.setState({
-                    create: hunts.create,
-                    recent: hunts.recent,
+            // need this to create the avatar!
+            get("api/user", {userId: this.props.userId}).then((user) => {
+
+                get("api/filterhunts", {userId: user._id}).then((hunts) => {
+                    this.setState({
+                        create: hunts.create,
+                        recent: hunts.recent,
+                    });
                 });
             });
+            
         } else {
             navigate("/");
         }
