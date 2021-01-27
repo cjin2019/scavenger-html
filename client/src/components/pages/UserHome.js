@@ -27,25 +27,23 @@ class UserHome extends Component {
         super(props);
 
         this.state = {
-            hunts: [],
-            user: {
-                name: "",
-                _id: "",
-            },
+            create: [],
+            recent: [],
         };
     }
 
     
     getInitialHomeValues = () => {
         if(this.props.userId){
-            get("/api/user", {userId: this.props.userId}).then((user) => {
+            // get("/api/hunt", {creatorId: this.props.userId, isFinalized: true}).then((hunts) => {
+            //     this.setState({
+            //         hunts: hunts, 
+            //     });
+            // });
+            get("api/filterhunts", {userId: this.props.userId}).then((hunts) => {
                 this.setState({
-                    user: user
-                });
-                get("/api/hunt", {creatorId: user._id, isFinalized: true}).then((hunts) => {
-                    this.setState({
-                        hunts: hunts, 
-                    });
+                    create: hunts.create,
+                    recent: hunts.recent,
                 });
             });
         } else {
@@ -63,14 +61,15 @@ class UserHome extends Component {
 
     render(){
 
-        let display = (<div className = "FindHunts-container">
-            {this.state.hunts.length === 0 ? 
+        let display = (<div>
+            {(this.state.recent.length === 0 && this.state.create.length === 0)? 
             (<div>
                 <h1>Read the instructions below!</h1>
                 <div className = "FindHunts-instruction">
-                    <p>Welcome to Scavenger html! If you are a first time user, 
+                    <p>Welcome to Scavenger html!<span>If you are a first time user, 
                     go to the<button onClick = {() => {navigate("/help")}} className = "Navbar-icon Navbar-help"></button>
-                    help page. 
+                    help page and try the tutorial in the <button className = "Help-buttonSection" onClick = {() => navigate("/browse")}>{"<browse/>"}</button>
+                    page!</span> 
                     </p> 
                     <p> 
                     Otherwise, click 
@@ -82,12 +81,21 @@ class UserHome extends Component {
                     to create a new hunt. </p>
                 </div>
             </div>) : 
-            (<div>
-                <h1 className = "FindHunts-title">Your created scavenger hunts</h1>
-                <ListHunts 
-                    hunts = {this.state.hunts}
-                    userId = {this.props.userId}
-                />
+            (<div >
+                {this.state.recent.length > 0 ? (<div className = "FindHunts-container">
+                    <h1 className = "FindHunts-title">Recent scavenger hunts played</h1>
+                    <ListHunts 
+                        hunts = {this.state.recent}
+                        userId = {this.props.userId}
+                    />
+                </div>): (<div></div>)}
+                {this.state.create.length > 0 ? (<div className = "FindHunts-container">
+                    <h1 className = "FindHunts-title">Your created scavenger hunts</h1>
+                    <ListHunts 
+                        hunts = {this.state.create}
+                        userId = {this.props.userId}
+                    /> 
+                </div>): (<div></div>)}
             </div>
             )}
         </div>);

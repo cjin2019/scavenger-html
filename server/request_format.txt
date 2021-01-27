@@ -137,6 +137,19 @@
         userId: id of the user,
         color: the new color,
     }
+
+"api/filterhunts"
+    query: {
+        userId: id of the user,
+    }
+
+    body: {
+        userId: id of the user,
+        huntId: id of the hunt,
+        isFavorite: boolean (if filter for favorites)
+    }
+
+    send create: created hunts, recent: recent hunts, 
 ----------------------------------------
 "api/user"
     query: {

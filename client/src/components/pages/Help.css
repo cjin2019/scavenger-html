@@ -39,3 +39,7 @@
 .Help-link:link{
     color: var(--light--blue);
 }
+
+.Help-whitewords {
+    color: var(--white);
+}

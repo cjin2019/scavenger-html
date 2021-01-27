@@ -19,6 +19,7 @@ const SubmissionItem = require("./models/submissionitem");
 const CollectedTag = require("./models/collectedtag");
 const Avatar = require("./models/avatar");
 const Award = require("./models/award");
+const FilterHunt = require("./models/filterhunt");
 
 const constants = require("./constants");
 
@@ -167,23 +168,6 @@ async function createSubmission(ids, currentSubmission, isCorrect){
   });
 
   return newSubmission.save();
-}
-
-/**
- * @param {string} userId the id of the user
- * @param {string} huntItemId the id of the hunt item
- * @param {*} res to send back the response to the client
- */
-async function createNewCollectedTag(userId, huntItemId, res){
-  const numTags = constants.allTags.length;
-  const tag = constants.allTags[Math.floor(Math.random()*numTags)];
-  const newCollectedTag = new CollectedTag({
-    userId: userId,
-    huntItemId: huntItemId,
-    tag: tag,
-  });
-  await newCollectedTag.save();
-  res.send({tag: tag, alreadyCollected: false});
 }
 
 /**
@@ -570,6 +554,37 @@ router.post("/newhuntitem", async (req, res) => {
 
 router.post("/avatarcolor", async (req, res) => {
   await Avatar.findOneAndUpdate({userId: req.body.userId}, {$set: {color: req.body.color}});
+  res.send({});
+});
+
+router.get("/filterhunts", async (req, res) => {
+  let filterHuntIds = await FilterHunt.findOne({userId: req.query.userId});
+  if(filterHuntIds === null) {
+    filterHuntIds = await (new FilterHunt({
+      userId: req.query.userId,
+      recentIds: [],
+      favoriteIds: [],
+    })).save();
+    console.log()
+  }
+
+  const recentHunts = await Hunt.find({_id: {$in: filterHuntIds.recentIds} });
+  const favoriteHunts = await Hunt.find({_id: {$in: filterHuntIds.favoriteIds}});
+  const createdHunts = await Hunt.find({creatorId: req.query.userId, isFinalized: true});
+
+  res.send({recent: recentHunts, favorite: favoriteHunts, create: createdHunts});
+});
+
+router.post("/filterhunts", async (req, res) => {
+  const filterHuntIds = await FilterHunt.findOne({userId: req.body.userId});
+  if(req.body.isFavorite === undefined){
+    const recentIds = filterHuntIds.recentIds;
+    if(filterHuntIds.recentIds.length === 3){
+      recentIds.pop();
+    }
+    recentIds.unshift(mongo.ObjectID(gameLogic.gameState.game.huntId));
+    await FilterHunt.findByIdAndUpdate(filterHuntIds._id, {$set: { recentIds: recentIds}});
+  } 
   res.send({});
 });
 ////////////////////////////////////////

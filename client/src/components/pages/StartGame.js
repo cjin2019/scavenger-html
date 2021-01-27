@@ -52,8 +52,6 @@ class StartGame extends Component {
     }
     componentDidMount(){
         this.props.getUser(this.getPlayersInfo);
-        //send a get request to get the player
-        //later: send a get request to get game then get the other players
     }
 
     render(){

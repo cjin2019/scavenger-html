@@ -41,7 +41,7 @@ class Help extends Component {
                             If you can collect enough points to earn html tags. More info about the point system
                             in the section below. 
                         </p>
-                        <p> 
+                        <p className = "Help-whitewords"> 
                             If you are a first time user, try the scavenger hunt 
                             tutorial in the 
                             <button className = "Help-buttonSection"

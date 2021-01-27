@@ -29,7 +29,9 @@ class Scoreboard extends Component {
     }
 
     handleSubmit = () => {
-        navigate("/userhome");
+        post("api/filterhunts", {userId: this.props.userId}).then(() =>{
+            navigate("/userhome");
+        });
     }
 
     getPlayersInfo = () => {
